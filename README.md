@@ -2,9 +2,10 @@
 
 ayiti-market/
 ├── frontend/
-│   └── index.html        ← fichye HTML ou a
+│   └── index.html
 ├── backend/
-│   ├── index.js          ← sèvè Node.js
+│   ├── index.js
 │   ├── package.json
-│   └── .env.example      ← modèl (san kle reyèl)
-└── README.md
+│   └── .env.example
+├── README.md
+└── LICENSE
