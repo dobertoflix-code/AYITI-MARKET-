@@ -1,0 +1,68 @@
+import express from 'express';
+import cors from 'cors';
+import { createClient } from '@supabase/supabase-js';
+
+const app = express();
+app.use(cors());
+app.use(express.json());
+
+// Kle yo viv isit sèlman — janm ale nan frontend
+const supabase = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_KEY  // service_role key — pi puisan
+);
+
+// ── GET /api/listings ──────────────────────────────
+app.get('/api/listings', async (req, res) => {
+  const { category, location, sort, search } = req.query;
+
+  let query = supabase
+    .from('listings')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (category) query = query.eq('category', category);
+  if (location) query = query.ilike('location', `%${location}%`);
+  if (search)   query = query.or(
+    `title.ilike.%${search}%,keywords.ilike.%${search}%,location.ilike.%${search}%`
+  );
+  if (sort === 'price_low') query = query.gt('price_val', 0).order('price_val');
+
+  const { data, error } = await query;
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
+// ── POST /api/listings ─────────────────────────────
+app.post('/api/listings', async (req, res) => {
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  if (!token) return res.status(401).json({ error: 'Pa otorize' });
+
+  // Verifye itilizatè a
+  const { data: { user }, error: authError } = await supabase.auth.getUser(token);
+  if (authError || !user) return res.status(401).json({ error: 'Sesyon ekspire' });
+
+  const listing = { ...req.body, seller_id: user.id };
+  const { data, error } = await supabase.from('listings').insert(listing).select().single();
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
+// ── DELETE /api/listings/:id ───────────────────────
+app.delete('/api/listings/:id', async (req, res) => {
+  const token = req.headers.authorization?.replace('Bearer ', '');
+  const { data: { user } } = await supabase.auth.getUser(token);
+  if (!user) return res.status(401).json({ error: 'Pa otorize' });
+
+  const { error } = await supabase
+    .from('listings')
+    .delete()
+    .eq('id', req.params.id)
+    .eq('seller_id', user.id);
+
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ success: true });
+});
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Ayiti Market API sou pò ${PORT}`));
