@@ -3,6 +3,9 @@ import cors from 'cors';
 import { createClient } from '@supabase/supabase-js';
 
 const app = express();
+
+// CORS: nan pwodiksyon, ranplase '*' ak domèn egzak frontend ou a
+// egzanp: app.use(cors({ origin: 'https://ayitimarket.ht' }));
 app.use(cors());
 app.use(express.json());
 
@@ -19,7 +22,8 @@ app.get('/api/listings', async (req, res) => {
   let query = supabase
     .from('listings')
     .select('*')
-    .order('created_at', { ascending: false });
+    .order('created_at', { ascending: false })
+    .limit(100);
 
   if (category) query = query.eq('category', category);
   if (location) query = query.ilike('location', `%${location}%`);
@@ -63,6 +67,9 @@ app.delete('/api/listings/:id', async (req, res) => {
   if (error) return res.status(500).json({ error: error.message });
   res.json({ success: true });
 });
+
+// ── GET /health (pou Render konnen sèvis la vivan) ─
+app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Ayiti Market API sou pò ${PORT}`));
