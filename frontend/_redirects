@@ -1,7 +1,0 @@
-/manifest.json   /manifest.json   200
-/sw.js           /sw.js           200
-/icons/*         /icons/:splat    200
-/og-image.jpg    /og-image.jpg    200
-/account.html    /account.html    200
-/seller.html     /seller.html     200
-/*               /index.html      200
