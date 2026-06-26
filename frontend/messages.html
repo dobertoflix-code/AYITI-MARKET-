@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mesaj — Ayiti Market</title>
+<meta name="robots" content="noindex">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23B91C3C'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='26' fill='%23FBF6EC'>AM</text></svg>">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#B91C3C" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14181F" media="(prefers-color-scheme: dark)">
+
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('am-theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --krem:        #FBF6EC;
+    --krem-dim:     #F3ECDC;
+    --lank:        #14181F;
+    --lank-soft:    #4A4F5A;
+    --wouj:        #B91C3C;
+    --wouj-dark:    #8C1530;
+    --ble:         #16335E;
+    --ble-soft:     #2A4D80;
+    --lo:          #E1962F;
+    --lo-soft:      #F2C26B;
+    --liy:         #E4DCC8;
+    --blan:        #FFFFFF;
+    --lank-light:  #2A3040;
+    --lo-text:     #8A5D12;
+    --display: 'Manrope', sans-serif;
+    --body: 'Manrope', sans-serif;
+    --mono: 'Space Mono', monospace;
+    --radius: 14px;
+    --container: 1180px;
+  }
+  :root[data-theme="dark"]{
+    --krem:        #14181F;
+    --krem-dim:     #1B202A;
+    --lank:        #EDE8DA;
+    --lank-soft:    #A7AAB3;
+    --wouj:        #E14D63;
+    --wouj-dark:    #F2718A;
+    --ble:         #5C8AD6;
+    --ble-soft:     #3D6BB0;
+    --lo:          #F2B259;
+    --lo-soft:      #E1962F;
+    --liy:         #2A3040;
+    --blan:        #1E2430;
+    --lank-light:  #343B4C;
+    --lo-text:     #F2C26B;
+  }
+  :root[data-theme="dark"] body{ background: var(--krem); color: var(--lank); }
+  :root[data-theme="dark"] header{ background: rgba(20,24,31,0.92); }
+  :root[data-theme="dark"] .conv-list, :root[data-theme="dark"] .chat-area{ background: var(--blan); border-color: var(--liy); }
+  :root[data-theme="dark"] .bubble-them{ background: var(--krem-dim); }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{ font-family: var(--body); background: var(--krem); color: var(--lank); line-height:1.5; -webkit-font-smoothing:antialiased; height:100vh; overflow:hidden; }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width: var(--container); margin:0 auto; padding: 0 24px; }
+
+  header{
+    background: rgba(251,246,236,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--liy);
+  }
+  .nav{ display:flex; align-items:center; justify-content:space-between; padding: 16px 24px; max-width: var(--container); margin: 0 auto; gap: 24px; }
+  .logo{ display:flex; align-items:center; gap:10px; font-family: var(--display); font-weight:700; font-size: 1.3rem; letter-spacing: -0.01em; color: var(--lank); }
+  .logo .dot{ width:10px; height:10px; border-radius:50%; background: linear-gradient(135deg, var(--wouj), var(--lo)); }
+  .btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; padding: 10px 18px; border-radius: 100px; font-weight:700; font-size:0.85rem; border:none; cursor:pointer; font-family:var(--body); white-space:nowrap; }
+  .btn-primary{ background: var(--wouj); color: #fff; }
+  .btn-ghost{ color: var(--lank); border: 1.5px solid var(--liy); background: transparent; }
+
+  main{ height: calc(100vh - 65px); }
+  .chat-layout{ display:grid; grid-template-columns: 320px 1fr; height:100%; max-width: var(--container); margin:0 auto; }
+
+  .conv-list{ border-right:1px solid var(--liy); overflow-y:auto; background:var(--blan); }
+  .conv-item{
+    display:flex; gap:12px; padding:14px 18px; cursor:pointer; border-bottom:1px solid var(--liy);
+    align-items:center; position:relative; transition:background .15s;
+  }
+  .conv-item:hover{ background: var(--krem-dim); }
+  .conv-item.active{ background: var(--krem-dim); }
+  .conv-avatar{
+    width:46px; height:46px; border-radius:50%; background: var(--ble-soft); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem; flex-shrink:0;
+  }
+  .conv-info{ flex:1; min-width:0; }
+  .conv-name{ font-weight:700; font-size:0.9rem; display:flex; align-items:center; gap:6px; }
+  .conv-listing-tag{ font-size:0.72rem; color:var(--lank-soft); font-weight:600; margin-top:2px; }
+  .conv-preview{ font-size:0.8rem; color:var(--lank-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px; }
+  .conv-unread-dot{ width:9px; height:9px; border-radius:50%; background:var(--wouj); flex-shrink:0; }
+
+  .chat-area{ display:flex; flex-direction:column; background:var(--blan); height:100%; }
+  .chat-header{ display:flex; align-items:center; gap:12px; padding:16px 22px; border-bottom:1px solid var(--liy); }
+  .chat-header .conv-avatar{ width:38px; height:38px; font-size:0.85rem; }
+  .chat-header-name{ font-weight:700; font-size:0.95rem; }
+  .chat-header-listing{ font-size:0.78rem; color:var(--lank-soft); }
+
+  .chat-msgs{ flex:1; overflow-y:auto; padding:20px 22px; display:flex; flex-direction:column; gap:10px; }
+  .bubble{ max-width:70%; padding:10px 14px; border-radius:16px; font-size:0.88rem; line-height:1.4; }
+  .bubble-me{ align-self:flex-end; background:var(--wouj); color:#fff; border-bottom-right-radius:4px; }
+  .bubble-them{ align-self:flex-start; background:var(--krem-dim); color:var(--lank); border-bottom-left-radius:4px; }
+  .bubble-time{ font-size:0.65rem; opacity:0.65; margin-top:3px; display:block; }
+
+  .chat-input-row{ display:flex; gap:10px; padding:16px 22px; border-top:1px solid var(--liy); }
+  .chat-input-row input{
+    flex:1; padding:12px 16px; border:1.5px solid var(--liy); border-radius:100px; font-family:var(--body);
+    font-size:0.9rem; background:var(--krem); color:var(--lank);
+  }
+  .chat-input-row input:focus{ outline:none; border-color:var(--wouj); }
+  .chat-send-btn{
+    width:44px; height:44px; border-radius:50%; background:var(--wouj); color:#fff; border:none;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
+  }
+  .chat-send-btn:disabled{ opacity:0.5; cursor:not-allowed; }
+
+  .empty-box{ text-align:center; padding:60px 20px; color:var(--lank-soft); flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .empty-box svg{ margin-bottom:14px; opacity:0.4; }
+  .empty-box p{ margin-bottom:18px; }
+  .loading-spin{ text-align:center; padding:40px; color:var(--lank-soft); }
+
+  @media (max-width:760px){
+    .chat-layout{ grid-template-columns: 1fr; }
+    .conv-list{ display:flex; }
+    .chat-area{ display:none; }
+    body.show-chat .conv-list{ display:none; }
+    body.show-chat .chat-area{ display:flex; }
+    .chat-back-mobile{ display:inline-flex !important; }
+  }
+  .chat-back-mobile{ display:none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo"><span class="dot"></span>Ayiti Market</a>
+    <a href="index.html" class="btn btn-ghost">← Tounen nan Mache a</a>
+  </div>
+</header>
+
+<main>
+  <div id="guardedOut" style="display:none" class="empty-box">
+    <p>Ou dwe konekte pou wè mesaj ou yo.</p>
+    <a href="index.html" class="btn btn-primary">Tounen nan Akèy →</a>
+  </div>
+
+  <div id="chatLayout" class="chat-layout" style="display:none">
+    <div class="conv-list" id="convList">
+      <div class="loading-spin" id="convLoading">Ap chaje konvèsasyon yo...</div>
+    </div>
+    <div class="chat-area" id="chatArea">
+      <div class="empty-box" id="noConvSelected">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <p>Chwazi yon konvèsasyon pou kòmanse.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  const SUPABASE_URL = 'https://cisjnsdnxqvgqjuzwobk.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpc2puc2RueHF2Z3FqdXp3b2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0MTI2OTQsImV4cCI6MjA5Nzk4ODY5NH0.rWwbLUOs8TjZpHD19fDYX4B9mOIyn-eAFpcwGcdav_E';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const API_BASE = 'https://ayiti-market-40ce.onrender.com';
+
+  let currentUser = null;
+  let conversations = [];
+  let profilesCache = {}; // id -> { full_name }
+  let activeConvId = null;
+  let msgChannel = null;
+
+  function initials(name) {
+    return (name || '??').split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
+  }
+
+  async function getProfileName(userId) {
+    if (profilesCache[userId]) return profilesCache[userId];
+    const { data } = await supabaseClient.from('profiles').select('full_name').eq('id', userId).single();
+    const name = data?.full_name || 'Itilizatè';
+    profilesCache[userId] = name;
+    return name;
+  }
+
+  // ============ AUTH GUARD + INIT ============
+  async function init() {
+    const { data } = await supabaseClient.auth.getSession();
+    if (!data.session?.user) {
+      document.getElementById('guardedOut').style.display = 'flex';
+      return;
+    }
+    currentUser = data.session.user;
+    document.getElementById('chatLayout').style.display = 'grid';
+
+    await loadConversations();
+    subscribeToNewMessages();
+
+    // Si gen ?conv=ID nan URL (soti nan "Voye Mesaj" sou yon anons), louvri l dirèk
+    const params = new URLSearchParams(window.location.search);
+    const convParam = params.get('conv');
+    if (convParam) openConversation(Number(convParam));
+  }
+  init();
+
+  // ============ LIS KONVÈSASYON ============
+  async function loadConversations() {
+    const { data, error } = await supabaseClient
+      .from('conversations')
+      .select('*')
+      .or(`buyer_id.eq.${currentUser.id},seller_id.eq.${currentUser.id}`)
+      .order('last_message_at', { ascending: false });
+
+    document.getElementById('convLoading')?.remove();
+    const listEl = document.getElementById('convList');
+
+    if (error) {
+      listEl.innerHTML = `<div class="empty-box"><p>Pa kapab chaje konvèsasyon yo.</p></div>`;
+      console.error(error);
+      return;
+    }
+
+    conversations = data || [];
+    if (conversations.length === 0) {
+      listEl.innerHTML = `<div class="empty-box"><p>Ou poko gen okenn konvèsasyon.<br>Voye yon mesaj bay yon vandè pou kòmanse.</p></div>`;
+      return;
+    }
+
+    // Konte mesaj ki pa lu pou chak konvèsasyon
+    const { data: unreadRows } = await supabaseClient
+      .from('messages')
+      .select('conversation_id')
+      .eq('is_read', false)
+      .neq('sender_id', currentUser.id);
+    const unreadByConv = {};
+    (unreadRows || []).forEach(r => { unreadByConv[r.conversation_id] = (unreadByConv[r.conversation_id] || 0) + 1; });
+
+    // Jwenn non lòt patisipan an pou chak konvèsasyon
+    const rows = await Promise.all(conversations.map(async c => {
+      const otherId = c.buyer_id === currentUser.id ? c.seller_id : c.buyer_id;
+      const otherName = await getProfileName(otherId);
+      return { ...c, otherId, otherName, unread: !!unreadByConv[c.id] };
+    }));
+
+    listEl.innerHTML = rows.map(c => `
+      <div class="conv-item" data-id="${c.id}" onclick="openConversation(${c.id})">
+        <div class="conv-avatar">${initials(c.otherName)}</div>
+        <div class="conv-info">
+          <div class="conv-name">${c.otherName}</div>
+          ${c.listing_id ? `<div class="conv-listing-tag">📦 Anons #${c.listing_id}</div>` : ''}
+          <div class="conv-preview">${c.last_message || 'Pa gen mesaj ankò'}</div>
+        </div>
+        ${c.unread ? '<div class="conv-unread-dot"></div>' : ''}
+      </div>
+    `).join('');
+  }
+  window.loadConversations = loadConversations;
+
+  // ============ OUVRI YON KONVÈSASYON ============
+  async function openConversation(convId) {
+    activeConvId = convId;
+    document.body.classList.add('show-chat');
+    document.querySelectorAll('.conv-item').forEach(el => el.classList.toggle('active', Number(el.dataset.id) === convId));
+
+    let conv = conversations.find(c => c.id === convId);
+    if (!conv) {
+      // Konvèsasyon te jis kreye (soti nan index.html), pa nan lis lokal ankò — rechaje
+      await loadConversations();
+      conv = conversations.find(c => c.id === convId);
+      if (!conv) return;
+    }
+
+    const otherId = conv.buyer_id === currentUser.id ? conv.seller_id : conv.buyer_id;
+    const otherName = await getProfileName(otherId);
+
+    const chatArea = document.getElementById('chatArea');
+    chatArea.innerHTML = `
+      <div class="chat-header">
+        <button class="btn btn-ghost chat-back-mobile" onclick="closeChatMobile()" style="padding:6px 12px;">←</button>
+        <div class="conv-avatar">${initials(otherName)}</div>
+        <div>
+          <div class="chat-header-name">${otherName}</div>
+          ${conv.listing_id ? `<div class="chat-header-listing">À pwopo anons #${conv.listing_id} · <a href="index.html#listing-${conv.listing_id}" style="color:var(--wouj);font-weight:700">Wè anons</a></div>` : ''}
+        </div>
+      </div>
+      <div class="chat-msgs" id="chatMsgs"><div class="loading-spin">Ap chaje mesaj yo...</div></div>
+      <div class="chat-input-row">
+        <input type="text" id="msgInput" placeholder="Ekri mesaj ou..." onkeydown="if(event.key==='Enter') sendMessage()">
+        <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+        </button>
+      </div>
+    `;
+
+    await loadMessages(convId);
+    await markAsRead(convId);
+  }
+  window.openConversation = openConversation;
+
+  function closeChatMobile() {
+    document.body.classList.remove('show-chat');
+  }
+  window.closeChatMobile = closeChatMobile;
+
+  // ============ MESAJ NAN KONVÈSASYON AN ============
+  function bubbleHTML(msg) {
+    const isMe = msg.sender_id === currentUser.id;
+    const time = new Date(msg.created_at).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+    return `<div class="bubble ${isMe ? 'bubble-me' : 'bubble-them'}">${escapeHtml(msg.content)}<span class="bubble-time">${time}</span></div>`;
+  }
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  async function loadMessages(convId) {
+    const { data, error } = await supabaseClient
+      .from('messages')
+      .select('*')
+      .eq('conversation_id', convId)
+      .order('created_at', { ascending: true });
+
+    const msgsEl = document.getElementById('chatMsgs');
+    if (!msgsEl) return; // moun ka chanje konvèsasyon pandan chaje a
+    if (error) { msgsEl.innerHTML = '<div class="empty-box"><p>Erè pandan chaje mesaj.</p></div>'; return; }
+
+    msgsEl.innerHTML = (data || []).map(bubbleHTML).join('') || '<div class="empty-box"><p>Voye premye mesaj la!</p></div>';
+    msgsEl.scrollTop = msgsEl.scrollHeight;
+  }
+
+  async function markAsRead(convId) {
+    await supabaseClient
+      .from('messages')
+      .update({ is_read: true })
+      .eq('conversation_id', convId)
+      .neq('sender_id', currentUser.id)
+      .eq('is_read', false);
+    // mete ajou badge lokalman
+    const item = document.querySelector(`.conv-item[data-id="${convId}"] .conv-unread-dot`);
+    if (item) item.remove();
+  }
+
+  async function sendMessage() {
+    const input = document.getElementById('msgInput');
+    const content = input.value.trim();
+    if (!content || !activeConvId) return;
+
+    const btn = document.getElementById('sendBtn');
+    btn.disabled = true;
+    input.value = '';
+
+    const { error } = await supabaseClient.from('messages').insert({
+      conversation_id: activeConvId,
+      sender_id: currentUser.id,
+      content
+    });
+
+    btn.disabled = false;
+    if (error) {
+      showToast('Pa kapab voye mesaj la. Eseye ankò.');
+      input.value = content;
+      console.error(error);
+      return;
+    }
+    await loadMessages(activeConvId);
+  }
+  window.sendMessage = sendMessage;
+
+  // ============ REALTIME: nouvo mesaj rive san rafrechi ============
+  function subscribeToNewMessages() {
+    msgChannel = supabaseClient
+      .channel('messages-listen')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, payload => {
+        const msg = payload.new;
+        const isMine = conversations.some(c => c.id === msg.conversation_id);
+        if (!isMine) return; // pa pou nou — ka yon lòt itilizatè
+
+        if (msg.conversation_id === activeConvId) {
+          loadMessages(activeConvId);
+          if (msg.sender_id !== currentUser.id) markAsRead(activeConvId);
+        } else if (msg.sender_id !== currentUser.id) {
+          loadConversations(); // refresh badge nan lis la
+        }
+      })
+      .subscribe();
+  }
+
+  // ============ TOAST ============
+  function showToast(msg) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = `position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+      background:#14181F;color:#FBF6EC;padding:14px 22px;border-radius:100px;
+      font-weight:700;font-size:0.88rem;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.25);
+      white-space:nowrap;transition:opacity .4s;`;
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 400); }, 3000);
+  }
+</script>
+</body>
+</html>
