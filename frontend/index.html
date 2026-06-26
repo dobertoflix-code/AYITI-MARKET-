@@ -205,8 +205,8 @@
     line-height: 1.04; letter-spacing: -0.015em;
     color: var(--lank); margin-bottom: 22px;
   }
-  h1 em{
-    font-style: italic; font-weight:600;
+  h1 .accent{
+    font-weight:600;
     background: linear-gradient(100deg, var(--wouj) 0%, var(--lo) 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
@@ -745,7 +745,7 @@
     </nav>
 
     <div class="nav-cta">
-      <a href="#" class="btn btn-ghost">Konekte</a>
+      <a href="#" class="btn btn-ghost" data-role="auth-btn">Konekte</a>
       <a href="#" class="btn btn-primary">+ Pibliye Anons</a>
     </div>
 
@@ -821,7 +821,6 @@
     </div>
     <div class="modal-body">
       <div class="photo-zone" onclick="document.getElementById('photoInput').click()">
-        <div class="pz-icon">📷</div>
         <p>Klike pou ajoute foto</p>
         <span>JPG, PNG · Jiska 5 foto · Maks 5MB chak</span>
         <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload(this)">
@@ -915,8 +914,8 @@
       </div>
     </div>
     <div class="owner-actions" id="d-owner-actions" style="display:none; gap:10px; padding:0 18px 14px;">
-      <button class="btn btn-ghost" style="flex:1" onclick="openEditListing()">✏️ Modifye</button>
-      <button class="btn btn-ghost" style="flex:1; color:var(--wouj); border-color:var(--wouj)" onclick="confirmDeleteListing()">🗑️ Efase</button>
+      <button class="btn btn-ghost" style="flex:1" onclick="openEditListing()">Modifye</button>
+      <button class="btn btn-ghost" style="flex:1; color:var(--wouj); border-color:var(--wouj)" onclick="confirmDeleteListing()">Efase</button>
     </div>
     <div class="detail-actions">
       <button class="btn btn-wa" onclick="openWhatsApp()">
@@ -934,7 +933,7 @@
   <div class="hero-inner">
     <div>
       <span class="eyebrow">Mache a louvri 24/7 nan tout peyi a</span>
-      <h1>Achte ak vann <em>tout sa w bezwen</em>, dirèkteman ak Ayisyen parèy ou.</h1>
+      <h1>Achte ak vann <span class="accent">tout sa w bezwen</span>, dirèkteman ak Ayisyen parèy ou.</h1>
       <p class="hero-sub">Soti nan Pòtoprens rive Okap, Ayiti Market konekte machann, atizan, ak vandè ak moun k ap chèche bon zafè — san pèdi tan, san konfizyon.</p>
       <div class="hero-actions">
         <a href="#anons" class="btn btn-primary btn-lg">Gade Anons yo</a>
@@ -1031,7 +1030,6 @@
     </div>
 
     <div id="empty-state" style="display:none; text-align:center; padding:60px 24px; grid-column:1/-1;">
-      <div style="font-size:2.5rem; margin-bottom:14px;">🔍</div>
       <h3 style="font-family:var(--display); font-size:1.4rem; margin-bottom:10px;">Pa gen rezilta</h3>
       <p style="color:var(--lank-soft); font-size:0.92rem;">Okenn anons pa jwenn pou "<span id="empty-query"></span>".<br>Eseye yon lòt mo oswa efase filtre a.</p>
     </div>
@@ -1185,7 +1183,6 @@
 <!-- ============ COMING SOON MODAL ============ -->
 <div class="modal-overlay" id="comingSoonModal" role="dialog" aria-modal="true">
   <div class="modal" style="max-width:380px;text-align:center;padding:40px 32px;">
-    <div style="font-size:2.5rem;margin-bottom:12px;">🚧</div>
     <h3 id="comingSoonTitle" style="font-family:var(--display);font-size:1.4rem;margin-bottom:10px;"></h3>
     <p style="color:var(--lank-soft);font-size:0.93rem;line-height:1.6;margin-bottom:28px;">Paj sa a ap vini byento. Nou ap travay di pou nou ka ba ou yon eksperyans konplè.</p>
     <button class="btn" onclick="closeModal('comingSoonModal')">Okay, mèsi!</button>
@@ -1333,7 +1330,7 @@
       console.error('Pa kapab chaje anons yo:', err);
       ALL_LISTINGS = [];
       listingsLoaded = true;
-      showToast('⚠️ Pa kapab konekte ak sèvè a. Tanpri eseye ankò pita.');
+      showToast('Pa kapab konekte ak sèvè a. Tanpri eseye ankò pita.');
     }
     populateStats();
     applyFilters();
@@ -1389,7 +1386,7 @@
     } catch (err) {
       if (myRequestId !== _filterRequestId) return;
       console.error('Erè filtraj:', err);
-      showToast('⚠️ Pa kapab rechèche kounye a. Eseye ankò.');
+      showToast('Pa kapab rechèche kounye a. Eseye ankò.');
     } finally {
       if (myRequestId === _filterRequestId) grid.classList.remove('is-loading');
     }
@@ -1400,10 +1397,10 @@
     const labelEl = document.getElementById('active-filter-label');
     const textEl = document.getElementById('filter-label-text');
     const parts = [];
-    if (activeCatFilter) parts.push('📂 ' + activeCatFilter);
-    if (activeLocFilter) parts.push('📍 ' + activeLocFilter.charAt(0).toUpperCase() + activeLocFilter.slice(1));
-    if (activeSortFilter === 'price_low') parts.push('↑ Pri ki ba');
-    if (searchQuery.trim()) parts.push('🔍 "' + searchQuery.trim() + '"');
+    if (activeCatFilter) parts.push(activeCatFilter);
+    if (activeLocFilter) parts.push(activeLocFilter.charAt(0).toUpperCase() + activeLocFilter.slice(1));
+    if (activeSortFilter === 'price_low') parts.push('Pri ki ba');
+    if (searchQuery.trim()) parts.push('"' + searchQuery.trim() + '"');
     if (parts.length) {
       textEl.textContent = parts.join('  ·  ');
       labelEl.style.display = '';
@@ -1696,7 +1693,7 @@
     if (!data.session) {
       // Konfimasyon imèl aktive sou Supabase — itilizatè dwe konfime anvan l konekte
       closeModal('authModal');
-      showToast('📧 Verifye imèl ou pou konfime kont ou anvan ou konekte.');
+      showToast('Verifye imèl ou pou konfime kont ou anvan ou konekte.');
       return;
     }
     onAuthSuccess(data.user, fullName);
@@ -1709,18 +1706,16 @@
       name: fullNameOverride || user.user_metadata?.full_name || user.email
     };
     closeModal('authModal');
-    document.querySelectorAll('.btn-ghost').forEach(b => {
-      if (b.textContent.trim() === 'Konekte') b.textContent = '👤 ' + currentUser.name.split(' ')[0];
-    });
-    showToast('✅ Ou konekte ak kont ou!');
+    const authBtnEl = document.querySelector('[data-role="auth-btn"]');
+    if (authBtnEl) authBtnEl.textContent = currentUser.name.split(' ')[0];
+    showToast('Ou konekte ak kont ou!');
   }
 
   async function handleLogout() {
     await supabaseClient.auth.signOut();
     currentUser = null;
-    document.querySelectorAll('.btn-ghost').forEach(b => {
-      if (b.textContent.trim().startsWith('👤')) b.textContent = 'Konekte';
-    });
+    const authBtnEl = document.querySelector('[data-role="auth-btn"]');
+    if (authBtnEl) authBtnEl.textContent = 'Konekte';
     showToast('Ou dekonekte.');
   }
 
@@ -1874,11 +1869,11 @@
       _pendingPhotoFiles = [];
       _editingListingId = null;
       document.getElementById('publishSubmitBtn').textContent = 'Pibliye Anons Gratis →';
-      showToast(isEditing ? '✅ Anons modifye avèk siksè!' : '🎉 Anons ou pibliye avèk siksè!');
+      showToast(isEditing ? 'Anons modifye avèk siksè!' : 'Anons ou pibliye avèk siksè!');
       loadAllListings();
     } catch (err) {
       console.error('Erè pibliye:', err);
-      showAuthError('publishError', '⚠️ ' + err.message);
+      showAuthError('publishError', err.message);
     } finally {
       btn.disabled = false;
       if (btn.textContent.startsWith('Ap ')) btn.textContent = isEditing ? 'Sove Chanjman →' : 'Pibliye Anons Gratis →';
@@ -1886,15 +1881,16 @@
   }
 
   // Wire up nav buttons
+  const authBtn = document.querySelector('[data-role="auth-btn"]');
+  if (authBtn) {
+    authBtn.addEventListener('click', e => {
+      e.preventDefault();
+      if (currentUser) handleLogout();
+      else openAuth();
+    });
+  }
   document.querySelectorAll('a, button').forEach(el => {
     const txt = el.textContent.trim();
-    if (txt === 'Konekte') {
-      el.addEventListener('click', e => {
-        e.preventDefault();
-        if (currentUser && el.classList.contains('btn-ghost')) handleLogout();
-        else openAuth();
-      });
-    }
     if (txt === '+ Pibliye Anons' || txt === 'Pibliye gratis →' || txt === 'Kòmanse Vann →') {
       el.addEventListener('click', e => { e.preventDefault(); openPublish(); });
     }
@@ -1948,7 +1944,7 @@
     try {
       const { data: { session } } = await supabaseClient.auth.getSession();
       const token = session?.access_token;
-      if (!token) { showToast('⚠️ Sesyon ekspire. Konekte ankò.'); return; }
+      if (!token) { showToast('Sesyon ekspire. Konekte ankò.'); return; }
 
       const res = await fetch(`${API_BASE}/api/listings/${id}`, {
         method: 'DELETE',
@@ -1961,11 +1957,11 @@
       }
 
       closeDetailPanel();
-      showToast('🗑️ Anons efase.');
+      showToast('Anons efase.');
       loadAllListings();
     } catch (err) {
       console.error('Erè efase:', err);
-      showToast('⚠️ Pa kapab efase anons: ' + err.message);
+      showToast('Pa kapab efase anons: ' + err.message);
     }
   }
 
