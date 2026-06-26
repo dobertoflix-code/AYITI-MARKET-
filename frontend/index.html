@@ -41,7 +41,7 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
   /* ============ TOKENS ============ */
@@ -61,7 +61,7 @@
     --lank-light:  #2A3040;
     --lo-text:     #8A5D12;
 
-    --display: 'Playfair Display', serif;
+    --display: 'Manrope', sans-serif;
     --body: 'Manrope', sans-serif;
     --mono: 'Space Mono', monospace;
 
@@ -200,13 +200,13 @@
   }
   .eyebrow::before{ content:'●'; color: var(--lo); font-size: 0.6rem; }
   h1{
-    font-family: var(--display); font-weight: 600;
+    font-family: var(--display); font-weight: 800;
     font-size: clamp(2.6rem, 5vw, 4.1rem);
-    line-height: 1.04; letter-spacing: -0.015em;
+    line-height: 1.04; letter-spacing: -0.02em;
     color: var(--lank); margin-bottom: 22px;
   }
   h1 .accent{
-    font-weight:600;
+    font-weight:800;
     background: linear-gradient(100deg, var(--wouj) 0%, var(--lo) 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
@@ -276,7 +276,7 @@
   }
   .sec-head h2{
     font-family: var(--display); font-size: clamp(1.9rem, 3vw, 2.6rem);
-    font-weight:600; letter-spacing:-0.01em;
+    font-weight:800; letter-spacing:-0.015em;
   }
   .sec-head p{ color: var(--lank-soft); max-width:420px; }
   .sec-label{
@@ -405,7 +405,7 @@
     background: rgba(255,255,255,0.06);
   }
   .cta-sell h2{
-    font-family: var(--display); font-size: clamp(1.8rem,3vw,2.5rem); font-weight:600; margin-bottom:16px;
+    font-family: var(--display); font-size: clamp(1.8rem,3vw,2.5rem); font-weight:800; margin-bottom:16px;
     line-height:1.1;
   }
   .cta-sell p{ color: rgba(251,246,236,0.85); margin-bottom: 26px; max-width: 440px; }
