@@ -1730,7 +1730,7 @@
   });
 
   // ============ PUBLISH (vrè API) ============
-  let _pendingPhotoUrls = [];
+  let _pendingPhotoFiles = [];
 
   function openPublish() {
     if (!currentUser) { openModal('authModal'); return; }
@@ -1740,15 +1740,38 @@
   function handlePhotoUpload(input) {
     const preview = document.getElementById('photoPreview');
     preview.innerHTML = '';
-    _pendingPhotoUrls = [];
-    Array.from(input.files).slice(0,5).forEach(file => {
-      const url = URL.createObjectURL(file);
-      _pendingPhotoUrls.push(url);
+    _pendingPhotoFiles = Array.from(input.files).slice(0, 5);
+    _pendingPhotoFiles.forEach(file => {
+      const url = URL.createObjectURL(file); // sèlman pou prevyizyalizasyon lokal
       const img = document.createElement('img');
       img.src = url;
       img.style.cssText = 'width:70px;height:70px;object-fit:cover;border-radius:8px;border:1.5px solid var(--liy)';
       preview.appendChild(img);
     });
+  }
+
+  // Telechaje tout foto ki ap tann nan bucket Supabase Storage, retounen lis URL piblik
+  async function uploadPendingPhotos() {
+    const urls = [];
+    for (const file of _pendingPhotoFiles) {
+      const ext = file.name.split('.').pop() || 'jpg';
+      const path = `${currentUser.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+      const { error: uploadError } = await supabaseClient.storage
+        .from('listing-images')
+        .upload(path, file, { cacheControl: '3600', upsert: false });
+
+      if (uploadError) {
+        throw new Error('Erè telechaje foto: ' + uploadError.message);
+      }
+
+      const { data: publicUrlData } = supabaseClient.storage
+        .from('listing-images')
+        .getPublicUrl(path);
+
+      urls.push(publicUrlData.publicUrl);
+    }
+    return urls;
   }
 
   async function handlePublish() {
@@ -1769,22 +1792,8 @@
 
     const priceLabel = priceVal > 0 ? `${priceVal.toLocaleString('fr-FR')} HTG` : 'Sou demann';
 
-    const payload = {
-      title,
-      description,
-      category,
-      location,
-      price_val: priceVal,
-      price_label: priceLabel,
-      tag: negociab ? 'Pri Negosyab' : '',
-      condition: 'Bon eta',
-      seller_name: currentUser.name,
-      keywords: `${title} ${category} ${location}`.toLowerCase(),
-      images: [] // NÒT: telechajman foto reyèl mande Supabase Storage — pa branche ankò
-    };
-
     const btn = document.getElementById('publishSubmitBtn');
-    btn.disabled = true; btn.textContent = 'Ap pibliye...';
+    btn.disabled = true; btn.textContent = 'Ap telechaje foto...';
 
     try {
       const { data: { session } } = await supabaseClient.auth.getSession();
@@ -1795,6 +1804,24 @@
         btn.disabled = false; btn.textContent = 'Pibliye Anons Gratis →';
         return;
       }
+
+      const imageUrls = await uploadPendingPhotos();
+
+      const payload = {
+        title,
+        description,
+        category,
+        location,
+        price_val: priceVal,
+        price_label: priceLabel,
+        tag: negociab ? 'Pri Negosyab' : '',
+        condition: 'Bon eta',
+        seller_name: currentUser.name,
+        keywords: `${title} ${category} ${location}`.toLowerCase(),
+        images: imageUrls
+      };
+
+      btn.textContent = 'Ap pibliye...';
 
       const res = await fetch(`${API_BASE}/api/listings`, {
         method: 'POST',
@@ -1815,6 +1842,7 @@
       document.getElementById('pubDesc').value = '';
       document.getElementById('priceInput').value = '';
       document.getElementById('photoPreview').innerHTML = '';
+      _pendingPhotoFiles = [];
       showToast('🎉 Anons ou pibliye avèk siksè!');
       loadAllListings(); // rafrechi lis la pou montre nouvo anons
     } catch (err) {
