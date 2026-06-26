@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paj pa jwenn — Ayiti Market</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23B91C3C'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='26' fill='%23FBF6EC'>AM</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --krem:#FBF6EC; --lank:#14181F; --lank-soft:#4A4F5A;
+    --wouj:#B91C3C; --wouj-dark:#8C1530;
+    --lo:#E1962F; --lo-soft:#F2C26B;
+    --liy:#E4DCC8;
+  }
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ height:100%; }
+  body{
+    font-family:'Manrope',sans-serif;
+    background:var(--krem);
+    color:var(--lank);
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    min-height:100vh; padding:24px;
+    text-align:center;
+  }
+
+  /* ── Subtle texture grid ── */
+  body::before{
+    content:'';
+    position:fixed; inset:0; pointer-events:none;
+    background-image:
+      linear-gradient(var(--liy) 1px, transparent 1px),
+      linear-gradient(90deg, var(--liy) 1px, transparent 1px);
+    background-size:40px 40px;
+    opacity:0.35;
+    z-index:0;
+  }
+
+  .card{
+    position:relative; z-index:1;
+    background:#fff;
+    border:1.5px solid var(--liy);
+    border-radius:24px;
+    padding:52px 40px 44px;
+    max-width:460px; width:100%;
+    box-shadow:0 8px 40px rgba(20,24,31,0.08);
+  }
+
+  /* Big 404 badge */
+  .badge-404{
+    display:inline-block;
+    font-family:'Space Mono',monospace;
+    font-size:5rem; font-weight:700; line-height:1;
+    background:linear-gradient(135deg,var(--wouj),var(--lo));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text;
+    letter-spacing:-4px;
+    margin-bottom:20px;
+  }
+
+  /* Haitian flag mini decoration */
+  .flag{
+    display:flex; gap:0; border-radius:6px; overflow:hidden;
+    width:36px; height:22px; margin:0 auto 24px;
+    box-shadow:0 2px 8px rgba(20,24,31,0.15);
+  }
+  .flag span{ flex:1; }
+  .flag .bl{ background:#002B7F; }
+  .flag .rd{ background:#CE1126; }
+
+  h1{
+    font-size:1.35rem; font-weight:800;
+    color:var(--lank); margin-bottom:10px;
+  }
+  p{
+    font-size:0.95rem; color:var(--lank-soft);
+    line-height:1.6; margin-bottom:32px;
+  }
+  p strong{ color:var(--wouj); font-weight:700; }
+
+  .btn-home{
+    display:inline-flex; align-items:center; gap:8px;
+    background:var(--wouj);
+    color:#fff; font-weight:800; font-size:0.95rem;
+    padding:13px 28px; border-radius:100px;
+    text-decoration:none;
+    transition:background .2s, transform .15s;
+    border:none; cursor:pointer;
+  }
+  .btn-home:hover{ background:var(--wouj-dark); transform:translateY(-1px); }
+
+  .btn-back{
+    display:inline-flex; align-items:center; gap:6px;
+    margin-top:14px;
+    color:var(--lank-soft); font-size:0.85rem; font-weight:600;
+    text-decoration:none; background:none; border:none; cursor:pointer;
+    transition:color .2s;
+  }
+  .btn-back:hover{ color:var(--lank); }
+
+  /* Logo nav on top */
+  .nav-logo{
+    position:fixed; top:0; left:0; right:0;
+    padding:14px 24px;
+    display:flex; align-items:center;
+    background:rgba(251,246,236,0.85);
+    backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--liy);
+    z-index:10;
+  }
+  .nav-logo a{
+    font-family:'Space Mono',monospace;
+    font-weight:700; font-size:0.95rem;
+    color:var(--lank); text-decoration:none;
+    display:flex; align-items:center; gap:8px;
+  }
+  .dot{
+    width:10px; height:10px; border-radius:50%;
+    background:var(--wouj); display:inline-block;
+    flex-shrink:0;
+  }
+
+  @media(max-width:480px){
+    .card{ padding:40px 24px 36px; }
+    .badge-404{ font-size:4rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav-logo">
+  <a href="/"><span class="dot"></span>Ayiti Market</a>
+</nav>
+
+<div class="card">
+  <div class="badge-404">404</div>
+
+  <div class="flag">
+    <span class="bl"></span>
+    <span class="rd"></span>
+  </div>
+
+  <h1>Paj sa a pa egziste</h1>
+  <p>
+    Lyen ou te klike a ka vye oswa ou te tape yon<br>
+    <strong>adres ki pa kòrèk</strong>.<br>
+    Retounen nan paj dakèy la pou kontinye chache anons yo.
+  </p>
+
+  <a href="/" class="btn-home">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12L12 3l9 9"/><path d="M9 21V12h6v9"/></svg>
+    Retounen nan Dakèy
+  </a>
+
+  <br>
+  <button class="btn-back" onclick="history.back()">
+    ← Paj anvan an
+  </button>
+</div>
+
+</body>
+</html>
