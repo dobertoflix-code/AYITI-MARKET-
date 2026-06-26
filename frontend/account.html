@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mon Kont — Ayiti Market</title>
+<meta name="robots" content="noindex">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23B91C3C'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='26' fill='%23FBF6EC'>AM</text></svg>">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#B91C3C" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14181F" media="(prefers-color-scheme: dark)">
+
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('am-theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --krem:        #FBF6EC;
+    --krem-dim:     #F3ECDC;
+    --lank:        #14181F;
+    --lank-soft:    #4A4F5A;
+    --wouj:        #B91C3C;
+    --wouj-dark:    #8C1530;
+    --ble:         #16335E;
+    --ble-soft:     #2A4D80;
+    --lo:          #E1962F;
+    --lo-soft:      #F2C26B;
+    --liy:         #E4DCC8;
+    --blan:        #FFFFFF;
+    --lank-light:  #2A3040;
+    --lo-text:     #8A5D12;
+    --display: 'Manrope', sans-serif;
+    --body: 'Manrope', sans-serif;
+    --mono: 'Space Mono', monospace;
+    --radius: 14px;
+    --container: 1180px;
+  }
+  :root[data-theme="dark"]{
+    --krem:        #14181F;
+    --krem-dim:     #1B202A;
+    --lank:        #EDE8DA;
+    --lank-soft:    #A7AAB3;
+    --wouj:        #E14D63;
+    --wouj-dark:    #F2718A;
+    --ble:         #5C8AD6;
+    --ble-soft:     #3D6BB0;
+    --lo:          #F2B259;
+    --lo-soft:      #E1962F;
+    --liy:         #2A3040;
+    --blan:        #1E2430;
+    --lank-light:  #343B4C;
+    --lo-text:     #F2C26B;
+  }
+  :root[data-theme="dark"] body{ background: var(--krem); color: var(--lank); }
+  :root[data-theme="dark"] header{ background: rgba(20,24,31,0.92); }
+  :root[data-theme="dark"] .acc-card{ background: var(--blan); border-color: var(--liy); }
+  :root[data-theme="dark"] .acc-tab.active{ background: var(--wouj); color: #fff; }
+  :root[data-theme="dark"] .form-error{ color: var(--wouj) !important; }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family: var(--body); background: var(--krem); color: var(--lank);
+    line-height:1.5; -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width: var(--container); margin:0 auto; padding: 0 24px; }
+
+  header{
+    position: sticky; top:0; z-index: 100;
+    background: rgba(251,246,236,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--liy);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 18px 24px; max-width: var(--container); margin: 0 auto; gap: 24px;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family: var(--display); font-weight:700; font-size: 1.5rem;
+    letter-spacing: -0.01em; color: var(--lank);
+  }
+  .logo .dot{ width:10px; height:10px; border-radius:50%; background: linear-gradient(135deg, var(--wouj), var(--lo)); }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding: 11px 22px; border-radius: 100px; font-weight:700; font-size:0.9rem;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    white-space:nowrap; border:none; cursor:pointer; font-family:var(--body);
+  }
+  .btn-primary{ background: var(--wouj); color: #fff; box-shadow: 0 2px 0 var(--wouj-dark); }
+  .btn-primary:hover{ background: var(--wouj-dark); transform: translateY(-1px); }
+  .btn-ghost{ color: var(--lank); border: 1.5px solid var(--liy); background: transparent; }
+  .btn-ghost:hover{ border-color: var(--lank); }
+  .btn-sm{ padding:8px 16px; font-size:0.82rem; }
+  .btn-full{ width:100%; }
+
+  main{ padding: 48px 0 90px; min-height:60vh; }
+  .acc-head{ display:flex; align-items:center; gap:16px; margin-bottom:32px; flex-wrap:wrap; }
+  .acc-avatar{
+    width:64px; height:64px; border-radius:50%; background: var(--ble-soft); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1.4rem;
+    flex-shrink:0;
+  }
+  .acc-name{ font-family:var(--display); font-weight:800; font-size:1.5rem; }
+  .acc-email{ color:var(--lank-soft); font-size:0.9rem; }
+
+  .acc-tabs{
+    display:flex; gap:8px; border-bottom:1.5px solid var(--liy); margin-bottom:28px;
+    overflow-x:auto;
+  }
+  .acc-tab{
+    padding:12px 18px; font-weight:700; font-size:0.92rem; color:var(--lank-soft);
+    border-bottom:3px solid transparent; cursor:pointer; white-space:nowrap; background:none; border-top:none; border-left:none; border-right:none;
+    font-family:var(--body);
+  }
+  .acc-tab.active{ color:var(--wouj); border-bottom-color:var(--wouj); }
+
+  .acc-panel{ display:none; }
+  .acc-panel.active{ display:block; }
+
+  .acc-card{
+    background: var(--blan); border:1px solid var(--liy); border-radius: var(--radius);
+    padding: 18px; display:flex; gap:14px; align-items:center; margin-bottom:12px;
+  }
+  .acc-card img{ width:64px; height:64px; border-radius:10px; object-fit:cover; background:var(--liy); flex-shrink:0; }
+  .acc-card-body{ flex:1; min-width:0; }
+  .acc-card-title{ font-weight:700; font-size:0.95rem; margin-bottom:4px; }
+  .acc-card-price{ font-family:var(--mono); font-weight:700; color:var(--wouj-dark); font-size:0.95rem; margin-bottom:4px; }
+  .acc-card-meta{ font-size:0.78rem; color:var(--lank-soft); }
+  .acc-card-actions{ display:flex; gap:8px; flex-shrink:0; }
+
+  .empty-box{
+    text-align:center; padding:60px 20px; color:var(--lank-soft);
+  }
+  .empty-box svg{ margin-bottom:14px; opacity:0.4; }
+  .empty-box p{ margin-bottom:18px; }
+
+  .form-group{ margin-bottom:18px; }
+  .form-group label{ display:block; font-weight:700; font-size:0.85rem; margin-bottom:6px; }
+  .form-group input{
+    width:100%; padding:12px 14px; border:1.5px solid var(--liy); border-radius:10px;
+    font-family:var(--body); font-size:0.92rem; background:var(--blan); color:var(--lank);
+  }
+  .form-group input:focus{ outline:none; border-color:var(--wouj); }
+  .form-note-sm{ font-size:0.78rem; color:var(--lank-soft); margin-top:6px; }
+  .form-error{ color:var(--wouj); font-size:0.85rem; margin-bottom:10px; }
+  .profile-card{ max-width:480px; }
+
+  .loading-spin{ text-align:center; padding:40px; color:var(--lank-soft); }
+
+  @media (max-width:640px){
+    .acc-card{ flex-direction:row; }
+    .acc-card img{ width:56px; height:56px; }
+    .acc-card-actions{ flex-direction:column; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo"><span class="dot"></span>Ayiti Market</a>
+    <a href="index.html" class="btn btn-ghost btn-sm">← Tounen nan Mache a</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="guardedOut" style="display:none">
+    <div class="empty-box">
+      <p>Ou dwe konekte pou wè paj sa a.</p>
+      <a href="index.html" class="btn btn-primary">Tounen nan Akèy →</a>
+    </div>
+  </div>
+
+  <div id="accountContent" style="display:none">
+    <div class="acc-head">
+      <div class="acc-avatar" id="accAvatar">??</div>
+      <div>
+        <div class="acc-name" id="accName">—</div>
+        <div class="acc-email" id="accEmail">—</div>
+      </div>
+    </div>
+
+    <div class="acc-tabs">
+      <button class="acc-tab active" data-tab="listings">Anons Mwen</button>
+      <button class="acc-tab" data-tab="favs">Favori Mwen</button>
+      <button class="acc-tab" data-tab="profile">Pwofil</button>
+    </div>
+
+    <!-- ============ ANONS MWEN ============ -->
+    <section class="acc-panel active" id="panel-listings">
+      <div id="myListingsLoading" class="loading-spin">Ap chaje anons ou yo...</div>
+      <div id="myListingsList"></div>
+      <div id="myListingsEmpty" class="empty-box" style="display:none">
+        <p>Ou poko gen anons pibliye.</p>
+        <a href="index.html" class="btn btn-primary">Pibliye Premye Anons ou →</a>
+      </div>
+    </section>
+
+    <!-- ============ FAVORI MWEN ============ -->
+    <section class="acc-panel" id="panel-favs">
+      <div id="myFavsLoading" class="loading-spin">Ap chaje favori ou yo...</div>
+      <div id="myFavsList"></div>
+      <div id="myFavsEmpty" class="empty-box" style="display:none">
+        <p>Ou poko gen anons nan favori ou.</p>
+        <a href="index.html" class="btn btn-primary">Dekouvri Anons →</a>
+      </div>
+    </section>
+
+    <!-- ============ PWOFIL ============ -->
+    <section class="acc-panel" id="panel-profile">
+      <div class="acc-card profile-card" style="display:block">
+        <div class="form-error" id="profileError" style="display:none"></div>
+        <div class="form-group">
+          <label>Non Konplè</label>
+          <input type="text" id="profFullName" placeholder="Non w">
+        </div>
+        <div class="form-group">
+          <label>Telefòn</label>
+          <input type="text" id="profPhone" placeholder="+509 ...">
+        </div>
+        <div class="form-group">
+          <label>Vil / Katye</label>
+          <input type="text" id="profLocation" placeholder="Pòtoprens, Okap...">
+        </div>
+        <button class="btn btn-primary btn-full" id="profileSaveBtn" onclick="saveProfile()">Sove Chanjman →</button>
+        <p class="form-note-sm">Imèl ou (<span id="profEmailNote"></span>) pa ka chanje isit la.</p>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  const SUPABASE_URL = 'https://cisjnsdnxqvgqjuzwobk.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpc2puc2RueHF2Z3FqdXp3b2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0MTI2OTQsImV4cCI6MjA5Nzk4ODY5NH0.rWwbLUOs8TjZpHD19fDYX4B9mOIyn-eAFpcwGcdav_E';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const API_BASE = 'https://ayiti-market-40ce.onrender.com';
+
+  let currentUser = null;
+
+  function showToast(msg) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = `position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+      background:#14181F;color:#FBF6EC;padding:14px 22px;border-radius:100px;
+      font-weight:700;font-size:0.88rem;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.25);
+      white-space:nowrap;transition:opacity .4s;`;
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 400); }, 3000);
+  }
+
+  function mapListing(row) {
+    const img = (row.images && row.images.length) ? row.images[0] : 'https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=800&q=80';
+    return {
+      id: row.id,
+      title: row.title,
+      price: row.price_label || (row.price_val ? `${Number(row.price_val).toLocaleString('fr-FR')} HTG` : 'Sou demann'),
+      loc: row.location || '',
+      cat: row.category || '',
+      img,
+      createdAt: row.created_at
+    };
+  }
+
+  function listingCardHTML(item, ownerView) {
+    const dateStr = item.createdAt ? new Date(item.createdAt).toLocaleDateString('fr-FR') : '';
+    const actions = ownerView
+      ? `<div class="acc-card-actions">
+           <button class="btn btn-ghost btn-sm" onclick="window.location.href='index.html#edit-${item.id}'">Modifye</button>
+           <button class="btn btn-ghost btn-sm" style="color:var(--wouj);border-color:var(--wouj)" onclick="deleteMyListing(${item.id})">Efase</button>
+         </div>`
+      : '';
+    return `
+      <div class="acc-card">
+        <img src="${item.img}" alt="${item.title}">
+        <div class="acc-card-body">
+          <div class="acc-card-title">${item.title}</div>
+          <div class="acc-card-price">${item.price}</div>
+          <div class="acc-card-meta">${item.cat}${item.loc ? ' · ' + item.loc : ''}${dateStr ? ' · ' + dateStr : ''}</div>
+        </div>
+        ${actions}
+      </div>`;
+  }
+
+  // ============ AUTH GUARD ============
+  async function init() {
+    const { data } = await supabaseClient.auth.getSession();
+    if (!data.session?.user) {
+      document.getElementById('guardedOut').style.display = 'block';
+      return;
+    }
+    currentUser = data.session.user;
+    document.getElementById('accountContent').style.display = 'block';
+
+    const fullName = currentUser.user_metadata?.full_name || currentUser.email;
+    document.getElementById('accName').textContent = fullName;
+    document.getElementById('accEmail').textContent = currentUser.email;
+    document.getElementById('accAvatar').textContent = fullName.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
+    document.getElementById('profEmailNote').textContent = currentUser.email;
+
+    loadMyListings();
+    loadMyFavorites();
+    loadProfile();
+  }
+  init();
+
+  // ============ TABS ============
+  document.querySelectorAll('.acc-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.acc-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.acc-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+    });
+  });
+
+  // ============ ANONS MWEN ============
+  async function loadMyListings() {
+    const listEl = document.getElementById('myListingsList');
+    const loadingEl = document.getElementById('myListingsLoading');
+    const emptyEl = document.getElementById('myListingsEmpty');
+    try {
+      const res = await fetch(`${API_BASE}/api/listings`);
+      const data = await res.json();
+      const mine = data.filter(row => row.seller_id === currentUser.id).map(mapListing);
+      loadingEl.style.display = 'none';
+      if (mine.length === 0) { emptyEl.style.display = 'block'; return; }
+      listEl.innerHTML = mine.map(item => listingCardHTML(item, true)).join('');
+    } catch (err) {
+      loadingEl.textContent = 'Pa kapab chaje anons ou yo. Eseye ankò.';
+      console.error(err);
+    }
+  }
+
+  async function deleteMyListing(id) {
+    if (!confirm('Efase anons sa a pou tout tan? Aksyon sa pa ka anile.')) return;
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const token = session?.access_token;
+      const res = await fetch(`${API_BASE}/api/listings/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error('Erè pandan efase');
+      showToast('Anons efase.');
+      document.getElementById('myListingsList').innerHTML = '';
+      document.getElementById('myListingsEmpty').style.display = 'none';
+      document.getElementById('myListingsLoading').style.display = 'block';
+      document.getElementById('myListingsLoading').textContent = 'Ap chaje anons ou yo...';
+      loadMyListings();
+    } catch (err) {
+      showToast('Pa kapab efase: ' + err.message);
+    }
+  }
+  window.deleteMyListing = deleteMyListing;
+
+  // ============ FAVORI MWEN ============
+  async function loadMyFavorites() {
+    const listEl = document.getElementById('myFavsList');
+    const loadingEl = document.getElementById('myFavsLoading');
+    const emptyEl = document.getElementById('myFavsEmpty');
+    try {
+      const { data: favRows, error: favErr } = await supabaseClient
+        .from('user_favorites')
+        .select('listing_id')
+        .eq('user_id', currentUser.id);
+      if (favErr) throw favErr;
+
+      const ids = favRows.map(r => r.listing_id);
+      loadingEl.style.display = 'none';
+      if (ids.length === 0) { emptyEl.style.display = 'block'; return; }
+
+      const res = await fetch(`${API_BASE}/api/listings`);
+      const allListings = await res.json();
+      const favListings = allListings.filter(row => ids.includes(row.id)).map(mapListing);
+
+      if (favListings.length === 0) { emptyEl.style.display = 'block'; return; }
+      listEl.innerHTML = favListings.map(item => listingCardHTML(item, false)).join('');
+    } catch (err) {
+      loadingEl.textContent = 'Pa kapab chaje favori ou yo. Eseye ankò.';
+      console.error(err);
+    }
+  }
+
+  // ============ PWOFIL ============
+  async function loadProfile() {
+    try {
+      const { data, error } = await supabaseClient
+        .from('profiles')
+        .select('full_name, phone, location')
+        .eq('id', currentUser.id)
+        .single();
+      if (error) { console.warn('Pwofil pa jwenn:', error.message); return; }
+      document.getElementById('profFullName').value = data.full_name || '';
+      document.getElementById('profPhone').value = data.phone || '';
+      document.getElementById('profLocation').value = data.location || '';
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function saveProfile() {
+    const errorEl = document.getElementById('profileError');
+    errorEl.style.display = 'none';
+    const fullName = document.getElementById('profFullName').value.trim();
+    const phone = document.getElementById('profPhone').value.trim();
+    const location = document.getElementById('profLocation').value.trim();
+
+    const btn = document.getElementById('profileSaveBtn');
+    btn.disabled = true; btn.textContent = 'Ap sove...';
+
+    const { error } = await supabaseClient
+      .from('profiles')
+      .upsert({ id: currentUser.id, full_name: fullName, phone, location }, { onConflict: 'id' });
+
+    btn.disabled = false; btn.textContent = 'Sove Chanjman →';
+
+    if (error) {
+      errorEl.textContent = 'Pa kapab sove pwofil: ' + error.message;
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    // Mete ajou user_metadata pou non an parèt byen sou rès platfòm la tou
+    await supabaseClient.auth.updateUser({ data: { full_name: fullName } });
+
+    document.getElementById('accName').textContent = fullName || currentUser.email;
+    document.getElementById('accAvatar').textContent = (fullName || currentUser.email).split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
+    showToast('Pwofil sove avèk siksè!');
+  }
+  window.saveProfile = saveProfile;
+
+  // ============ MÒD NWA (sync ak rès sit la) ============
+  // (Pa gen boutonn toggle sou paj sa a, men li respekte chwa ki deja fèt nan akèy la)
+</script>
+</body>
+</html>
