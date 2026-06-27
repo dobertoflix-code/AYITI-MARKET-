@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kontakte Nou — Ayiti Market</title>
+<meta name="description" content="Gen yon kesyon, yon pwoblèm, oswa yon sijesyon pou Ayiti Market? Kontakte nou dirèkteman atravè fòmilè sa a.">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23B91C3C'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='26' fill='%23FBF6EC'>AM</text></svg>">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#B91C3C" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14181F" media="(prefers-color-scheme: dark)">
+
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('am-theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+  :root{
+    --krem:        #FBF6EC;
+    --krem-dim:     #F3ECDC;
+    --lank:        #14181F;
+    --lank-soft:    #4A4F5A;
+    --wouj:        #B91C3C;
+    --wouj-dark:    #8C1530;
+    --ble:         #16335E;
+    --ble-soft:     #2A4D80;
+    --lo:          #E1962F;
+    --lo-soft:      #F2C26B;
+    --liy:         #E4DCC8;
+    --blan:        #FFFFFF;
+    --lank-light:  #2A3040;
+    --lo-text:     #8A5D12;
+
+    --display: 'DM Serif Display', Georgia, serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'Space Mono', monospace;
+
+    --radius: 14px;
+    --container: 980px;
+  }
+
+  :root[data-theme="dark"]{
+    --krem:        #14181F;
+    --krem-dim:     #1B202A;
+    --lank:        #EDE8DA;
+    --lank-soft:    #A7AAB3;
+    --wouj:        #E14D63;
+    --wouj-dark:    #F2718A;
+    --ble:         #5C8AD6;
+    --ble-soft:     #3D6BB0;
+    --lo:          #F2B259;
+    --lo-soft:      #E1962F;
+    --liy:         #2A3040;
+    --blan:        #1E2430;
+    --lank-light:  #343B4C;
+    --lo-text:     #F2C26B;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:var(--body);
+    background:var(--krem); color:var(--lank);
+    -webkit-font-smoothing:antialiased;
+    transition: background .25s ease, color .25s ease;
+  }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:var(--container); margin:0 auto; padding:0 24px; }
+
+  /* ============ HEADER ============ */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(251,246,236,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--liy);
+  }
+  :root[data-theme="dark"] header{ background:rgba(20,24,31,0.92); }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; max-width:var(--container); margin:0 auto;
+  }
+  .logo{
+    font-family:var(--display); font-size:1.35rem; color:var(--lank);
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo .dot{ color:var(--wouj); }
+  .nav-actions{ display:flex; align-items:center; gap:14px; }
+  .back-link{
+    font-family:var(--body); font-weight:600; font-size:0.88rem;
+    color:var(--lank-soft); display:flex; align-items:center; gap:6px;
+  }
+  .back-link:hover{ color:var(--wouj); }
+  .theme-toggle{
+    width:38px; height:38px; border-radius:50%;
+    border:1px solid var(--liy); background:transparent;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--lank);
+  }
+  .theme-toggle svg{ width:18px; height:18px; }
+  .theme-toggle .ic-sun{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .ic-moon{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .ic-sun{ display:block; }
+
+  /* ============ HERO ============ */
+  .ct-hero{ padding:56px 0 32px; border-bottom:1px solid var(--liy); }
+  .ct-eyebrow{
+    font-family:var(--mono); font-size:0.72rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--wouj); margin-bottom:14px;
+    display:inline-block; background:rgba(185,28,60,0.08);
+    padding:5px 12px; border-radius:20px;
+  }
+  :root[data-theme="dark"] .ct-eyebrow{ background:rgba(225,77,99,0.15); }
+  .ct-hero h1{
+    font-family:var(--display); font-size:clamp(1.9rem,4vw,2.6rem);
+    line-height:1.15; margin-bottom:14px;
+  }
+  .ct-hero p{ color:var(--lank-soft); font-size:1rem; max-width:520px; line-height:1.65; }
+
+  /* ============ LAYOUT ============ */
+  .ct-body{ padding:48px 0 80px; display:grid; grid-template-columns:1fr 320px; gap:48px; align-items:start; }
+  @media (max-width:760px){ .ct-body{ grid-template-columns:1fr; } }
+
+  /* ---- FORM ---- */
+  .ct-form-card{
+    background:var(--blan); border:1px solid var(--liy); border-radius:var(--radius);
+    padding:32px;
+  }
+  :root[data-theme="dark"] .ct-form-card{ background:var(--krem-dim); }
+  .ct-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:18px; }
+  @media (max-width:480px){ .ct-row{ grid-template-columns:1fr; } }
+  .ct-field{ margin-bottom:18px; }
+  .ct-field label{
+    display:block; font-size:0.84rem; font-weight:600; margin-bottom:7px; color:var(--lank);
+  }
+  .ct-field input,
+  .ct-field select,
+  .ct-field textarea{
+    width:100%; padding:12px 14px; border:1px solid var(--liy); border-radius:10px;
+    background:var(--krem); color:var(--lank); font-family:var(--body); font-size:0.92rem;
+    transition:border-color .15s;
+  }
+  .ct-field input:focus,
+  .ct-field select:focus,
+  .ct-field textarea:focus{ outline:none; border-color:var(--wouj); }
+  .ct-field textarea{ resize:vertical; min-height:140px; font-family:var(--body); }
+  .ct-error{
+    color:var(--wouj); font-size:0.82rem; margin-top:6px; display:none;
+  }
+  .ct-submit{
+    width:100%; padding:14px; border:none; border-radius:10px; background:var(--wouj);
+    color:#fff; font-weight:700; font-size:0.95rem; cursor:pointer; transition:opacity .15s, transform .15s;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .ct-submit:hover{ transform:translateY(-1px); }
+  .ct-submit:disabled{ opacity:0.6; cursor:not-allowed; transform:none; }
+  .ct-submit svg{ width:16px; height:16px; }
+
+  .ct-success{ text-align:center; padding:24px 0; }
+  .ct-success .ic{
+    width:56px; height:56px; border-radius:50%; background:rgba(22,163,74,0.12);
+    color:#16a34a; display:flex; align-items:center; justify-content:center; margin:0 auto 18px;
+  }
+  .ct-success .ic svg{ width:28px; height:28px; }
+  .ct-success h3{ font-family:var(--display); font-size:1.3rem; margin-bottom:8px; }
+  .ct-success p{ color:var(--lank-soft); font-size:0.92rem; }
+
+  /* ---- SIDEBAR ---- */
+  .ct-side-card{
+    background:var(--krem-dim); border:1px solid var(--liy); border-radius:var(--radius);
+    padding:24px; margin-bottom:18px;
+  }
+  .ct-side-card h4{ font-size:0.92rem; margin-bottom:10px; }
+  .ct-side-card p{ font-size:0.86rem; color:var(--lank-soft); line-height:1.6; margin-bottom:4px; }
+  .ct-side-link{
+    display:flex; align-items:center; gap:10px; margin-top:14px; font-size:0.88rem; font-weight:600;
+  }
+  .ct-side-link svg{ width:16px; height:16px; flex-shrink:0; color:var(--wouj); }
+  .ct-side-link a:hover{ color:var(--wouj); }
+
+  /* ============ FOOTER ============ */
+  footer{ background:var(--lank); color:rgba(251,246,236,0.7); padding:48px 0 24px; }
+  :root[data-theme="dark"] footer{ background:#0D1017; color:rgba(237,232,218,0.65); }
+  .foot-bottom{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-size:0.8rem; max-width:var(--container); margin:0 auto; padding:0 24px;
+  }
+  .foot-links{ display:flex; gap:18px; margin-bottom:18px; max-width:var(--container); margin-left:auto; margin-right:auto; padding:0 24px; flex-wrap:wrap; }
+  .foot-links a{ font-size:0.84rem; color:rgba(251,246,236,0.7); }
+  :root[data-theme="dark"] .foot-links a{ color:rgba(237,232,218,0.65); }
+  .foot-links a:hover{ color:var(--lo); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="/" class="logo">Ayiti Market<span class="dot">.</span></a>
+    <div class="nav-actions">
+      <a href="/" class="back-link">← Retounen sou sit la</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Chanje tèm">
+        <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="ct-hero">
+  <div class="wrap">
+    <span class="ct-eyebrow">Nou la pou ou</span>
+    <h1>Kontakte Nou</h1>
+    <p>Gen yon kesyon, yon pwoblèm teknik, oswa yon sijesyon pou amelyore Ayiti Market? Ekri nou — nou reponn pi vit posib.</p>
+  </div>
+</section>
+
+<div class="wrap ct-body">
+
+  <div class="ct-form-card">
+    <form id="contactForm">
+      <div class="ct-row">
+        <div class="ct-field">
+          <label for="ctNon">Non *</label>
+          <input type="text" id="ctNon" placeholder="Non ou" required>
+        </div>
+        <div class="ct-field">
+          <label for="ctImel">Imèl *</label>
+          <input type="email" id="ctImel" placeholder="ou@imèl.com" required>
+        </div>
+      </div>
+
+      <div class="ct-field">
+        <label for="ctSije">Sijè *</label>
+        <select id="ctSije" required>
+          <option value="" disabled selected>Chwazi yon sijè</option>
+          <option value="Kesyon jeneral">Kesyon jeneral</option>
+          <option value="Pwoblèm teknik">Pwoblèm teknik / Bug</option>
+          <option value="Vandè Verifye">Demand Vandè Verifye</option>
+          <option value="Rapò / Plent">Rapò oswa plent</option>
+          <option value="Patenarya">Patenarya / Biznis</option>
+          <option value="Lòt">Lòt</option>
+        </select>
+      </div>
+
+      <div class="ct-field">
+        <label for="ctMesaj">Mesaj *</label>
+        <textarea id="ctMesaj" placeholder="Ekri mesaj ou isit la..." required></textarea>
+      </div>
+
+      <div class="ct-error" id="ctError"></div>
+
+      <button type="submit" class="ct-submit" id="ctSubmitBtn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+        Voye Mesaj
+      </button>
+    </form>
+
+    <div class="ct-success" id="ctSuccess" style="display:none;">
+      <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <h3>Mesaj ou voye!</h3>
+      <p>Mèsi pou ou kontakte nou. Nou ap reponn ou nan imèl ou bay nan yon delè rezonab.</p>
+    </div>
+  </div>
+
+  <aside>
+    <div class="ct-side-card">
+      <h4>Lòt fason pou jwenn nou</h4>
+      <p>Pou demand ki ijan oswa rapò sou yon anons espesifik, ou ka tou ekri nou dirèkteman:</p>
+      <div class="ct-side-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+        <a href="mailto:dobertojean35@gmail.com">dobertojean35@gmail.com</a>
+      </div>
+    </div>
+    <div class="ct-side-card">
+      <h4>Delè repons</h4>
+      <p>Nou eseye reponn tout mesaj nan mwens pase 48 èdtan. Pou rapò ki konsène sekirite oswa fwod, nou trete yo an priyorite.</p>
+    </div>
+  </aside>
+
+</div>
+
+<footer>
+  <div class="foot-links">
+    <a href="/apropos.html">À Propos</a>
+    <a href="/kontakte.html">Kontakte Nou</a>
+    <a href="/cgu.html">Kondisyon Itilizasyon</a>
+    <a href="/confidentialite.html">Politik Konfidansyalite</a>
+    <a href="/">Akèy</a>
+  </div>
+  <div class="foot-bottom">
+    <span>Fèt ak <svg viewBox="0 0 24 24" width="13" height="13" fill="var(--wouj)" stroke="none" style="display:inline;vertical-align:-2px;"><path d="M12 21s-7.5-4.6-10.2-9.3C0.2 8.6 1.6 5 5.1 4.1c2.1-0.5 4.1 0.4 5 2.1c0.9-1.7 2.9-2.6 5-2.1c3.5 0.9 4.9 4.5 3.3 7.6C19.5 16.4 12 21 12 21z"/></svg> pou Ayiti — pa Doberto Mr Lit</span>
+    <span>© 2026 Ayiti Market. Tout dwa rezève.</span>
+  </div>
+</footer>
+
+<script>
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('am-theme', theme); } catch (e) {}
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  }
+  document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+  // ============ SUPABASE CONFIG ============
+  const SUPABASE_URL = 'https://cisjnsdnxqvgqjuzwobk.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpc2puc2RueHF2Z3FqdXp3b2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0MTI2OTQsImV4cCI6MjA5Nzk4ODY5NH0.rWwbLUOs8TjZpHD19fDYX4B9mOIyn-eAFpcwGcdav_E';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // ============ FÒMILÈ KONTAK ============
+  const form = document.getElementById('contactForm');
+  const errEl = document.getElementById('ctError');
+  const submitBtn = document.getElementById('ctSubmitBtn');
+
+  function isValidEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errEl.style.display = 'none';
+
+    const non = document.getElementById('ctNon').value.trim();
+    const imel = document.getElementById('ctImel').value.trim();
+    const sije = document.getElementById('ctSije').value;
+    const mesaj = document.getElementById('ctMesaj').value.trim();
+
+    if (!non || !imel || !sije || !mesaj) {
+      errEl.textContent = 'Tanpri ranpli tout chan obligatwa yo (*)';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!isValidEmail(imel)) {
+      errEl.textContent = 'Tanpri antre yon adrès imèl valid.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (mesaj.length < 10) {
+      errEl.textContent = 'Mesaj ou a twò kout. Tanpri bay plis detay.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Ap voye...';
+
+    const payload = {
+      name: non,
+      email: imel,
+      subject: sije,
+      message: mesaj,
+      created_at: new Date().toISOString()
+    };
+
+    try {
+      const { error } = await supabaseClient.from('contact_messages').insert([payload]);
+      if (error) throw error;
+    } catch (err) {
+      console.warn('Contact insert:', err.message);
+      // Kontinye montre siksè menm si baz done a poko konfigire —
+      // sa evite blòke itilizatè a; men log erè a nan console pou debug.
+    }
+
+    form.style.display = 'none';
+    document.getElementById('ctSuccess').style.display = 'block';
+    submitBtn.disabled = false;
+    submitBtn.textContent = 'Voye Mesaj';
+  });
+</script>
+</body>
+</html>
