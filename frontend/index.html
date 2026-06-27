@@ -1,0 +1,3600 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ayiti Market — Achte ak Vann nan Mache Ayisyen an</title>
+<meta name="description" content="Ayiti Market se mache lib ayisyen an sou entènèt. Achte, vann, oswa twouve sèvis toupatou nan peyi a — Pòtoprens, Okap, Gonayiv, Jakmèl ak plis ankò.">
+
+<!-- ============ FAVICON ============ -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23B91C3C'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='26' fill='%23FBF6EC'>AM</text></svg>">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+
+<!-- ============ PWA: MANIFEST & TEYM ============ -->
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#B91C3C" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14181F" media="(prefers-color-scheme: dark)">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ayiti Market">
+
+<!-- ============ MÒD NWA: chwazi teym anvan paj la rann pou evite "flash" ============ -->
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('am-theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+
+<!-- ============ OPEN GRAPH (Facebook, WhatsApp, LinkedIn) ============ -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content="https://ayitimarket.ht/">
+<meta property="og:title"       content="Ayiti Market — Achte ak Vann nan Mache Ayisyen an">
+<meta property="og:description" content="Achte, vann, oswa twouve sèvis toupatou nan peyi a. Elektwonik, Imobilye, Vwati, Mòd ak plis — gratis pou pibliye.">
+<meta property="og:image"       content="https://ayitimarket.ht/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt"   content="Ayiti Market — Mache lib ayisyen an sou entènèt">
+<meta property="og:locale"      content="ht_HT">
+<meta property="og:site_name"   content="Ayiti Market">
+
+<!-- ============ TWITTER / X CARD ============ -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content="Ayiti Market — Achte ak Vann nan Mache Ayisyen an">
+<meta name="twitter:description" content="Achte, vann, oswa twouve sèvis toupatou nan peyi a. Gratis pou pibliye.">
+<meta name="twitter:image"       content="https://ayitimarket.ht/og-image.jpg">
+
+<!-- ============ GOOGLE ANALYTICS ============ -->
+<!-- Google tag (gtag.js) — G-5FCTQZ9BJZ -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-5FCTQZ9BJZ"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ dataLayer.push(arguments); }
+  gtag('js', new Date());
+  gtag('config', 'G-5FCTQZ9BJZ');
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ============ TOKENS ============ */
+  :root{
+    --krem:        #FBF6EC;
+    --krem-dim:     #F3ECDC;
+    --lank:        #14181F;
+    --lank-soft:    #4A4F5A;
+    --wouj:        #B91C3C;
+    --wouj-dark:    #8C1530;
+    --ble:         #16335E;
+    --ble-soft:     #2A4D80;
+    --lo:          #E1962F;
+    --lo-soft:      #F2C26B;
+    --liy:         #E4DCC8;
+    --blan:        #FFFFFF;
+    --lank-light:  #2A3040;
+    --lo-text:     #8A5D12;
+
+    --display: 'DM Serif Display', Georgia, serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'Space Mono', monospace;
+
+    --radius: 14px;
+    --container: 1180px;
+  }
+
+  /* ============ MÒD NWA (DARK MODE) ============ */
+  :root[data-theme="dark"]{
+    --krem:        #14181F;
+    --krem-dim:     #1B202A;
+    --lank:        #EDE8DA;
+    --lank-soft:    #A7AAB3;
+    --wouj:        #E14D63;
+    --wouj-dark:    #F2718A;
+    --ble:         #5C8AD6;
+    --ble-soft:     #3D6BB0;
+    --lo:          #F2B259;
+    --lo-soft:      #E1962F;
+    --liy:         #2A3040;
+    --blan:        #1E2430;
+    --lank-light:  #343B4C;
+    --lo-text:     #F2C26B;
+  }
+  :root[data-theme="dark"] body{ background: var(--krem); color: var(--lank); }
+  :root[data-theme="dark"] header{ background: rgba(20,24,31,0.92); }
+  :root[data-theme="dark"] .nav-search{ background: var(--blan); }
+  :root[data-theme="dark"] .grain{ opacity: 0.05; mix-blend-mode: overlay; }
+  :root[data-theme="dark"] .ticket{ box-shadow: 0 18px 40px -10px rgba(0,0,0,0.5); }
+  :root[data-theme="dark"] .card:hover{ box-shadow: 0 20px 36px -14px rgba(0,0,0,0.45); }
+  :root[data-theme="dark"] .katye:hover{ box-shadow: 0 12px 24px -8px rgba(0,0,0,0.4); }
+  :root[data-theme="dark"] .card-fav{ background: rgba(30,36,48,0.92); color: var(--lank); }
+  :root[data-theme="dark"] .detail-back,
+  :root[data-theme="dark"] .detail-fav-btn{ background: rgba(30,36,48,0.85); color: var(--lank); }
+  :root[data-theme="dark"] .form-error{ color: var(--wouj) !important; }
+  :root[data-theme="dark"] .btn-share.copied{ background: rgba(22,163,74,0.12); }
+  :root[data-theme="dark"] .how-bg{ background: #0D1017; color: #EDE8DA; }
+  :root[data-theme="dark"] .how-bg .sec-head h2{ color: #EDE8DA; }
+  :root[data-theme="dark"] .how-bg .sec-head p,
+  :root[data-theme="dark"] .how-card p{ color: rgba(237,232,218,0.62); }
+  :root[data-theme="dark"] .how-card{ background: rgba(237,232,218,0.04); border-color: rgba(237,232,218,0.1); }
+  :root[data-theme="dark"] .auth-tab.active{ box-shadow:0 1px 4px rgba(0,0,0,0.3); }
+  :root[data-theme="dark"] footer{ background: #0D1017; color: rgba(237,232,218,0.65); }
+  :root[data-theme="dark"] .foot-logo,
+  :root[data-theme="dark"] .foot-col h4{ color: #EDE8DA; }
+  :root[data-theme="dark"] .foot-grid{ border-bottom-color: rgba(237,232,218,0.10); }
+  :root[data-theme="dark"] .foot-social a{ border-color: rgba(237,232,218,0.18); color: rgba(237,232,218,0.65); }
+  :root[data-theme="dark"] .foot-col a:hover{ color: var(--lo); }
+  :root[data-theme="dark"] .foot-bottom{ color: rgba(237,232,218,0.45); }
+  :root[data-theme="dark"] .marquee-wrap{ background: #0D1017; border-color: rgba(237,232,218,0.08); }
+  :root[data-theme="dark"] .marquee span{ color: rgba(237,232,218,0.7); }
+  :root[data-theme="dark"] .btn-dark{ background: #2A3040; color: #EDE8DA; }
+  :root[data-theme="dark"] .btn-dark:hover{ background: #343B4C; }
+  :root[data-theme="dark"] .chip.active{ background: #2A3040; color: #EDE8DA; border-color: #2A3040; }
+  :root[data-theme="dark"] .share-tooltip{ background: #2A3040; color: #EDE8DA; }
+  :root[data-theme="dark"] .seller .av{ background: var(--ble-soft); color: #EDE8DA; }
+  :root[data-theme="dark"] .quote-who .av,
+  :root[data-theme="dark"] .detail-seller .av-lg{ background: var(--ble); color: #EDE8DA; }
+
+  /* ===== DARK MODE: DRAWER MOBIL ===== */
+  :root[data-theme="dark"] .mobile-drawer{ background: #14181F; }
+  :root[data-theme="dark"] .mobile-drawer a{ color: #EDE8DA; border-bottom-color: #2A3040; }
+  :root[data-theme="dark"] .mobile-drawer .close-x{ color: #EDE8DA; }
+  :root[data-theme="dark"] .mobile-drawer .btn-ghost{ color: #EDE8DA; border-color: #2A3040; }
+  :root[data-theme="dark"] .mobile-drawer .btn-primary{ color: #fff; }
+
+  /* ===== DARK MODE: CHIP + FILTRE ===== */
+  :root[data-theme="dark"] .chip{ color: #EDE8DA; border-color: #2A3040; background: #1E2430; }
+  :root[data-theme="dark"] .chip.active{ background: #E14D63; color: #fff; border-color: #E14D63; }
+  :root[data-theme="dark"] .btn-ghost{ color: #EDE8DA; border-color: #2A3040; }
+  :root[data-theme="dark"] .btn-filtre-avanse{ color: #EDE8DA; border-color: #2A3040; background: #1E2430; }
+
+  /* ===== DARK MODE: KONTRAST TÈKS VIZIB ===== */
+  :root[data-theme="dark"] h1,
+  :root[data-theme="dark"] h2,
+  :root[data-theme="dark"] h3,
+  :root[data-theme="dark"] h4{ color: #EDE8DA; }
+  :root[data-theme="dark"] .faq-q{ color: #EDE8DA; }
+  :root[data-theme="dark"] .faq-a{ color: #A7AAB3; }
+  :root[data-theme="dark"] .faq-item{ border-bottom-color: #2A3040; }
+  :root[data-theme="dark"] .sec-label{ color: var(--wouj); }
+  :root[data-theme="dark"] .logo{ color: #EDE8DA; }
+  :root[data-theme="dark"] .eyebrow{ background: rgba(225,77,99,0.15); color: #F2718A; }
+  :root[data-theme="dark"] .hero-sub{ color: #A7AAB3; }
+  :root[data-theme="dark"] .stat b{ color: #EDE8DA; }
+  :root[data-theme="dark"] .stat span{ color: #A7AAB3; }
+  :root[data-theme="dark"] .card-title{ color: #EDE8DA; }
+  :root[data-theme="dark"] .card-loc{ color: #A7AAB3; }
+  :root[data-theme="dark"] .trust-card h3{ color: #EDE8DA; }
+  :root[data-theme="dark"] .trust-card p{ color: #A7AAB3; }
+  :root[data-theme="dark"] .quote-card p{ color: #A7AAB3; }
+  :root[data-theme="dark"] .quote-who b{ color: #EDE8DA; }
+  :root[data-theme="dark"] .quote-who span{ color: #A7AAB3; }
+  :root[data-theme="dark"] .katye .kn{ color: #EDE8DA; }
+  :root[data-theme="dark"] .katye .kc{ color: #A7AAB3; }
+
+  /* Transisyon dous lè moun chanje teym, men respekte rediksyon mouvman */
+  body, header, .card, .katye, .modal, .fa-drawer, .mobile-drawer, .btn,
+  .nav-search, .field input, .field select, .field textarea{
+    transition: background-color .25s ease, color .25s ease, border-color .25s ease;
+  }
+
+  /* ============ BOUTON TEYM (toggle mòd nwa) ============ */
+  .theme-toggle{
+    display:flex; align-items:center; justify-content:center;
+    width:40px; height:40px; border-radius:50%; flex-shrink:0;
+    border:1.5px solid var(--liy); background: var(--blan); color: var(--lank);
+    transition: border-color .2s, background .2s, color .2s;
+  }
+  .theme-toggle:hover{ border-color: var(--wouj); color: var(--wouj); }
+  .theme-toggle svg{ width:18px; height:18px; }
+  .theme-toggle .ic-sun{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .ic-moon{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .ic-sun{ display:block; }
+
+  .mobile-drawer .theme-toggle-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 14px 0; border-bottom:1px solid var(--liy);
+    font-family: var(--display); font-size: 1.05rem; font-weight:700;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  html, body{
+    overflow-x: hidden;
+    width: 100%;
+  }
+  body{
+    font-family: var(--body);
+    background: var(--krem);
+    color: var(--lank);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  img{ max-width:100%; display:block; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  button{ font-family: inherit; cursor:pointer; border:none; background:none; }
+
+  :focus-visible{
+    outline: 3px solid var(--lo);
+    outline-offset: 2px;
+  }
+
+  .foot-link {
+    background: none; border: none; padding: 0; margin: 0;
+    font-family: var(--body); font-size: inherit; color: inherit;
+    cursor: pointer; text-align: left; opacity: 0.75;
+    transition: opacity .2s;
+  }
+  .foot-link:hover { opacity: 1; }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  }
+
+  .wrap{ max-width: var(--container); margin:0 auto; padding: 0 24px; }
+
+  /* ============ NOISE TEXTURE BG ============ */
+  .grain{
+    position: fixed; inset:0; pointer-events:none; z-index: 999;
+    opacity: 0.035; mix-blend-mode: multiply;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ============ NAV ============ */
+  header{
+    position: sticky; top:0; z-index: 100;
+    background: rgba(251,246,236,0.92);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--liy);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 18px 24px; max-width: var(--container); margin: 0 auto;
+    gap: 24px;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family: var(--display); font-weight:700; font-size: 1.5rem;
+    letter-spacing: -0.01em; color: var(--lank); white-space:nowrap;
+  }
+  .logo .dot{
+    width:10px; height:10px; border-radius:50%;
+    background: linear-gradient(135deg, var(--wouj), var(--lo));
+    flex-shrink:0;
+  }
+  .nav-links{
+    display:flex; gap:32px; align-items:center;
+    font-weight:600; font-size: 0.95rem; color: var(--lank-soft);
+  }
+  .nav-links a{ transition: color .2s; position:relative; }
+  .nav-links a:hover{ color: var(--wouj); }
+  .nav-search{
+    flex:1; max-width: 380px;
+    display:flex; align-items:center; gap:8px;
+    background: var(--blan); border:1.5px solid var(--liy); border-radius: 100px;
+    padding: 9px 16px;
+  }
+  .nav-search input{
+    border:none; background:none; outline:none; font-family: var(--body);
+    font-size: 0.9rem; width:100%; color: var(--lank);
+  }
+  .nav-search svg{ flex-shrink:0; opacity:0.5; }
+
+  /* Baw rechèch mobil — kache sou desktop, parèt sou mobil */
+  .mob-search-bar{ display:none; margin-bottom:18px; }
+  .mob-search-inner{
+    display:flex; align-items:center; gap:10px;
+    background:var(--blan,#fff); border:1.5px solid var(--liy,#E5E0D5);
+    border-radius:100px; padding:10px 16px;
+  }
+  .nav-cta{
+    display:flex; gap:10px; align-items:center; flex-shrink:0;
+  }
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding: 11px 22px; border-radius: 100px; font-weight:700; font-size:0.9rem;
+    transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{
+    background: var(--wouj); color: var(--blan);
+    box-shadow: 0 2px 0 var(--wouj-dark);
+  }
+  .btn-primary:hover{ background: var(--wouj-dark); transform: translateY(-1px); }
+  .btn-ghost{
+    color: var(--lank); border: 1.5px solid var(--liy); background: transparent;
+  }
+  .btn-ghost:hover{ border-color: var(--lank); }
+  .btn-dark{ background: var(--lank); color: var(--krem); }
+  .btn-dark:hover{ background: var(--lank-light); }
+
+  .nav-toggle{
+    display:none; width:40px; height:40px; flex-shrink:0;
+    align-items:center; justify-content:center; color: var(--lank);
+    border-radius: 10px;
+  }
+  .nav-toggle:hover{ background: var(--krem-dim); }
+
+  /* ============ HERO ============ */
+  .hero{
+    position: relative;
+    padding: 76px 24px 0;
+    overflow:hidden;
+  }
+  .hero-inner{
+    max-width: var(--container); margin: 0 auto;
+    display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items:center;
+    padding-bottom: 60px;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--wouj-dark);
+    background: rgba(185,28,60,0.08); padding: 7px 14px; border-radius: 100px;
+    margin-bottom: 22px; font-weight:700;
+  }
+  .eyebrow::before{ content:'●'; color: var(--lo); font-size: 0.6rem; }
+  h1{
+    font-family: var(--display); font-weight: 800;
+    font-size: clamp(2.6rem, 5vw, 4.1rem);
+    line-height: 1.04; letter-spacing: -0.02em;
+    color: var(--lank); margin-bottom: 22px;
+  }
+  h1 .accent{
+    font-weight:800;
+    background: linear-gradient(100deg, var(--wouj) 0%, var(--lo) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero-sub{
+    font-size: 1.15rem; color: var(--lank-soft); max-width: 480px;
+    margin-bottom: 34px; line-height:1.6;
+  }
+  .hero-actions{ display:flex; gap:14px; margin-bottom: 38px; flex-wrap:wrap; }
+  .btn-lg{ padding: 15px 30px; font-size: 1rem; }
+
+  .hero-stats{ display:flex; gap: 36px; }
+  .stat{ }
+  .stat b{
+    display:block; font-family: var(--display); font-size: 1.8rem;
+    color: var(--lank); font-weight:700;
+  }
+  .stat span{ font-size: 0.82rem; color: var(--lank-soft); font-weight:600; }
+
+  /* Hero visual: stacked market tickets */
+  .hero-visual{ position:relative; height: 480px; }
+  .ticket{
+    position:absolute; width: 250px;
+    background: var(--blan); border-radius: 12px;
+    box-shadow: 0 18px 40px -10px rgba(20,24,31,0.18);
+    padding: 14px; border: 1px solid var(--liy);
+  }
+  .ticket img{ border-radius: 8px; height: 130px; width:100%; object-fit:cover; margin-bottom:10px; }
+  .ticket .tname{ font-weight:700; font-size:0.92rem; margin-bottom:4px; }
+  .ticket .tloc{ font-size:0.76rem; color:var(--lank-soft); margin-bottom:8px; display:flex; align-items:center; gap:4px;}
+  .ticket .tprice{
+    font-family: var(--mono); font-weight:700; color: var(--wouj-dark); font-size:1.05rem;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .ticket .tprice .badge{
+    font-family: var(--body); font-size:0.68rem; background: rgba(225,150,47,0.18);
+    color: var(--lo-text); padding:3px 8px; border-radius:6px; font-weight:700;
+  }
+  .t1{ top: 0; right: 30px; transform: rotate(3deg); z-index:3; animation: float1 7s ease-in-out infinite; }
+  .t2{ top: 150px; right: 220px; transform: rotate(-4deg); z-index:2; animation: float2 8s ease-in-out infinite; }
+  .t3{ top: 290px; right: 10px; transform: rotate(-2deg); z-index:1; animation: float1 9s ease-in-out infinite reverse; }
+  @keyframes float1{ 0%,100%{ transform: rotate(3deg) translateY(0); } 50%{ transform: rotate(3deg) translateY(-10px); } }
+  @keyframes float2{ 0%,100%{ transform: rotate(-4deg) translateY(0); } 50%{ transform: rotate(-4deg) translateY(-12px); } }
+
+  .hero-blob{
+    position:absolute; top:-120px; left: -160px; width:560px; height:560px;
+    background: radial-gradient(circle, rgba(225,150,47,0.22), transparent 70%);
+    z-index:0; pointer-events:none;
+  }
+
+  .marquee-wrap{
+    border-top: 1px solid var(--liy); border-bottom: 1px solid var(--liy);
+    background: var(--lank); overflow:hidden; padding: 14px 0;
+  }
+  .marquee{ display:flex; gap: 48px; white-space:nowrap; animation: scroll 28s linear infinite; }
+  .marquee span{
+    font-family: var(--mono); font-size: 0.82rem; color: var(--krem-dim); letter-spacing:0.03em;
+    display:flex; align-items:center; gap:10px;
+  }
+  .marquee span::after{ content:'\2726'; color: var(--lo); }
+  @keyframes scroll{ 0%{ transform: translateX(0); } 100%{ transform: translateX(-50%); } }
+
+  /* ============ SECTIONS GENERAL ============ */
+  section{ padding: 88px 0; }
+  .sec-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    margin-bottom: 44px; gap: 24px; flex-wrap:wrap;
+  }
+  .sec-head h2{
+    font-family: var(--display); font-size: clamp(1.9rem, 3vw, 2.6rem);
+    font-weight:800; letter-spacing:-0.015em;
+  }
+  .sec-head p{ color: var(--lank-soft); max-width:420px; }
+  .sec-label{
+    font-family: var(--mono); font-size:0.75rem; text-transform:uppercase;
+    letter-spacing:0.08em; color: var(--wouj); font-weight:700; margin-bottom:10px; display:block;
+  }
+
+  /* ============ CATEGORIES ("KATYE MACHE") ============ */
+  .katye-grid{
+    display:grid; grid-template-columns: repeat(6, 1fr); gap: 14px;
+  }
+  .katye{
+    background: var(--blan); border:1px solid var(--liy); border-radius: var(--radius);
+    padding: 22px 16px; text-align:center; transition: transform .2s, border-color .2s, box-shadow .2s;
+  }
+  .katye:hover{ transform: translateY(-4px); border-color: var(--wouj); box-shadow: 0 12px 24px -8px rgba(20,24,31,0.12); }
+  .katye-active{ border-color: var(--wouj) !important; background: rgba(185,28,60,0.06) !important; box-shadow: 0 12px 24px -8px rgba(20,24,31,0.12); }
+  .katye .ic{ font-size: 1.9rem; margin-bottom:10px; display:flex; align-items:center; justify-content:center; color: var(--wouj); }
+  .katye .kn{ font-weight:700; font-size: 0.88rem; }
+  .katye .kc{ font-size:0.74rem; color: var(--lank-soft); margin-top:2px; }
+
+  /* ============ LISTINGS ============ */
+  .filter-row{
+    display:flex; gap:10px; margin-bottom: 34px; flex-wrap:wrap;
+  }
+  .chip{
+    padding: 9px 18px; border-radius:100px; border:1.5px solid var(--liy);
+    font-weight:700; font-size: 0.85rem; background: var(--blan); transition: all .2s;
+  }
+  .chip.active{ background: var(--lank); color: var(--krem); border-color: var(--lank); }
+  .chip:not(.active):hover{ border-color: var(--lank); }
+
+  /* ============ FILTRE AVANSE BOUTON ============ */
+  .btn-filtre-avanse{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:9px 16px; border-radius:100px;
+    border:1.5px solid var(--liy);
+    background:var(--blan); font-weight:700; font-size:0.85rem;
+    transition: all .2s; position:relative;
+  }
+  .btn-filtre-avanse:hover{ border-color:#b9985a; color:#b9985a; }
+  .btn-filtre-avanse.has-active{ border-color:#b9985a; background:#b9985a; color:#fff; }
+  .btn-filtre-avanse .fa-badge{
+    display:none; position:absolute; top:-6px; right:-6px;
+    width:18px; height:18px; border-radius:50%;
+    background:#b91c3c; color:#fff; font-size:0.65rem; font-weight:800;
+    align-items:center; justify-content:center;
+  }
+  .btn-filtre-avanse .fa-badge.show{ display:flex; }
+
+  /* ============ DRAWER FILTRE AVANSE ============ */
+  .fa-overlay{
+    display:none; position:fixed; inset:0; background:rgba(20,24,31,0.55);
+    z-index:2000; backdrop-filter:blur(3px);
+  }
+  .fa-overlay.open{ display:flex; align-items:flex-end; justify-content:center; }
+  @media(min-width:700px){
+    .fa-overlay.open{ align-items:center; }
+  }
+  .fa-drawer{
+    background:#14181f; color:#e8dcc8;
+    width:100%; max-width:480px;
+    border-radius:20px 20px 0 0; padding:28px 24px 36px;
+    max-height:92vh; overflow-y:auto;
+    transform:translateY(100%); transition:transform .32s cubic-bezier(.4,0,.2,1);
+  }
+  .fa-overlay.open .fa-drawer{
+    transform:translateY(0);
+  }
+  @media(min-width:700px){
+    .fa-drawer{ border-radius:20px; transform:scale(0.94) translateY(10px); opacity:0; transition:transform .28s, opacity .28s; }
+    .fa-overlay.open .fa-drawer{ transform:scale(1) translateY(0); opacity:1; }
+  }
+  .fa-drawer-head{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:24px;
+  }
+  .fa-drawer-head h3{
+    font-family:var(--display); font-size:1.1rem; color:#e8c96d; letter-spacing:0.02em;
+  }
+  .fa-close{
+    width:34px; height:34px; border-radius:50%;
+    background:rgba(255,255,255,0.08); color:#e8dcc8;
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.2rem; transition:background .2s;
+  }
+  .fa-close:hover{ background:rgba(255,255,255,0.14); }
+  .fa-section{ margin-bottom:22px; }
+  .fa-label{
+    font-size:0.75rem; font-weight:800; letter-spacing:0.08em;
+    text-transform:uppercase; color:#b9985a; margin-bottom:10px;
+  }
+  .fa-price-row{ display:flex; gap:10px; }
+  .fa-price-row input{
+    flex:1; padding:10px 14px; border-radius:10px;
+    border:1.5px solid rgba(255,255,255,0.12);
+    background:rgba(255,255,255,0.06); color:#e8dcc8;
+    font-size:0.9rem; font-family:var(--mono); font-weight:600;
+    outline:none; transition:border-color .2s;
+  }
+  .fa-price-row input:focus{ border-color:#b9985a; }
+  .fa-price-row input::placeholder{ color:rgba(232,220,200,0.35); }
+  .fa-chips{ display:flex; gap:8px; flex-wrap:wrap; }
+  .fa-chip{
+    padding:8px 16px; border-radius:100px;
+    border:1.5px solid rgba(255,255,255,0.14);
+    background:transparent; color:#e8dcc8;
+    font-size:0.82rem; font-weight:700; transition:all .18s; cursor:pointer;
+  }
+  .fa-chip:hover{ border-color:#b9985a; color:#b9985a; }
+  .fa-chip.active{ background:#b9985a; border-color:#b9985a; color:#14181f; }
+  .fa-actions{
+    display:flex; gap:12px; margin-top:28px; padding-top:20px;
+    border-top:1px solid rgba(255,255,255,0.08);
+  }
+  .fa-btn-reset{
+    flex:1; padding:12px; border-radius:12px;
+    border:1.5px solid rgba(255,255,255,0.15); color:#e8dcc8;
+    font-weight:700; font-size:0.9rem; transition:all .2s;
+  }
+  .fa-btn-reset:hover{ border-color:#b9985a; color:#b9985a; }
+  .fa-btn-apply{
+    flex:2; padding:12px; border-radius:12px;
+    background: linear-gradient(135deg,#b9985a,#e8c96d);
+    color:#14181f; font-weight:800; font-size:0.95rem;
+    border:none; transition:opacity .2s;
+  }
+  .fa-btn-apply:hover{ opacity:0.9; }
+
+  .grid-listings{
+    display:grid; grid-template-columns: repeat(4, 1fr); gap: 22px;
+    transition: opacity .15s;
+  }
+  .grid-listings.is-loading{
+    opacity: 0.45;
+    pointer-events: none;
+  }
+  .card{
+    background: var(--blan); border-radius: var(--radius); overflow:hidden;
+    border: 1px solid var(--liy); transition: transform .22s, box-shadow .22s;
+    position:relative;
+  }
+  .card:hover{ transform: translateY(-5px); box-shadow: 0 20px 36px -14px rgba(20,24,31,0.18); }
+  .card-img{ position:relative; height: 170px; overflow:hidden; background:var(--liy); }
+  .card-img img{ width:100%; height:100%; object-fit:cover; transition: transform .4s; }
+  .card:hover .card-img img{ transform: scale(1.06); }
+  .card-fav{
+    position:absolute; top:10px; right:10px; width:34px; height:34px; border-radius:50%;
+    background: rgba(255,255,255,0.92); display:flex; align-items:center; justify-content:center;
+    font-size: 1rem; transition: transform .2s;
+  }
+  .card-fav:hover{ transform: scale(1.15); }
+  .card-fav.is-fav{ color: var(--wouj); }
+  .card-tag{
+    position:absolute; top:10px; left:10px; background: var(--lo); color:var(--lank);
+    font-size:0.68rem; font-weight:800; padding:4px 10px; border-radius:6px;
+    text-transform:uppercase; letter-spacing:0.03em;
+  }
+  .card-body{ padding: 16px; }
+  .card-price{
+    font-family: var(--mono); font-weight:700; font-size:1.15rem; color: var(--wouj-dark);
+    margin-bottom: 6px;
+  }
+  .card-title{ font-weight:700; font-size: 0.95rem; margin-bottom: 6px; line-height:1.3; }
+  .card-loc{
+    font-size: 0.78rem; color: var(--lank-soft); display:flex; align-items:center; gap:5px;
+    margin-bottom: 12px;
+  }
+  .card-foot{
+    display:flex; justify-content:space-between; align-items:center;
+    border-top: 1px dashed var(--liy); padding-top: 10px;
+  }
+  .seller{ display:flex; align-items:center; gap:6px; font-size:0.76rem; font-weight:700; color: var(--lank-soft); }
+  .seller .av{
+    width:20px; height:20px; border-radius:50%; background: var(--ble-soft); color:var(--krem);
+    display:flex; align-items:center; justify-content:center; font-size:0.6rem; font-weight:800;
+  }
+  .verified{ color: var(--ble); font-size:0.9rem; }
+
+  /* ── Anons Vedèt / Featured ── */
+  .card.featured{
+    border: 2px solid #f5a623;
+    box-shadow: 0 6px 24px -6px rgba(245,166,35,0.30);
+  }
+  .card.featured:hover{ box-shadow: 0 20px 36px -10px rgba(245,166,35,0.38); }
+  .featured-badge{
+    position:absolute; top:10px; left:10px; z-index:2;
+    background: #f5a623; color:#fff;
+    font-size:0.67rem; font-weight:800;
+    padding: 3px 9px; border-radius:20px;
+    letter-spacing:0.04em; text-transform:uppercase;
+    display:flex; align-items:center; gap:4px;
+    box-shadow: 0 2px 8px rgba(245,166,35,0.4);
+  }
+  .featured-badge.tier2{
+    background: linear-gradient(135deg,#e0a800,#c47f00);
+    box-shadow: 0 2px 10px rgba(196,127,0,0.5);
+  }
+  .card.featured .card-tag{ display:none; }
+
+  /* ── VANN DEJA badge ── */
+  .sold-overlay{
+    position:absolute; inset:0;
+    background:rgba(20,24,31,0.55);
+    display:flex; align-items:center; justify-content:center;
+    z-index:3; border-radius:inherit;
+  }
+  .sold-badge{
+    background:#14181F; color:#FBF6EC;
+    font-size:0.75rem; font-weight:800;
+    padding:6px 14px; border-radius:100px;
+    letter-spacing:.05em; text-transform:uppercase;
+    border:1.5px solid rgba(255,255,255,0.18);
+  }
+  .card.is-sold{ opacity:0.72; }
+  .card.is-sold .card-price{ text-decoration:line-through; color:var(--lank-soft); }
+
+  /* Sold banner in detail panel */
+  .detail-sold-banner{
+    display:flex; align-items:center; gap:10px;
+    background:rgba(20,24,31,0.07); border:1.5px solid var(--liy);
+    border-radius:10px; padding:12px 16px; margin-bottom:18px;
+    font-size:0.88rem; font-weight:700; color:var(--lank-soft);
+  }
+  :root[data-theme="dark"] .detail-sold-banner{
+    background:rgba(255,255,255,0.05);
+  }
+
+  .more-row{ display:flex; justify-content:center; margin-top: 44px; }
+
+  /* ============ HOW IT WORKS ============ */
+  .how-bg{ background: var(--lank); color: var(--krem); border-radius: 28px; margin: 0 24px; padding: 70px 50px; }
+  .how-bg .wrap{ padding:0; }
+  .how-bg .sec-label{ color: var(--lo); }
+  .how-bg .sec-head h2{ color: var(--krem); }
+  .how-bg .sec-head p{ color: rgba(251,246,236,0.65); }
+  .how-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 28px; }
+  .how-card{
+    background: rgba(251,246,236,0.05); border:1px solid rgba(251,246,236,0.12);
+    border-radius: 16px; padding: 30px 26px;
+  }
+  .how-num{
+    font-family: var(--display); font-size: 2.6rem; color: var(--lo); font-weight:600;
+    margin-bottom: 14px; line-height:1;
+  }
+  .how-card h3{ font-size: 1.15rem; margin-bottom: 10px; font-weight:700; font-family: var(--display); }
+  .how-card p{ color: rgba(251,246,236,0.62); font-size: 0.92rem; line-height:1.6; }
+
+  /* ============ TRUST / WHY ============ */
+  .trust-grid{
+    display:grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+  }
+  .trust-card{ padding: 8px; }
+  .trust-ic{
+    width:52px; height:52px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+    font-size: 1.5rem; margin-bottom: 18px;
+    background: linear-gradient(135deg, rgba(185,28,60,0.12), rgba(225,150,47,0.18));
+    color: var(--wouj);
+  }
+  .trust-card h3{ font-size: 1.05rem; margin-bottom: 8px; font-weight:700; font-family: var(--display); }
+  .trust-card p{ font-size: 0.88rem; color: var(--lank-soft); line-height:1.6; }
+
+  /* ============ CTA SELL ============ */
+  .cta-sell{
+    background: linear-gradient(120deg, var(--wouj) 0%, var(--wouj-dark) 100%);
+    border-radius: 28px; margin: 0 24px; padding: 64px 56px;
+    display:grid; grid-template-columns: 1.3fr 0.7fr; align-items:center; gap: 40px;
+    color: var(--krem); position:relative; overflow:hidden;
+  }
+  .cta-sell::after{
+    content:''; position:absolute; right:-60px; top:-60px; width:280px; height:280px; border-radius:50%;
+    background: rgba(255,255,255,0.06);
+  }
+  .cta-sell h2{
+    font-family: var(--display); font-size: clamp(1.8rem,3vw,2.5rem); font-weight:800; margin-bottom:16px;
+    line-height:1.1;
+  }
+  .cta-sell p{ color: rgba(251,246,236,0.85); margin-bottom: 26px; max-width: 440px; }
+  .cta-sell .btn-lg{ background: var(--krem); color: var(--wouj-dark); }
+  .cta-sell .btn-lg:hover{ background: var(--blan); transform: translateY(-1px); }
+  .cta-visual{ display:flex; justify-content:center; }
+  .cta-visual .bigtag{
+    background: var(--krem); color: var(--lank); border-radius:16px; padding: 26px;
+    width: 220px; transform: rotate(-4deg); box-shadow: 0 24px 50px rgba(0,0,0,0.25);
+    font-family: var(--mono);
+  }
+  .bigtag .perc{ font-size: 2.4rem; font-weight:700; color: var(--wouj); line-height:1; }
+  .bigtag .perclabel{ font-size:0.78rem; color: var(--lank-soft); margin-top:6px; font-family: var(--body); font-weight:700;}
+
+  /* ============ TESTIMONIALS ============ */
+  .quotes-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+  .quote-card{
+    background: var(--blan); border:1px solid var(--liy); border-radius: var(--radius);
+    padding: 28px; position:relative;
+  }
+  .quote-card .mark{
+    font-family: var(--display); font-size: 3rem; color: var(--lo-soft); line-height:0.5;
+    display:block; margin-bottom: 10px;
+  }
+  .quote-card p{ font-size: 0.95rem; color: var(--lank-soft); margin-bottom: 20px; line-height:1.6; }
+  .quote-who{ display:flex; align-items:center; gap:10px; }
+  .quote-who .av{
+    width:38px; height:38px; border-radius:50%; background: var(--ble); color:var(--krem);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:0.85rem;
+  }
+  .quote-who b{ display:block; font-size: 0.88rem; }
+  .quote-who span{ font-size: 0.76rem; color: var(--lank-soft); }
+
+  /* ============ FAQ ============ */
+  .faq-list{ max-width: 760px; margin: 0 auto; }
+  .faq-item{ border-bottom: 1px solid var(--liy); }
+  .faq-q{
+    width:100%; text-align:left; padding: 22px 0; display:flex; justify-content:space-between;
+    align-items:center; font-weight:700; font-size: 1.02rem;
+  }
+  .faq-q .plus{ font-family: var(--mono); font-size:1.3rem; color: var(--wouj); transition: transform .25s; flex-shrink:0; margin-left: 16px;}
+  .faq-item.open .plus{ transform: rotate(45deg); }
+  .faq-a{
+    max-height:0; overflow:hidden; transition: max-height .3s ease;
+    color: var(--lank-soft); font-size: 0.92rem; line-height:1.7;
+  }
+  .faq-a-in{ padding-bottom: 22px; max-width: 640px; }
+  .faq-item.open .faq-a{ max-height: 220px; }
+
+  /* ============ FOOTER ============ */
+  footer{ background: var(--lank); color: rgba(251,246,236,0.7); padding: 64px 0 28px; }
+  .foot-grid{
+    display:grid; grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 40px;
+    padding-bottom: 44px; border-bottom: 1px solid rgba(251,246,236,0.12);
+  }
+  .foot-logo{ font-family: var(--display); font-size:1.4rem; color: var(--krem); font-weight:700; margin-bottom: 14px; }
+  .foot-grid p{ font-size: 0.88rem; line-height:1.6; max-width: 280px; }
+  .foot-col h4{ color: var(--krem); font-size:0.85rem; margin-bottom: 16px; text-transform:uppercase; letter-spacing:0.05em; }
+  .foot-col li{ margin-bottom: 10px; font-size: 0.88rem; }
+  .foot-col a:hover{ color: var(--lo); }
+  .foot-social{ display:flex; gap:10px; margin-top:18px; }
+  .foot-social a{
+    width:36px; height:36px; border-radius:50%; border:1px solid rgba(251,246,236,0.2);
+    display:flex; align-items:center; justify-content:center; font-size:0.85rem; transition: all .2s;
+  }
+  .foot-social a:hover{ background: var(--wouj); border-color: var(--wouj); }
+  .foot-bottom{
+    display:flex; justify-content:space-between; padding-top: 24px; font-size: 0.8rem;
+    flex-wrap:wrap; gap:10px;
+  }
+  .foot-bottom a{ margin-left: 18px; }
+
+  /* ============ MODAL OVERLAY ============ */
+  .modal-overlay{
+    position:fixed; inset:0; background:rgba(20,24,31,0.55); z-index:500;
+    display:flex; align-items:center; justify-content:center;
+    padding:20px; opacity:0; pointer-events:none;
+    transition: opacity .25s ease;
+    backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open{ opacity:1; pointer-events:all; }
+
+  .modal{
+    background: var(--krem); border-radius: 20px; width:100%; max-width:460px;
+    box-shadow: 0 32px 80px -10px rgba(20,24,31,0.35);
+    transform: translateY(20px) scale(0.97);
+    transition: transform .28s cubic-bezier(.34,1.56,.64,1);
+    max-height: 90vh; overflow-y:auto;
+  }
+  .modal-overlay.open .modal{ transform: translateY(0) scale(1); }
+
+  .modal-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:24px 28px 0; margin-bottom:24px;
+  }
+  .modal-head h2{ font-family:var(--display); font-size:1.5rem; font-weight:600; }
+  .modal-close{
+    width:36px; height:36px; border-radius:50%; background:var(--krem-dim);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.2rem; color:var(--lank-soft); transition: background .2s;
+    flex-shrink:0;
+  }
+  .modal-close:hover{ background:var(--liy); }
+  .modal-body{ padding:0 28px 28px; }
+
+  /* Auth tabs */
+  .auth-tabs{
+    display:flex; gap:0; background:var(--krem-dim); border-radius:10px;
+    padding:4px; margin-bottom:24px;
+  }
+  .auth-tab{
+    flex:1; padding:9px; border-radius:7px; font-weight:700; font-size:0.88rem;
+    text-align:center; color:var(--lank-soft); transition: all .2s;
+  }
+  .auth-tab.active{ background:var(--blan); color:var(--lank); box-shadow:0 1px 4px rgba(0,0,0,0.1); }
+
+  /* Form fields */
+  .field{ margin-bottom:16px; }
+  .field label{ display:block; font-weight:700; font-size:0.82rem; margin-bottom:6px; color:var(--lank-soft); text-transform:uppercase; letter-spacing:0.04em; }
+  .field input, .field select, .field textarea{
+    width:100%; padding:12px 14px; border-radius:10px;
+    border:1.5px solid var(--liy); background:var(--blan);
+    font-family:var(--body); font-size:0.93rem; color:var(--lank);
+    transition: border-color .2s;
+    outline:none;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{ border-color:var(--wouj); }
+  .field textarea{ resize:vertical; min-height:90px; }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+  .form-divider{ text-align:center; color:var(--lank-soft); font-size:0.8rem; margin:16px 0; position:relative; }
+  .form-divider::before, .form-divider::after{
+    content:''; position:absolute; top:50%; width:42%; height:1px; background:var(--liy);
+  }
+  .form-divider::before{ left:0; } .form-divider::after{ right:0; }
+
+  .btn-full{ width:100%; padding:14px; font-size:0.95rem; border-radius:12px; }
+
+  .form-note{ font-size:0.78rem; color:var(--lank-soft); text-align:center; margin-top:14px; }
+  .form-note a{ color:var(--wouj); font-weight:700; }
+
+  /* Photo upload zone */
+  .photo-zone{
+    border:2px dashed var(--liy); border-radius:12px; padding:28px;
+    text-align:center; cursor:pointer; transition: border-color .2s, background .2s;
+    margin-bottom:16px;
+  }
+  .photo-zone:hover{ border-color:var(--wouj); background:rgba(185,28,60,0.04); }
+  .photo-zone .pz-icon{ font-size:2rem; margin-bottom:8px; }
+  .photo-zone p{ font-size:0.85rem; color:var(--lank-soft); font-weight:600; }
+  .photo-zone span{ font-size:0.75rem; color:var(--lank-soft); opacity:0.7; }
+
+  .price-row{ display:flex; gap:10px; align-items:flex-end; }
+  .price-row .field{ flex:1; margin-bottom:0; }
+  .price-negociab{ display:flex; align-items:center; gap:8px; font-size:0.82rem; font-weight:700; color:var(--lank-soft); white-space:nowrap; padding-bottom:12px; }
+  .price-negociab input[type=checkbox]{ width:16px; height:16px; accent-color:var(--wouj); }
+
+  /* ============ LISTING DETAIL PANEL ============ */
+  .detail-panel{
+    position:fixed; inset:0; z-index:600;
+    display:flex; align-items:stretch;
+    pointer-events:none;
+  }
+  .detail-backdrop{
+    position:absolute; inset:0; background:rgba(20,24,31,0.5);
+    opacity:0; transition: opacity .3s;
+    backdrop-filter: blur(3px);
+  }
+  .detail-panel.open .detail-backdrop{ opacity:1; pointer-events:all; }
+
+  .detail-sheet{
+    position:absolute; right:0; top:0; bottom:0; width:100%; max-width:560px;
+    background:var(--krem); box-shadow:-20px 0 60px rgba(20,24,31,0.2);
+    overflow-y:auto; transform:translateX(100%);
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
+    display:flex; flex-direction:column;
+  }
+  .detail-panel.open .detail-sheet{ transform:translateX(0); pointer-events:all; }
+
+  .detail-hero{ position:relative; height:280px; background:var(--liy); flex-shrink:0; }
+  .detail-hero img{ width:100%; height:100%; object-fit:cover; }
+  .detail-back{
+    position:absolute; top:16px; left:16px; width:40px; height:40px; border-radius:50%;
+    background:rgba(251,246,236,0.92); display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem; color:var(--lank); backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,0.4);
+    transition: background .2s;
+  }
+  .detail-back:hover{ background:var(--blan); }
+  .detail-fav-btn{
+    position:absolute; top:16px; right:16px; width:40px; height:40px; border-radius:50%;
+    background:rgba(251,246,236,0.92); display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem; backdrop-filter:blur(6px);
+    border:1px solid rgba(255,255,255,0.4);
+    transition: background .2s;
+  }
+  .detail-tag{
+    position:absolute; bottom:16px; left:16px; background:var(--lo); color:var(--lank);
+    font-size:0.7rem; font-weight:800; padding:5px 12px; border-radius:8px;
+    text-transform:uppercase; letter-spacing:0.04em;
+  }
+
+  .detail-body{ padding:28px; flex:1; }
+  .detail-price{
+    font-family:var(--mono); font-weight:700; font-size:1.7rem; color:var(--wouj-dark);
+    margin-bottom:8px;
+  }
+  .detail-title{ font-family:var(--display); font-size:1.4rem; font-weight:600; line-height:1.2; margin-bottom:10px; }
+  .detail-loc{ display:flex; align-items:center; gap:6px; font-size:0.85rem; color:var(--lank-soft); margin-bottom:20px; font-weight:600; }
+
+  .detail-divider{ height:1px; background:var(--liy); margin:20px 0; }
+
+  .detail-section-title{ font-size:0.75rem; text-transform:uppercase; letter-spacing:0.07em; font-weight:800; color:var(--lank-soft); margin-bottom:10px; }
+  .detail-desc{ font-size:0.92rem; color:var(--lank-soft); line-height:1.7; }
+
+  .detail-seller{
+    display:flex; align-items:center; gap:14px;
+    background:var(--blan); border:1px solid var(--liy); border-radius:14px;
+    padding:16px;
+  }
+  .detail-seller .av-lg{
+    width:48px; height:48px; border-radius:50%; background:var(--ble); color:var(--krem);
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem;
+    flex-shrink:0;
+  }
+  .detail-seller-info b{ display:block; font-size:0.95rem; margin-bottom:2px; }
+  .detail-seller-info span{ font-size:0.8rem; color:var(--lank-soft); }
+  .detail-seller-info .v-badge{
+    display:inline-flex; align-items:center; gap:4px; font-size:0.74rem; font-weight:700;
+    color:var(--ble); background:rgba(22,51,94,0.1); padding:2px 8px; border-radius:20px; margin-top:4px;
+  }
+
+  .detail-meta{ display:flex; gap:16px; flex-wrap:wrap; margin-top:16px; }
+  .detail-meta-item{
+    flex:1; min-width:120px; background:var(--blan); border:1px solid var(--liy);
+    border-radius:12px; padding:12px 14px;
+  }
+  .detail-meta-item .dm-label{ font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; font-weight:700; color:var(--lank-soft); margin-bottom:4px; }
+  .detail-meta-item .dm-val{ font-weight:700; font-size:0.92rem; }
+
+  .detail-actions{
+    padding:20px 28px; border-top:1px solid var(--liy); display:flex; gap:10px;
+    background:var(--krem); flex-shrink:0; position:sticky; bottom:0;
+  }
+  .btn-wa{ background:#25D366; color:#fff; flex:1; gap:8px; }
+  .btn-wa:hover{ background:#1eaf56; }
+  .btn-contact{ flex:1; }
+  .btn-share{
+    width:44px; height:44px; border-radius:12px; flex-shrink:0;
+    border:1.5px solid var(--liy); background:var(--blan);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--lank-soft); transition:all .2s; position:relative;
+  }
+  .btn-share:hover{ border-color:var(--lank); color:var(--lank); }
+  .btn-share.copied{ border-color:#16a34a; color:#16a34a; background:#f0fdf4; }
+  .share-tooltip{
+    position:absolute; bottom:calc(100% + 8px); left:50%; transform:translateX(-50%);
+    background:var(--lank); color:#fff; font-size:0.72rem; font-weight:700;
+    padding:5px 10px; border-radius:8px; white-space:nowrap; pointer-events:none;
+    opacity:0; transition:opacity .2s;
+  }
+  .btn-share.copied .share-tooltip{ opacity:1; }
+
+  /* ── Anons Similè ── */
+  .similar-section{ padding:20px 20px 10px; border-top:1px solid var(--liy); }
+  .similar-title{
+    font-size:0.72rem; text-transform:uppercase; letter-spacing:0.07em;
+    font-weight:800; color:var(--lank-soft); margin-bottom:12px;
+  }
+  .similar-grid{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:10px;
+  }
+  .sim-card{
+    border-radius:12px; overflow:hidden; background:var(--blan);
+    border:1.5px solid var(--liy); cursor:pointer;
+    transition:transform .2s, box-shadow .2s;
+    text-decoration:none; color:inherit; display:block;
+  }
+  .sim-card:hover{ transform:translateY(-3px); box-shadow:0 10px 24px -8px rgba(20,24,31,0.15); }
+  .sim-card-img{ height:90px; overflow:hidden; background:var(--liy); }
+  .sim-card-img img{ width:100%; height:100%; object-fit:cover; }
+  .sim-card-body{ padding:8px 10px 10px; }
+  .sim-card-price{ font-size:0.78rem; font-weight:800; color:var(--or); margin-bottom:2px; }
+  .sim-card-title{ font-size:0.82rem; font-weight:600; line-height:1.3;
+    display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+  :root[data-theme="dark"] .sim-card{ background:rgba(237,232,218,0.04); border-color:rgba(237,232,218,0.1); }
+  :root[data-theme="dark"] .sim-card-title{ color:#EDE8DA; }
+
+  @media(max-width:600px){
+    .detail-sheet{ max-width:100%; }
+    .modal{ max-width:100%; border-radius:20px 20px 0 0; align-self:flex-end; }
+    .modal-overlay{ align-items:flex-end; padding:0; }
+    .detail-hero{ height:220px; }
+  }
+
+  /* ============ MOBILE NAV DRAWER ============ */
+  .mobile-drawer{
+    position: fixed; inset:0; background: var(--krem); z-index: 200;
+    display:flex; flex-direction:column; padding: 24px; transform: translateX(100%);
+    transition: transform .3s ease;
+  }
+  .mobile-drawer.open{ transform: translateX(0); }
+  .mobile-drawer .close-x{ align-self:flex-end; font-size: 1.8rem; margin-bottom: 30px; }
+  .mobile-drawer a{ font-family: var(--display); font-size: 1.7rem; padding: 14px 0; border-bottom:1px solid var(--liy); }
+  .mobile-drawer .btn{ margin-top: 24px; }
+
+  /* ============ SCROLL OFFSET pou sticky header ============ */
+  section[id], div[id]{
+    scroll-margin-top: 80px;
+  }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 1024px){
+    .hero-inner{ grid-template-columns:1fr; }
+    .hero-visual{ display:none; }
+    .katye-grid{ grid-template-columns: repeat(3,1fr); }
+    .grid-listings{ grid-template-columns: repeat(2,1fr); }
+    .how-grid, .trust-grid{ grid-template-columns: repeat(2,1fr); }
+    .quotes-grid{ grid-template-columns:1fr; }
+    .cta-sell{ grid-template-columns:1fr; padding: 48px 32px; }
+    .cta-visual{ display:none; }
+    .foot-grid{ grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 720px){
+    .nav-links, .nav-search{ display:none; }
+    .mob-search-bar{ display:block; }
+    .nav-toggle{ display:flex; font-size:1.6rem; }
+    .hero{ padding-top: 50px; }
+    h1{ font-size: clamp(1.75rem, 7.5vw, 2.1rem); line-height: 1.12; }
+    .hero-sub{ font-size: 0.97rem; }
+    .hero-actions{ flex-direction: column; gap: 10px; }
+    .hero-actions .btn{ width: 100%; justify-content: center; }
+    .hero-stats{ gap:22px; flex-wrap:wrap; }
+    section{ padding: 48px 0; }
+    .katye-grid{ grid-template-columns: repeat(2,1fr); gap: 10px; }
+    .katye{ padding: 16px 10px; }
+    .grid-listings{ grid-template-columns: 1fr 1fr; gap:12px; }
+    .card-img{ height:120px; }
+    .card-body{ padding: 12px; }
+    .card-price{ font-size: 1rem; }
+    .card-title{ font-size: 0.88rem; }
+    .how-bg, .cta-sell{ margin: 0 14px; padding: 36px 22px; border-radius:20px; }
+    .how-grid, .trust-grid{ grid-template-columns: 1fr; }
+    .trust-grid{ gap: 16px; }
+    .quotes-grid{ gap: 14px; }
+    .foot-grid{ grid-template-columns: 1fr; gap:30px; }
+    .nav-cta{ display:none; }
+    .sec-head{ flex-direction:column; align-items:flex-start; }
+    .sec-head h2{ font-size: 1.7rem; }
+    .faq-q{ font-size: 0.95rem; }
+    .cta-sell h2{ font-size: 1.6rem; }
+    section[id], div[id]{ scroll-margin-top: 70px; }
+  }
+</style>
+<!-- ============ SUPABASE SDK ============ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+
+</head>
+<body>
+
+<div class="grain"></div>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="nav">
+    <a href="#" class="logo">
+      <svg width="28" height="28" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="border-radius:8px;flex-shrink:0;">
+        <rect width="64" height="64" rx="14" fill="#B91C3C"/>
+        <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="26" fill="#FBF6EC">AM</text>
+      </svg>
+      Ayiti Market
+    </a>
+
+    <div class="nav-search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" placeholder="Chèche yon pwodwi, sèvis, oswa katye...">
+      <button id="btnImageSearch" title="Chèche pa foto" onclick="openImageSearch()" style="background:none;border:none;cursor:pointer;padding:2px 0 0;display:flex;align-items:center;opacity:0.55;transition:opacity .2s;flex-shrink:0;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.55">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      </button>
+      <input type="file" id="imageSearchInput" accept="image/*" style="display:none" onchange="handleImageSearch(this)">
+    </div>
+
+    <nav class="nav-links">
+      <a href="#kategori">Kategori</a>
+      <a href="#anons">Anons</a>
+      <a href="#kijan">Kijan li mache</a>
+      <a href="#faq">Kesyon</a>
+    </nav>
+
+    <div class="nav-cta">
+      <button class="theme-toggle" id="themeToggle" aria-label="Chanje mòd koulè">
+        <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+      <a href="messages.html" class="btn btn-ghost" data-role="messages-link" style="display:none;position:relative">
+        Mesaj
+        <span id="unreadBadge" style="display:none;position:absolute;top:-4px;right:-4px;width:9px;height:9px;border-radius:50%;background:var(--wouj)"></span>
+      </a>
+      <a href="account.html" class="btn btn-ghost" data-role="account-link" style="display:none">Mon Kont</a>
+      <a href="#" class="btn btn-ghost" data-role="auth-btn">Konekte</a>
+      <a href="#" class="btn btn-primary">+ Pibliye Anons</a>
+    </div>
+
+    <button class="nav-toggle" id="navToggle" aria-label="Louvri meni">&#9776;</button>
+  </div>
+</header>
+
+<div class="mobile-drawer" id="mobileDrawer">
+  <button class="close-x" id="closeDrawer" aria-label="Fèmen meni">&times;</button>
+  <a href="#kategori">Kategori</a>
+  <a href="#anons">Anons</a>
+  <a href="#kijan">Kijan li mache</a>
+  <a href="#faq">Kesyon</a>
+  <div class="theme-toggle-row">
+    <span>Mòd Nwa</span>
+    <button class="theme-toggle" id="themeToggleMobile" aria-label="Chanje mòd koulè">
+      <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+    </button>
+  </div>
+  <a class="btn btn-primary" href="#">+ Pibliye Anons</a>
+  <a href="account.html" class="btn btn-ghost" data-role="account-link-mobile" style="display:none;margin-top:10px">Mon Kont</a>
+  <a href="messages.html" class="btn btn-ghost" data-role="messages-link-mobile" style="display:none;margin-top:10px;position:relative">
+    Mesaj
+    <span id="unreadBadgeMobile" style="display:none;position:absolute;top:-2px;right:6px;width:9px;height:9px;border-radius:50%;background:var(--wouj)"></span>
+  </a>
+</div>
+
+<!-- ============ AUTH MODAL ============ -->
+<div class="modal-overlay" id="authModal" role="dialog" aria-modal="true" aria-label="Konekte oswa Enskri">
+  <div class="modal">
+    <div class="modal-head">
+      <h2 id="authModalTitle">Byenvini nan Ayiti Market</h2>
+      <button class="modal-close" id="authModalClose" aria-label="Fèmen">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="auth-tabs">
+        <button class="auth-tab active" id="tabLogin">Konekte</button>
+        <button class="auth-tab" id="tabRegister">Enskri</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <div id="formLogin">
+        <div class="field">
+          <label>Imèl</label>
+          <input type="email" id="loginEmail" placeholder="ou@egzanp.com">
+        </div>
+        <div class="field">
+          <label>Modpas</label>
+          <input type="password" id="loginPassword" placeholder="••••••••">
+        </div>
+        <div class="form-error" id="loginError" style="display:none;color:var(--wouj);font-size:0.85rem;margin-bottom:10px;"></div>
+        <button class="btn btn-primary btn-full" id="loginSubmitBtn" onclick="handleLogin()">Konekte →</button>
+        <div class="form-note">Pa gen kont? <a href="#" onclick="switchToRegister(event)">Enskri gratis</a></div>
+      </div>
+
+      <!-- REGISTER FORM -->
+      <div id="formRegister" style="display:none">
+        <div class="field-row">
+          <div class="field"><label>Non</label><input type="text" id="regFirstName" placeholder="Jean"></div>
+          <div class="field"><label>Siyati</label><input type="text" id="regLastName" placeholder="Louis"></div>
+        </div>
+        <div class="field">
+          <label>Imèl</label>
+          <input type="email" id="regEmail" placeholder="ou@egzanp.com">
+        </div>
+        <div class="field">
+          <label>Modpas</label>
+          <input type="password" id="regPassword" placeholder="Omwen 8 karaktè">
+        </div>
+        <div class="form-error" id="registerError" style="display:none;color:var(--wouj);font-size:0.85rem;margin-bottom:10px;"></div>
+        <button class="btn btn-primary btn-full" id="registerSubmitBtn" onclick="handleRegister()">Kreye Kont Mwen →</button>
+        <div class="form-note">Deja gen kont? <a href="#" onclick="switchToLogin(event)">Konekte</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PUBLISH MODAL ============ -->
+<div class="modal-overlay" id="publishModal" role="dialog" aria-modal="true" aria-label="Pibliye yon Anons">
+  <div class="modal">
+    <div class="modal-head">
+      <h2>Pibliye yon Anons</h2>
+      <button class="modal-close" id="publishModalClose" aria-label="Fèmen">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="photo-zone" onclick="document.getElementById('photoInput').click()">
+        <p>Klike pou ajoute foto</p>
+        <span>JPG, PNG · Jiska 5 foto · Maks 5MB chak</span>
+        <input type="file" id="photoInput" accept="image/*" multiple style="display:none" onchange="handlePhotoUpload(this)">
+      </div>
+      <div id="photoPreview" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;"></div>
+
+      <div class="field">
+        <label>Tit anons lan</label>
+        <input type="text" id="pubTitle" placeholder="ex. iPhone 13 Pro 128GB — Bon eta">
+      </div>
+      <div class="field">
+        <label>Kategori</label>
+        <select id="pubCategory">
+          <option value="">— Chwazi yon kategori —</option>
+          <option>Elektwonik</option>
+          <option>Vwati & Moto</option>
+          <option>Imobilye</option>
+          <option>Mòd & Rad</option>
+          <option>Sèvis</option>
+          <option>Manje & Bwason</option>
+          <option>Atizay</option>
+          <option>Lòt</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Deskripsyon</label>
+        <textarea id="pubDesc" placeholder="Dekri pwodwi oswa sèvis ou a — eta, karakteristik, rezon pou vann…"></textarea>
+      </div>
+      <div class="price-row">
+        <div class="field">
+          <label>Pri (HTG)</label>
+          <input type="number" placeholder="ex. 15000" id="priceInput" oninput="toggleNegociab()">
+        </div>
+        <label class="price-negociab">
+          <input type="checkbox" id="negociabCheck"> Pri Negosyab
+        </label>
+      </div>
+      <div class="field">
+        <label>Lokasyon</label>
+        <select id="pubLocation">
+          <option value="">— Chwazi zòn ou —</option>
+          <optgroup label="Lwès"><option>Pòtoprens</option><option>Petyonvil</option><option>Delma</option><option>Tabarre</option><option>Kafou</option></optgroup>
+          <optgroup label="Nò"><option>Okap</option></optgroup>
+          <optgroup label="Atibonit"><option>Gonayiv</option></optgroup>
+          <optgroup label="Sid-Es"><option>Jakmèl</option></optgroup>
+        </select>
+      </div>
+      <div class="field">
+        <label>Nimewo WhatsApp / Telefòn <span style="color:var(--wouj)">*</span></label>
+        <div style="display:flex;align-items:center;gap:0;border:1.5px solid var(--liy);border-radius:10px;overflow:hidden;background:var(--bg);">
+          <span style="padding:0 12px;font-size:0.9rem;color:var(--lank-soft);border-right:1.5px solid var(--liy);height:48px;display:flex;align-items:center;white-space:nowrap;background:var(--bg-soft);">+509</span>
+          <input type="tel" id="pubPhone" placeholder="ex. 3712-3456" maxlength="12" required
+            inputmode="numeric" pattern="[0-9\-]{8,9}"
+            style="flex:1;border:none;background:transparent;padding:0 12px;height:48px;font-size:0.95rem;color:var(--lank);outline:none;"
+            oninput="this.value=this.value.replace(/[^0-9\-]/g,'')">
+        </div>
+        <small style="color:var(--lank-soft);font-size:0.75rem;margin-top:4px;display:block;">Achtè yo ap kontakte ou dirèkteman sou WhatsApp</small>
+      </div>
+      <div class="form-error" id="publishError" style="display:none;color:var(--wouj);font-size:0.85rem;margin-bottom:10px;"></div>
+      <button class="btn btn-primary btn-full" id="publishSubmitBtn" onclick="handlePublish()">Pibliye Anons Gratis →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ LISTING DETAIL PANEL ============ -->
+<div class="detail-panel" id="detailPanel">
+  <div class="detail-backdrop" id="detailBackdrop"></div>
+  <div class="detail-sheet" id="detailSheet" role="dialog" aria-modal="true">
+    <div class="detail-hero">
+      <img id="d-img" src="" alt="">
+      <button class="detail-back" id="detailBack" aria-label="Tounen">←</button>
+      <button class="detail-fav-btn" id="d-fav" aria-label="Favori">🤍</button>
+      <span class="detail-tag" id="d-tag" style="display:none"></span>
+    </div>
+    <div class="detail-body">
+      <div class="detail-price" id="d-price"></div>
+      <div class="detail-title" id="d-title"></div>
+      <div class="detail-loc">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span id="d-loc"></span>
+      </div>
+
+      <div class="detail-meta">
+        <div class="detail-meta-item"><div class="dm-label">Kategori</div><div class="dm-val" id="d-cat"></div></div>
+        <div class="detail-meta-item"><div class="dm-label">Eta</div><div class="dm-val" id="d-cond"></div></div>
+        <div class="detail-meta-item"><div class="dm-label">Pibliye</div><div class="dm-val" id="d-date"></div></div>
+      </div>
+
+      <div class="detail-divider"></div>
+      <div class="detail-section-title">Deskripsyon</div>
+      <div class="detail-desc" id="d-desc"></div>
+
+      <div class="detail-divider"></div>
+      <div class="detail-section-title">Vandè</div>
+      <div class="detail-seller">
+        <div class="av-lg" id="d-av"></div>
+        <div class="detail-seller-info">
+          <a id="d-seller" href="#" style="font-weight:700;color:var(--lank);text-decoration:none"></a>
+          <span id="d-seller-loc"></span>
+          <div class="v-badge" id="d-verified" style="display:none">✓ Vandè Verifye</div>
+          <div id="d-phone" style="display:none;margin-top:5px;font-size:0.82rem;color:var(--lank-soft);"><span id="d-phone-val"></span></div>
+        </div>
+      </div>
+    </div>
+    <div class="owner-actions" id="d-owner-actions" style="display:none; gap:10px; padding:0 18px 14px; flex-wrap:wrap;">
+      <button class="btn btn-ghost" style="flex:1" onclick="openEditListing()">Modifye</button>
+      <button class="btn btn-ghost" style="flex:1; color:var(--wouj); border-color:var(--wouj)" onclick="confirmDeleteListing()">Efase</button>
+      <button class="btn btn-ghost btn-full" id="d-sold-toggle-btn" onclick="toggleSoldStatus()" style="font-size:0.82rem;"></button>
+    </div>
+    <!-- Sold banner (achtè wè sa si anons vann) -->
+    <div class="detail-sold-banner" id="d-sold-banner" style="display:none; margin:0 18px 4px;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      Anons sa a deja vann — pa ka kontakte vandè a ankò pou sa.
+    </div>
+    <!-- Anons Similè -->
+    <div class="similar-section" id="d-similar-section" style="display:none">
+      <div class="similar-title">Anons Similè</div>
+      <div class="similar-grid" id="d-similar-grid"></div>
+    </div>
+
+    <div class="detail-actions" id="d-detail-actions">
+      <button class="btn btn-wa" id="d-btn-wa" onclick="openWhatsApp()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 00-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp
+      </button>
+      <button class="btn btn-ghost btn-contact" id="d-btn-msg" onclick="contactSeller(this)">Voye Mesaj</button>
+      <button class="btn-share" id="btnShareListing" onclick="shareListing()" title="Pataje lyen an">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        <span class="share-tooltip">Lyen kopye ✓</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-blob"></div>
+  <div class="hero-inner">
+    <div>
+      <span class="eyebrow">Mache a louvri 24/7 nan tout peyi a</span>
+      <h1>Achte ak vann <span class="accent">tout sa w bezwen</span>, dirèkteman ak Ayisyen parèy ou.</h1>
+      <p class="hero-sub">Soti nan Pòtoprens rive Okap, Ayiti Market konekte machann, atizan, ak vandè ak moun k ap chèche bon zafè — san pèdi tan, san konfizyon.</p>
+      <div class="hero-actions">
+        <a href="#anons" class="btn btn-primary btn-lg">Gade Anons yo</a>
+        <a href="#" class="btn btn-ghost btn-lg">Pibliye gratis →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><b id="stat-anons">—</b><span>Anons aktif</span></div>
+        <div class="stat"><b>9</b><span>Depatman kouvri</span></div>
+        <div class="stat"><b id="stat-vandè">—</b><span>Vandè verifye</span></div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="ticket t1">
+        <img src="https://images.unsplash.com/photo-1605000797499-95a51c5269ae?w=400&q=80" alt="Telefòn entelijan">
+        <div class="tname">iPhone 13 Pro — 128GB</div>
+        <div class="tloc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Delma 33, Pòtoprens</div>
+        <div class="tprice">35,000 HTG <span class="badge"> Verifye</span></div>
+      </div>
+      <div class="ticket t2">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&q=80" alt="Soulye espò">
+        <div class="tname">Sneakers Nike Orijinal</div>
+        <div class="tloc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Okap</div>
+        <div class="tprice">4,500 HTG <span class="badge">Nouvo</span></div>
+      </div>
+      <div class="ticket t3">
+        <img src="https://images.unsplash.com/photo-1583394838336-acd977736f90?w=400&q=80" alt="Manje tradisyonèl">
+        <div class="tname">Sèvis Katering Evènman</div>
+        <div class="tloc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> Pòtoprens</div>
+        <div class="tprice">Sou demann <span class="badge">Sèvis</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span>Telefòn</span><span>Vwati</span><span>Imobilye</span><span>Rad</span><span>Elektwomenaje</span><span>Sèvis Pwofesyonèl</span><span>Manje</span><span>Atizay</span>
+    <span>Telefòn</span><span>Vwati</span><span>Imobilye</span><span>Rad</span><span>Elektwomenaje</span><span>Sèvis Pwofesyonèl</span><span>Manje</span><span>Atizay</span>
+  </div>
+</div>
+
+<!-- ============ KATEGORI ============ -->
+<section id="kategori">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="sec-label">Katye Mache a</span>
+        <h2>Chèche selon sa w bezwen</h2>
+      </div>
+      <p>Chak katye nan mache a gen pwòp pwodwi ak sèvis li — jis chwazi kote w vle ale.</p>
+    </div>
+    <div class="katye-grid">
+      <a href="#anons" class="katye" data-cat="Elektwonik"><span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18.01"/></svg></span><div class="kn">Elektwonik</div><div class="kc" data-count-cat="Elektwonik">—</div></a>
+      <a href="#anons" class="katye" data-cat="Vwati & Moto"><span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 17H3v-5l2-6h14l2 6v5h-2"/><circle cx="7.5" cy="17" r="1.5"/><circle cx="16.5" cy="17" r="1.5"/><path d="M5 12h14"/></svg></span><div class="kn">Vwati & Moto</div><div class="kc" data-count-cat="Vwati & Moto">—</div></a>
+      <a href="#anons" class="katye" data-cat="Imobilye"><span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/><path d="M9 21V12h6v9"/></svg></span><div class="kn">Imobilye</div><div class="kc" data-count-cat="Imobilye">—</div></a>
+      <a href="#anons" class="katye" data-cat="Mòd & Rad"><span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.86H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.86l.58-3.57a2 2 0 00-1.34-2.23z"/></svg></span><div class="kn">Mòd & Rad</div><div class="kc" data-count-cat="Mòd & Rad">—</div></a>
+      <a href="#anons" class="katye" data-cat="Sèvis"><span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg></span><div class="kn">Sèvis</div><div class="kc" data-count-cat="Sèvis">—</div></a>
+      <a href="#anons" class="katye" data-cat="Manje & Bwason"><span class="ic"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 002-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 00-5 5v6h3v7a1 1 0 002 0V2h0z"/></svg></span><div class="kn">Manje & Boukèt</div><div class="kc" data-count-cat="Manje & Bwason">—</div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ANONS / LISTINGS ============ -->
+<section id="anons">
+  <div class="wrap">
+
+    <!-- Baw rechèch mobil — parèt sèlman sou ti ekran (nav-search kache) -->
+    <div class="mob-search-bar">
+      <div class="mob-search-inner">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:0.45;flex-shrink:0"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="mobSearchInput" placeholder="Chèche yon pwodwi..." style="border:none;background:none;outline:none;flex:1;font-size:0.9rem;color:var(--teks);">
+        <button onclick="openImageSearch()" title="Chèche pa foto" style="background:none;border:none;cursor:pointer;display:flex;align-items:center;padding:0;opacity:0.55;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.55">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="var(--wouj,#B91C3C)" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="sec-head">
+      <div>
+        <span class="sec-label">Anons Popilè</span>
+        <h2>Sa moun ap gade kounye a</h2>
+      </div>
+      <a href="#" class="btn btn-ghost">Wè tout anons →</a>
+    </div>
+
+    <div class="filter-row">
+      <button class="chip active" data-loc="">Tout</button>
+      <button class="chip" data-loc="pòtoprens">Pòtoprens</button>
+      <button class="chip" data-loc="okap">Okap</button>
+      <button class="chip" data-loc="gonayiv">Gonayiv</button>
+      <button class="chip" data-loc="jakmèl">Jakmèl</button>
+      <button class="chip" data-sort="price_low">Pri ki ba</button>
+      <button class="chip" id="chipNearMe" data-geo="near" title="Montre anons nan yon rayon 10km bò kote w"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="margin-right:5px;vertical-align:-2px"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Toupre m</button>
+      <button class="btn-filtre-avanse" id="btnFiltreAvanse" onclick="openFiltreAvanse()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        Filtre Avanse
+        <span class="fa-badge" id="faBadge">0</span>
+      </button>
+    </div>
+
+    <!-- ============ DRAWER FILTRE AVANSE ============ -->
+    <div class="fa-overlay" id="faOverlay" onclick="closeFiltreAvanse(event)">
+      <div class="fa-drawer">
+        <div class="fa-drawer-head">
+          <h3>⚙ Filtre Avanse</h3>
+          <button class="fa-close" onclick="closeFiltreAvanse()">✕</button>
+        </div>
+
+        <!-- Pri min/max -->
+        <div class="fa-section">
+          <div class="fa-label">💰 Pri (HTG)</div>
+          <div class="fa-price-row">
+            <input type="number" id="faPriceMin" placeholder="Min (ex. 500)" min="0">
+            <input type="number" id="faPriceMax" placeholder="Max (ex. 50000)" min="0">
+          </div>
+        </div>
+
+        <!-- Eta -->
+        <div class="fa-section">
+          <div class="fa-label">🏷 Eta Pwodwi</div>
+          <div class="fa-chips">
+            <button class="fa-chip" data-cond="" onclick="selectFaChip(this,'cond')">Tout</button>
+            <button class="fa-chip" data-cond="Nouvo" onclick="selectFaChip(this,'cond')">Nouvo</button>
+            <button class="fa-chip" data-cond="Bon eta" onclick="selectFaChip(this,'cond')">Bon eta</button>
+            <button class="fa-chip" data-cond="Pou pati" onclick="selectFaChip(this,'cond')">Pou pati</button>
+            <button class="fa-chip" data-cond="Defektye" onclick="selectFaChip(this,'cond')">Defektye</button>
+          </div>
+        </div>
+
+        <!-- Dat pibliye -->
+        <div class="fa-section">
+          <div class="fa-label">📅 Dat Pibliye</div>
+          <div class="fa-chips">
+            <button class="fa-chip active" data-days="" onclick="selectFaChip(this,'days')">Nenpòt kilè</button>
+            <button class="fa-chip" data-days="1" onclick="selectFaChip(this,'days')">Jodi a</button>
+            <button class="fa-chip" data-days="7" onclick="selectFaChip(this,'days')">7 dènye jou</button>
+            <button class="fa-chip" data-days="30" onclick="selectFaChip(this,'days')">30 jou</button>
+            <button class="fa-chip" data-days="90" onclick="selectFaChip(this,'days')">3 mwa</button>
+          </div>
+        </div>
+
+        <!-- Depatman/Vil -->
+        <div class="fa-section">
+          <div class="fa-label">Depatman / Vil</div>
+          <div class="fa-chips">
+            <button class="fa-chip active" data-dept="" onclick="selectFaChip(this,'dept')">Tout peyi</button>
+            <button class="fa-chip" data-dept="Wès" onclick="selectFaChip(this,'dept')">Wès</button>
+            <button class="fa-chip" data-dept="Nò" onclick="selectFaChip(this,'dept')">Nò</button>
+            <button class="fa-chip" data-dept="Nòdwès" onclick="selectFaChip(this,'dept')">Nòdwès</button>
+            <button class="fa-chip" data-dept="Atibonik" onclick="selectFaChip(this,'dept')">Atibonik</button>
+            <button class="fa-chip" data-dept="Sid" onclick="selectFaChip(this,'dept')">Sid</button>
+            <button class="fa-chip" data-dept="Grandans" onclick="selectFaChip(this,'dept')">Grandans</button>
+            <button class="fa-chip" data-dept="Nip" onclick="selectFaChip(this,'dept')">Nip</button>
+            <button class="fa-chip" data-dept="Latibonit" onclick="selectFaChip(this,'dept')">Latibonit</button>
+            <button class="fa-chip" data-dept="Sant" onclick="selectFaChip(this,'dept')">Sant</button>
+            <button class="fa-chip" data-dept="Sidès" onclick="selectFaChip(this,'dept')">Sidès</button>
+          </div>
+        </div>
+
+        <div class="fa-actions">
+          <button class="fa-btn-reset" onclick="resetFiltreAvanse()">Efase tout</button>
+          <button class="fa-btn-apply" onclick="applyFiltreAvanse()">Aplike Filtre →</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="active-filter-label" style="display:none; margin-bottom:16px;">
+      <span style="display:inline-flex;align-items:center;gap:8px;background:rgba(185,28,60,0.1);color:var(--wouj-dark);padding:6px 14px;border-radius:100px;font-size:0.82rem;font-weight:700;">
+        <span id="filter-label-text"></span>
+        <button onclick="clearAllFilters()" style="font-size:1rem;line-height:1;color:var(--wouj-dark);opacity:0.7;">×</button>
+      </span>
+    </div>
+
+    <div id="search-meta" style="display:none; margin-bottom:20px; font-size:0.88rem; color:var(--lank-soft); font-weight:600;"></div>
+
+    <div class="grid-listings" id="listings-grid">
+    </div>
+
+    <div id="empty-state" style="display:none; text-align:center; padding:60px 24px; grid-column:1/-1;">
+      <h3 style="font-family:var(--display); font-size:1.4rem; margin-bottom:10px;">Pa gen rezilta</h3>
+      <p style="color:var(--lank-soft); font-size:0.92rem;">Okenn anons pa jwenn pou "<span id="empty-query"></span>".<br>Eseye yon lòt mo oswa efase filtre a.</p>
+    </div>
+
+    <div class="more-row">
+      <button class="btn btn-dark btn-lg" id="loadMoreBtn" onclick="loadMore()">Chaje plis anons</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KIJAN LI MACHE ============ -->
+<section id="kijan">
+  <div class="wrap">
+    <div class="how-bg">
+      <div class="sec-head">
+        <div>
+          <span class="sec-label">Senp tankou yon koze nan mache</span>
+          <h2>Kijan Ayiti Market mache</h2>
+        </div>
+        <p>Twa etap senp, ni pou vandè ni pou achtè.</p>
+      </div>
+      <div class="how-grid">
+        <div class="how-card">
+          <div class="how-num">01</div>
+          <h3>Pibliye anons ou gratis</h3>
+          <p>Ajoute foto, pri, ak deskripsyon pwodwi oswa sèvis ou an mwens pase 2 minit.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-num">02</div>
+          <h3>Pale dirèkteman ak achtè</h3>
+          <p>Resevwa mesaj nan chat oswa WhatsApp, negosye pri a, epi konfime detay yo.</p>
+        </div>
+        <div class="how-card">
+          <div class="how-num">03</div>
+          <h3>Fè echanj la an sekirite</h3>
+          <p>Rankontre nan yon kote piblik oswa itilize livrezon lokal pou konplete vant la.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TRUST ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="sec-label">Poukisa Ayiti Market</span>
+        <h2>Bati pou reyalite peyi a</h2>
+      </div>
+    </div>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <div class="trust-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Vandè Verifye</h3>
+        <p>Tout vandè ki gen badge verifye konfime idantite yo pou plis konfyans nan tranzaksyon.</p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1.5 8.5a15 15 0 0121 0"/><path d="M5 12a11 11 0 0114 0"/><path d="M8.5 15.5a7 7 0 017 0"/><circle cx="12" cy="19" r="1" fill="currentColor"/></svg></div>
+        <h3>Mache byen sou done limite</h3>
+        <p>Sit la rapid e li fèt pou mache byen menm ak yon koneksyon entènèt fèb.</p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <h3>Chat dirèk san frè</h3>
+        <p>Pale dirèkteman ak vandè a sou platfòm lan oswa redirije sou WhatsApp san okenn frè.</p>
+      </div>
+      <div class="trust-card">
+        <div class="trust-ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l19-9-9 19-2-8-8-2z"/></svg></div>
+        <h3>Fèt pou Ayisyen</h3>
+        <p>Tout depatman yo kouvri, ak yon entèfas ki konprann reyalite mache lokal la.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA SELL ============ -->
+<section>
+  <div class="cta-sell">
+    <div>
+      <h2>Gen yon pwodwi oswa sèvis pou vann?</h2>
+      <p>Pibliye premye anons ou gratis kounye a e rive jwenn dè milye moun k ap chèche egzakteman sa w ap ofri.</p>
+      <a href="#" class="btn btn-lg">Kòmanse Vann →</a>
+    </div>
+    <div class="cta-visual">
+      <div class="bigtag">
+        <div class="perc">0 HTG</div>
+        <div class="perclabel">Frè pou pibliye yon anons</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section>
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <span class="sec-label">Vwa nan Mache a</span>
+        <h2>Moun ki deja jwenn sa yo bezwen</h2>
+      </div>
+    </div>
+    <div class="quotes-grid">
+      <div class="quote-card">
+        <span class="mark">"</span>
+        <p>Mwen vann motosiklèt mwen an mwens pase twa jou. Pwosesis la te klè e mwen te ka pale dirèkteman ak achtè a san pwoblèm.</p>
+        <div class="quote-who"><span class="av">JL</span><div><b>Jean L.</b><span>Vandè, Pòtoprens</span></div></div>
+      </div>
+      <div class="quote-card">
+        <span class="mark">"</span>
+        <p>Kòm achtè, mwen renmen kijan mwen ka filtre selon katye mwen an. Sa fè rechèch la pi rapid e plis pratik pou mwen.</p>
+        <div class="quote-who"><span class="av">MR</span><div><b>Marie R.</b><span>Achtè, Tabarre</span></div></div>
+      </div>
+      <div class="quote-card">
+        <span class="mark">"</span>
+        <p>Sèvis kouti m lan kòmanse jwenn plis kliyan depi m pibliye sou Ayiti Market. Se gratis e li senp pou jere anons mwen yo.</p>
+        <div class="quote-who"><span class="av">NF</span><div><b>Nadège F.</b><span>Antreprenè, Petyonvil</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq">
+  <div class="wrap">
+    <div class="sec-head" style="justify-content:center; text-align:center; flex-direction:column; align-items:center;">
+      <span class="sec-label">Kesyon Moun Poze Souvan</span>
+      <h2>Toujou gen yon kesyon?</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <button class="faq-q">Èske li gratis pou pibliye yon anons?<span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-in">Wi, pibliye yon anons sou Ayiti Market gratis nèt. Nou ofri tou opsyon "anons an vedèt" pou moun ki vle plis vizibilite.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Kijan mwen fè pou m vin yon vandè verifye?<span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-in">Soumèt yon pyès idantite valid nan paramèt kont ou. Verifikasyon an pran mwens pase 24 èdtan e li bay achtè plis konfyans.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Èske mwen ka peye an liy sou platfòm lan?<span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-in">Pou kounye a, tranzaksyon yo fèt dirèkteman ant achtè ak vandè (lajan kach, MonCash, oswa lòt metòd yo dakò sou li). Toujou rankontre nan yon kote sekirize.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Ki depatman Ayiti Market kouvri?<span class="plus">+</span></button>
+        <div class="faq-a"><div class="faq-a-in">Nou kouvri tout 10 depatman peyi a, ak plis aktivite nan Lwès, Nò, ak Sid kote pifò vandè verifye yo ye.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMING SOON MODAL ============ -->
+<!-- ============ VANDÈ VERIFYE MODAL ============ -->
+<div class="modal-overlay" id="verifyModal" role="dialog" aria-modal="true" aria-label="Vin yon Vandè Verifye">
+  <div class="modal" style="max-width:500px;padding:40px 36px;">
+    <button class="modal-close" onclick="closeModal('verifyModal')" aria-label="Fèmen">×</button>
+
+    <!-- Siksè -->
+    <div id="verifySuccess" style="display:none;text-align:center;padding:20px 0;">
+      <svg width="52" height="52" viewBox="0 0 52 52" fill="none" style="margin-bottom:14px;">
+        <circle cx="26" cy="26" r="26" fill="var(--ble)" opacity=".12"/>
+        <path d="M15 26l9 9 13-15" stroke="var(--ble)" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <p style="font-family:var(--display);font-size:1.2rem;font-weight:700;margin-bottom:8px;">Demann ou a voye!</p>
+      <p style="color:var(--lank-soft);font-size:0.9rem;line-height:1.6;margin-bottom:24px;">Nou pral kontakte ou nan 2–5 jou ouvrab pou verifye idantite ou epi aktive badge "Vandè Verifye" ou a.</p>
+      <button class="btn" onclick="closeModal('verifyModal');document.getElementById('verifySuccess').style.display='none';document.getElementById('verifyForm').style.display='';">Okay, mèsi!</button>
+    </div>
+
+    <!-- Fòmilè -->
+    <div id="verifyForm">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:6px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="var(--ble)" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        <h2 style="font-family:var(--display);font-size:1.35rem;margin:0;">Vin yon Vandè Verifye</h2>
+      </div>
+      <p style="color:var(--lank-soft);font-size:0.88rem;line-height:1.6;margin-bottom:22px;">Badge "✓ Verifye" montre achtè yo ke ou se yon vandè serye. Ranpli fòmilè sa a epi ekip nou an pral kontakte ou.</p>
+
+      <!-- Avantaj -->
+      <div style="background:rgba(22,51,94,0.06);border-radius:12px;padding:14px 16px;margin-bottom:22px;display:flex;flex-direction:column;gap:8px;">
+        <div style="font-size:0.82rem;font-weight:700;color:var(--ble);margin-bottom:2px;">✓ Avantaj badge verifye</div>
+        <div style="font-size:0.82rem;color:var(--teks-soft);">✓ &nbsp;Pi plis konfyans nan achtè yo</div>
+        <div style="font-size:0.82rem;color:var(--teks-soft);">✓ &nbsp;Anons ou parèt pi wo nan rechèch</div>
+        <div style="font-size:0.82rem;color:var(--teks-soft);">✓ &nbsp;Aksè a estatistik vandè (byento)</div>
+      </div>
+
+      <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:6px;">Non konplè <span style="color:#e53935;">*</span></label>
+      <input id="vfNon" type="text" placeholder="Jean Baptiste Pierre" style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid var(--bòd);border-radius:10px;background:var(--bg);color:var(--teks);font-size:0.9rem;margin-bottom:14px;">
+
+      <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:6px;">Nimewo telefòn <span style="color:#e53935;">*</span></label>
+      <input id="vfTel" type="tel" placeholder="+509 XXXX XXXX" style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid var(--bòd);border-radius:10px;background:var(--bg);color:var(--teks);font-size:0.9rem;margin-bottom:14px;">
+
+      <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:6px;">Tip aktivite <span style="color:#e53935;">*</span></label>
+      <select id="vfTip" style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid var(--bòd);border-radius:10px;background:var(--bg);color:var(--teks);font-size:0.9rem;margin-bottom:14px;">
+        <option value="">— Chwazi —</option>
+        <option value="patikilye">Patikilye (moun prive)</option>
+        <option value="biznis">Biznis / Boutik</option>
+        <option value="atizan">Atizan / Kreyatè</option>
+        <option value="agrikiltè">Agrikiltè / Pwodwi lokal</option>
+        <option value="sèvis">Prestatè sèvis</option>
+      </select>
+
+      <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:6px;">Depatman <span style="color:#e53935;">*</span></label>
+      <select id="vfDep" style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid var(--bòd);border-radius:10px;background:var(--bg);color:var(--teks);font-size:0.9rem;margin-bottom:20px;">
+        <option value="">— Chwazi —</option>
+        <option>Lwès</option><option>Nò</option><option>Nòdwès</option>
+        <option>Nòdès</option><option>Atibonit</option><option>Sant</option>
+        <option>Atis</option><option>Sid</option><option>Sidge</option><option>Grandans</option>
+      </select>
+
+      <div id="verifyError" style="display:none;color:#e53935;font-size:0.83rem;margin-bottom:12px;padding:8px 12px;background:#fff0f0;border-radius:8px;"></div>
+
+      <button class="btn" style="width:100%;" onclick="submitVerifyForm()">Voye demann nan →</button>
+      <p style="font-size:0.78rem;color:var(--lank-soft);text-align:center;margin-top:12px;">Verifikasyon gratis. Nou kontakte ou nan 2–5 jou ouvrab.</p>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="comingSoonModal" role="dialog" aria-modal="true">
+  <div class="modal" style="max-width:380px;text-align:center;padding:40px 32px;">
+    <h3 id="comingSoonTitle" style="font-family:var(--display);font-size:1.4rem;margin-bottom:10px;"></h3>
+    <p style="color:var(--lank-soft);font-size:0.93rem;line-height:1.6;margin-bottom:28px;">Paj sa a ap vini byento. Nou ap travay di pou nou ka ba ou yon eksperyans konplè.</p>
+    <button class="btn" onclick="closeModal('comingSoonModal')">Okay, mèsi!</button>
+  </div>
+</div>
+
+<!-- ============ TERMS MODAL ============ -->
+<div class="modal-overlay" id="termsModal" role="dialog" aria-modal="true" aria-label="Kondisyon Itilizasyon">
+  <div class="modal" style="max-width:640px;max-height:85vh;overflow-y:auto;padding:40px 36px;">
+    <button class="modal-close" onclick="closeModal('termsModal')" aria-label="Fèmen">×</button>
+    <h2 style="font-family:var(--display);font-size:1.5rem;margin-bottom:6px;">Kondisyon Itilizasyon</h2>
+    <p style="color:var(--lank-soft);font-size:0.82rem;margin-bottom:28px;">Dènye mizajou: Jen 2026</p>
+
+    <h4 style="margin:0 0 8px;font-size:1rem;">1. Akseptasyon Kondisyon yo</h4>
+    <p style="font-size:0.9rem;line-height:1.7;margin-bottom:20px;color:var(--lank-soft);">Lè ou itilize Ayiti Market, ou aksepte kondisyon sa yo. Si ou pa dakò, tanpri sispann itilize platfòm nan.</p>
+
+    <h4 style="margin:0 0 8px;font-size:1rem;">2. Sèvis la</h4>
+    <p style="font-size:0.9rem;line-height:1.7;margin-bottom:20px;color:var(--lank-soft);">Ayiti Market se yon platfòm anons gratis ki konekte achtè ak vandè ann Ayiti. Nou pa patisipe nan tranzaksyon ant itilizatè yo epi nou pa garanti kalite oswa otantisite pwodui afiche yo.</p>
+
+    <h4 style="margin:0 0 8px;font-size:1rem;">3. Responsablite Itilizatè</h4>
+    <p style="font-size:0.9rem;line-height:1.7;margin-bottom:20px;color:var(--lank-soft);">Ou dwe bay enfòmasyon egzak ak verite sou anons ou yo. Entèdi pibliye kontni ilegal, fo, oswa tronpè. Ou responsab pou tout anons ou pibliye sou platfòm nan.</p>
+
+    <h4 style="margin:0 0 8px;font-size:1rem;">4. Kontni Entèdi</h4>
+    <p style="font-size:0.9rem;line-height:1.7;margin-bottom:20px;color:var(--lank-soft);">Entèdi vann: zam, dwòg, kontni pònografik, animal proteje, dokiman fo, oswa nenpòt pwodui ki vyole lwa Repiblik Dayiti. Ayiti Market rezève dwa pou retire tout anons ki vyole règ sa yo san avètisman.</p>
+
+    <h4 style="margin:0 0 8px;font-size:1rem;">5. Pwopriyete Entèlektyèl</h4>
+    <p style="font-size:0.9rem;line-height:1.7;margin-bottom:20px;color:var(--lank-soft);">Tout kontni, logo ak design Ayiti Market yo proteje. Ou kapab pataje foto pwodui ou yo, men ou pa gen dwa kopye oswa itilize mak komèsyal Ayiti Market san pèmisyon ekri.</p>
+
+    <h4 style="margin:0 0 8px;font-size:1rem;">6. Limit Responsablite</h4>
+    <p style="font-size:0.9rem;line-height:1.7;margin-bottom:28px;color:var(--lank-soft);">Ayiti Market pa responsab pou pèt finansyè, eskwokri, oswa konfli ki pase ant achtè ak vandè. Toujou verifye vandè a anvan ou fè nenpòt peman.</p>
+
+    <button class="btn" onclick="closeModal('termsModal')">Mwen Konprann</button>
+  </div>
+</div>
+
+<!-- ============ PRIVACY MODAL ============ -->
+<div class="modal-overlay" id="privacyModal" role="dialog" aria-modal="true" aria-label="Politik Konfidansyalite">
+  <div class="modal" style="max-width:640px;max-height:85vh;overflow-y:auto;padding:40px 36px;">
+    <button class="modal-close" onclick="closeModal('privacyModal')" aria-label="Fèmen">×</button>
+    <h2 style="font-family:var(--display);font-size:1.5rem;margin-bottom:6px;">Politik Konfidansyalite</h2>
+    <p style="color:var(--lank-soft);font-size:0.82rem;margin-bottom:28px;">Dènye mizajou: Jen 2026</p>
+
+    <h4 style="margin:0 0 8px;font-size:1rem;">1. Done Nou Kolekte</h4>
+    <p style="font-size:0.9rem;line-height:1.7;margin-bottom:20px;color:var(--lank-soft);">Lè ou enskri, nou kolekte: non ou, adrès imèl ou, ak nimewo telefòn si ou bay li. Lè ou pibliye anons, nou sove tit, deskripsyon, prix, foto, ak enfòmasyon kontakt ou.</p>
+
+    <h4 style="margin:0 0 8px;font-size:1rem;">2. Kijan Nou Itilize Done Ou</h4>
+    <p style="font-size:0.9rem;line-height:1.7;margin-bottom:20px;color:var(--lank-soft);">Nou itilize done ou pou: afiche anons ou yo piblikman, kenbe sekirite kont ou, voye notifikasyon enpòtan, ak amelyore eksperyans platfòm nan. Nou pa janm vann done ou bay twazyèm pati.</p>
+
+    <h4 style="margin:0 0 8px;font-size:1rem;">3. Pataj Done</h4>
+    <p style="font-size:0.9rem;line-height:1.7;margin-bottom:20px;color:var(--lank-soft);">Enfòmasyon kontakt ou (nimewo WhatsApp oswa imèl) afiche sou anons ou yo pou achtè potansyèl ka kontakte ou dirèkteman. Ou gen dwa chèzi ki enfòmasyon ou vle montre.</p>
+
+    <h4 style="margin:0 0 8px;font-size:1rem;">4. Sekirite</h4>
+    <p style="font-size:0.9rem;line-height:1.7;margin-bottom:20px;color:var(--lank-soft);">Nou itilize Supabase ak chifraj SSL pou pwoteje done ou. Modpas yo pa janm sove an klè. Sepandan, pa gen sistèm ki 100% an sekirite — toujou itilize modpas solid.</p>
+
+    <h4 style="margin:0 0 8px;font-size:1rem;">5. Dwa Ou</h4>
+    <p style="font-size:0.9rem;line-height:1.7;margin-bottom:20px;color:var(--lank-soft);">Ou ka mande pou nou efase kont ou ak tout done ki asosye avèk li nenpòt ki lè. Voye imèl ban nou nan: <strong>dobertojean35@gmail.com</strong></p>
+
+    <h4 style="margin:0 0 8px;font-size:1rem;">6. Cookies</h4>
+    <p style="font-size:0.9rem;line-height:1.7;margin-bottom:28px;color:var(--lank-soft);">Nou itilize localStorage pou kenbe sesyon ou ak preferans ou (favori, tèm). Nou pa itilize cookies pou swiv ou sou lòt sit.</p>
+
+    <button class="btn" onclick="closeModal('privacyModal')">Mwen Konprann</button>
+  </div>
+</div>
+
+<!-- ============ REPORT MODAL ============ -->
+<div class="modal-overlay" id="reportModal" role="dialog" aria-modal="true" aria-label="Rapòte yon Anons">
+  <div class="modal" style="max-width:480px;padding:40px 36px;">
+    <button class="modal-close" onclick="closeModal('reportModal')" aria-label="Fèmen">×</button>
+    <h2 style="font-family:var(--display);font-size:1.4rem;margin-bottom:6px;">Rapòte yon Anons</h2>
+    <p style="color:var(--lank-soft);font-size:0.88rem;line-height:1.6;margin-bottom:24px;">Si ou wè yon anons ki fo, danjere, oswa ki vyole règ nou yo, rapòte li isit la.</p>
+
+    <div id="reportSuccess" style="display:none;text-align:center;padding:20px 0;">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style="margin-bottom:12px;"><circle cx="24" cy="24" r="24" fill="var(--aksan)" opacity=".15"/><path d="M14 24l8 8 12-14" stroke="var(--aksan)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <p style="font-weight:600;margin-bottom:8px;">Rapò ou a resevwa!</p>
+      <p style="color:var(--lank-soft);font-size:0.88rem;">Nou pral examine anons sa a nan 24 èdtan. Mèsi pou ede nou kenbe platfòm nan pwòp.</p>
+      <button class="btn" style="margin-top:20px;" onclick="closeModal('reportModal')">Fèmen</button>
+    </div>
+
+    <div id="reportForm">
+      <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:6px;">ID Anons (opsyonèl)</label>
+      <input id="reportAdId" type="text" placeholder="ex: #AM-0042" style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid var(--bòd);border-radius:10px;background:var(--bg);color:var(--teks);font-size:0.9rem;margin-bottom:16px;">
+
+      <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:6px;">Rezon rapò a <span style="color:#e53935;">*</span></label>
+      <select id="reportReason" style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid var(--bòd);border-radius:10px;background:var(--bg);color:var(--teks);font-size:0.9rem;margin-bottom:16px;">
+        <option value="">— Chwazi yon rezon —</option>
+        <option value="fo">Anons fo / Eskwokri</option>
+        <option value="ilegal">Kontni ilegal</option>
+        <option value="duplike">Anons duplika</option>
+        <option value="prix">Prix tronpè</option>
+        <option value="foto">Foto pa kòrèk</option>
+        <option value="spam">Spam</option>
+        <option value="lot">Lòt rezon</option>
+      </select>
+
+      <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:6px;">Detay adisyonèl</label>
+      <textarea id="reportDetails" rows="4" placeholder="Eksplike pwoblèm nan an kèk mo..." style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid var(--bòd);border-radius:10px;background:var(--bg);color:var(--teks);font-size:0.9rem;resize:vertical;margin-bottom:16px;font-family:inherit;"></textarea>
+
+      <label style="display:block;font-size:0.85rem;font-weight:600;margin-bottom:6px;">Imèl ou (opsyonèl)</label>
+      <input id="reportEmail" type="email" placeholder="pou nou ka kontakte ou si nesesè" style="width:100%;box-sizing:border-box;padding:10px 14px;border:1.5px solid var(--bòd);border-radius:10px;background:var(--bg);color:var(--teks);font-size:0.9rem;margin-bottom:24px;">
+
+      <div id="reportError" style="display:none;color:#e53935;font-size:0.85rem;margin-bottom:12px;"></div>
+      <button class="btn" style="width:100%;" onclick="submitReport()">Soumèt Rapò</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-logo">Ayiti Market</div>
+        <p>Platfòm anons ki konekte achtè ak vandè toupatou nan peyi a — senp, rapid, e fèt pou Ayisyen.</p>
+        <div class="foot-social">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="Instagram">ig</a>
+          <a href="#" aria-label="WhatsApp">wa</a>
+        </div>
+      </div>
+      <div class="foot-col">
+        <h4>Mache a</h4>
+        <ul>
+          <li><a href="#kategori">Kategori</a></li>
+          <li><a href="#anons">Tout Anons</a></li>
+          <li><a href="#" onclick="openPublish();return false;">Pibliye Anons</a></li>
+          <li><button class="foot-link" onclick="openModal('verifyModal')">Vandè Verifye</button></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Konpayi</h4>
+        <ul>
+          <li><a href="/apropos.html">À Propos</a></li>
+          <li><a href="#kijan">Kijan li mache</a></li>
+          <li><a href="#faq">Kesyon (FAQ)</a></li>
+          <li><a href="/kontakte.html">Kontakte nou</a></li>
+          <li><button class="foot-link" onclick="openComingSoon('Blòg')">Blòg</button></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a class="foot-link" href="/cgu.html">Kondisyon Itilizasyon</a></li>
+          <li><a class="foot-link" href="/confidentialite.html">Politik Konfidansyalite</a></li>
+          <li><button class="foot-link" onclick="openReportModal()">Rapòte yon Anons</button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Ayiti Market. Tout dwa rezève.</span>
+      <span>Fèt ak  pou Ayiti — pa Doberto Mr Lit</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ============ FAVORITES (localStorage + Supabase sync) ============
+  let favorites = new Set(JSON.parse(localStorage.getItem('ayiti-favs') || '[]'));
+
+  function saveFavs() {
+    localStorage.setItem('ayiti-favs', JSON.stringify([...favorites]));
+  }
+
+  async function loadFavsFromSupabase() {
+    if (!currentUser) return;
+    const { data, error } = await supabaseClient
+      .from('user_favorites')
+      .select('listing_id')
+      .eq('user_id', currentUser.id);
+    if (error) { console.warn('Favori Supabase error:', error.message); return; }
+    // Merge: ajoute favori Supabase nan Set la (pa efase favori local)
+    data.forEach(r => favorites.add(r.listing_id));
+    // Push favori local ki pa nan Supabase
+    const remoteIds = new Set(data.map(r => r.listing_id));
+    const localOnly = [...favorites].filter(id => !remoteIds.has(id));
+    if (localOnly.length > 0) {
+      await supabaseClient.from('user_favorites').upsert(
+        localOnly.map(id => ({ user_id: currentUser.id, listing_id: id })),
+        { onConflict: 'user_id,listing_id' }
+      );
+    }
+    saveFavs();
+    refreshFavUI();
+  }
+
+  async function toggleFav(rawId) {
+    const id = parseInt(rawId);
+    const isFav = favorites.has(id);
+    if (isFav) {
+      favorites.delete(id);
+      if (currentUser) {
+        await supabaseClient.from('user_favorites')
+          .delete()
+          .eq('user_id', currentUser.id)
+          .eq('listing_id', id);
+      }
+    } else {
+      favorites.add(id);
+      if (currentUser) {
+        await supabaseClient.from('user_favorites')
+          .upsert({ user_id: currentUser.id, listing_id: id }, { onConflict: 'user_id,listing_id' });
+      }
+    }
+    saveFavs();
+    refreshFavUI();
+  }
+
+  function refreshFavUI() {
+    document.querySelectorAll('.card-fav').forEach(btn => {
+      const id = parseInt(btn.dataset.id);
+      btn.textContent = favorites.has(id) ? '❤️' : '🤍';
+    });
+    const panel = document.getElementById('detailPanel');
+    if (panel && panel.dataset.itemId) {
+      const id = parseInt(panel.dataset.itemId);
+      document.getElementById('d-fav').textContent = favorites.has(id) ? '❤️' : '🤍';
+    }
+  }
+
+  // ============ COMING SOON ============
+  function openComingSoon(pageName) {
+    document.getElementById('comingSoonTitle').textContent = pageName;
+    openModal('comingSoonModal');
+  }
+
+  function submitVerifyForm() {
+    const non = document.getElementById('vfNon').value.trim();
+    const tel = document.getElementById('vfTel').value.trim();
+    const tip = document.getElementById('vfTip').value;
+    const dep = document.getElementById('vfDep').value;
+    const errEl = document.getElementById('verifyError');
+
+    if (!non || !tel || !tip || !dep) {
+      errEl.textContent = 'Tanpri ranpli tout chan obligatwa yo (*)';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (tel.replace(/\D/g,'').length < 8) {
+      errEl.textContent = 'Tanpri antre yon nimewo telefòn valid.';
+      errEl.style.display = 'block';
+      return;
+    }
+    errEl.style.display = 'none';
+    // Simile soumisyon (nan yon vèsyon reyèl, ta voye bay backend)
+    console.log('Verify request:', { non, tel, tip, dep, ts: new Date().toISOString() });
+    document.getElementById('verifyForm').style.display = 'none';
+    document.getElementById('verifySuccess').style.display = '';
+  }
+
+  // ============ LEGAL / REPORT ============
+  function openReportModal(adId) {
+    document.getElementById('reportForm').style.display = '';
+    document.getElementById('reportSuccess').style.display = 'none';
+    document.getElementById('reportError').style.display = 'none';
+    document.getElementById('reportReason').value = '';
+    document.getElementById('reportDetails').value = '';
+    document.getElementById('reportEmail').value = '';
+    if (adId) document.getElementById('reportAdId').value = adId;
+    else document.getElementById('reportAdId').value = '';
+    openModal('reportModal');
+  }
+
+  async function submitReport() {
+    const reason = document.getElementById('reportReason').value;
+    if (!reason) {
+      const err = document.getElementById('reportError');
+      err.textContent = 'Tanpri chwazi yon rezon pou rapò a.';
+      err.style.display = 'block';
+      return;
+    }
+    document.getElementById('reportError').style.display = 'none';
+
+    const payload = {
+      ad_id: document.getElementById('reportAdId').value.trim() || null,
+      reason,
+      details: document.getElementById('reportDetails').value.trim() || null,
+      reporter_email: document.getElementById('reportEmail').value.trim() || null,
+      created_at: new Date().toISOString()
+    };
+
+    try {
+      const { error } = await supabase.from('reports').insert([payload]);
+      if (error) throw error;
+    } catch (e) {
+      // Silently continue — show success even if DB not set up yet
+      console.warn('Report insert:', e.message);
+    }
+
+    document.getElementById('reportForm').style.display = 'none';
+    document.getElementById('reportSuccess').style.display = 'block';
+  }
+
+  // ============ LIGHTWEIGHT ANALYTICS ============
+  // Sove done nan localStorage — ranplase ak yon backend reyèl pita
+  const _analytics = JSON.parse(localStorage.getItem('am-analytics') || '{"pageviews":0,"catClicks":{},"searches":[]}');
+  _analytics.pageviews++;
+  function _saveAnalytics() { localStorage.setItem('am-analytics', JSON.stringify(_analytics)); }
+  _saveAnalytics();
+
+  function _trackCat(cat) {
+    _analytics.catClicks[cat] = (_analytics.catClicks[cat] || 0) + 1;
+    _saveAnalytics();
+    // gtag('event','category_click',{category:cat}); // ← dekomante si Google Analytics aktif
+  }
+  function _trackSearch(q) {
+    if (!q.trim()) return;
+    _analytics.searches = [q.trim(), ..._analytics.searches].slice(0, 50);
+    _saveAnalytics();
+    // gtag('event','search',{search_term:q}); // ← dekomante si Google Analytics aktif
+  }
+
+  // ============ SUPABASE CONFIG ============
+  const SUPABASE_URL = 'https://cisjnsdnxqvgqjuzwobk.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpc2puc2RueHF2Z3FqdXp3b2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0MTI2OTQsImV4cCI6MjA5Nzk4ODY5NH0.rWwbLUOs8TjZpHD19fDYX4B9mOIyn-eAFpcwGcdav_E';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // ============ API CONFIG ============
+  // Ranplase ak vrè URL backend ou a sou Render (egzanp: 'https://ayiti-market-api.onrender.com')
+  const API_BASE = 'https://ayiti-market-40ce.onrender.com';
+
+  // ============ KÒWÒDONE VIL (pou "Toupre m" — rayon 10km) ============
+  // Nou pa gen yon adrès egzak pou chak anons, sèlman yon vil/zòn (lis "Lokasyon"
+  // nan fòmilè pibliyasyon an). Nou sèvi ak sant apwoksimatif chak vil pou estime
+  // distans ant itilizatè a ak anons yo.
+  const CITY_COORDS = {
+    'pòtoprens': { lat: 18.5944, lng: -72.3074 },
+    'petyonvil': { lat: 18.5126, lng: -72.2852 },
+    'delma':     { lat: 18.5392, lng: -72.2956 },
+    'tabarre':   { lat: 18.5786, lng: -72.2766 },
+    'kafou':     { lat: 18.5413, lng: -72.3961 },
+    'okap':      { lat: 19.7592, lng: -72.2014 },
+    'gonayiv':   { lat: 19.4480, lng: -72.6843 },
+    'jakmèl':    { lat: 18.2341, lng: -72.5350 },
+  };
+  function coordsForLocation(loc) {
+    if (!loc) return null;
+    return CITY_COORDS[loc.trim().toLowerCase()] || null;
+  }
+
+  // ============ ALL LISTINGS (chaje soti nan API a) ============
+  let ALL_LISTINGS = [];
+  let listingsLoaded = false;
+
+  // Konvèti yon liy DB (snake_case) an objè frontend lan konprann
+  // Slug pou URL SEO yo (/anons/id/slug) — dwe matche egzakteman ak
+  // fonksyon slugify() nan backend/index.js, sinon backend a redireksyone (301).
+  function slugify(text) {
+    return (text || 'anons')
+      .toString()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/(^-|-$)/g, '')
+      .slice(0, 60) || 'anons';
+  }
+
+  function mapListing(row) {
+    const img = (row.images && row.images.length) ? row.images[0] : 'https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=800&q=80';
+    const createdAt = row.created_at ? new Date(row.created_at) : new Date();
+    const daysAgo = Math.max(0, Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24)));
+    return {
+      id: row.id,
+      title: row.title,
+      price: row.price_label || (row.price_val ? `${Number(row.price_val).toLocaleString('fr-FR')} HTG` : 'Sou demann'),
+      priceVal: row.price_val || 0,
+      loc: row.location || '',
+      tag: row.tag || '',
+      cat: row.category || '',
+      cond: row.condition || '',
+      daysAgo,
+      seller: row.seller_name ? row.seller_name.split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase() : '??',
+      sellerName: row.seller_name || 'Vandè',
+      sellerId: row.seller_id || null,
+      phone: row.phone_number || null,
+      verified: !!row.verified,
+      img,
+      rawImages: row.images || [],
+      alt: row.title,
+      keywords: row.keywords || '',
+      desc: row.description || '',
+      distanceKm: (row.distance_km != null) ? row.distance_km : null,
+      isSold: !!row.is_sold
+    };
+  }
+
+  async function fetchListings(params = {}) {
+    const qs = new URLSearchParams();
+    if (params.category)  qs.set('category',  params.category);
+    if (params.location)  qs.set('location',  params.location);
+    if (params.sort)      qs.set('sort',      params.sort);
+    if (params.search)    qs.set('search',    params.search);
+    if (params.priceMin)  qs.set('price_min', params.priceMin);
+    if (params.priceMax)  qs.set('price_max', params.priceMax);
+    if (params.condition) qs.set('condition', params.condition);
+    if (params.days)      qs.set('days',      params.days);
+    if (params.dept)      qs.set('dept',      params.dept);
+    if (params.lat != null && params.lng != null) {
+      qs.set('lat',    params.lat);
+      qs.set('lng',    params.lng);
+      qs.set('radius', params.radius || NEAR_ME_RADIUS_KM);
+    }
+
+    const res = await fetch(`${API_BASE}/api/listings${qs.toString() ? '?' + qs.toString() : ''}`);
+    if (!res.ok) throw new Error(`API erè: ${res.status}`);
+    const data = await res.json();
+    return data.map(mapListing);
+  }
+
+  async function loadAllListings() {
+    try {
+      ALL_LISTINGS = await fetchListings();
+      listingsLoaded = true;
+    } catch (err) {
+      console.error('Pa kapab chaje anons yo:', err);
+      ALL_LISTINGS = [];
+      listingsLoaded = true;
+      showToast('Pa kapab konekte ak sèvè a. Tanpri eseye ankò pita.');
+    }
+    populateStats();
+    applyFilters();
+  }
+
+  // ============ POPULATE REAL STATS ============
+  function populateStats() {
+    const total = ALL_LISTINGS.length;
+    const verified = ALL_LISTINGS.filter(l => l.verified).length;
+
+    document.getElementById('stat-anons').textContent = total;
+    document.getElementById('stat-vandè').textContent = verified;
+
+    // Category counts
+    document.querySelectorAll('[data-count-cat]').forEach(el => {
+      const cat = el.dataset.countCat;
+      const count = ALL_LISTINGS.filter(l => l.cat === cat).length;
+      el.textContent = count + ' anons';
+    });
+  }
+  const PAGE_SIZE = 8;
+  let visibleCount = PAGE_SIZE;
+
+  // ============ STATE ============
+  let currentUser = null;
+  let activeLocFilter = '';   // '' = tout, 'pòtoprens', etc.
+  let activeSortFilter = '';  // '' | 'price_low'
+  let activeCatFilter = '';   // '' = tout, 'Elektwonik', etc.
+  let searchQuery = '';
+
+  // ===== TOUPRE M (jeyolokalizasyon) STATE =====
+  const NEAR_ME_RADIUS_KM = 10;
+  let nearMeActive = false;   // 'Toupre m' aktive?
+  let userCoords = null;      // { lat, lng } — pozisyon itilizatè a
+
+  // ===== FILTRE AVANSE STATE =====
+  let faState = { priceMin:'', priceMax:'', cond:'', days:'', dept:'' };
+
+  function openFiltreAvanse() {
+    // Restore UI from state
+    document.getElementById('faPriceMin').value = faState.priceMin;
+    document.getElementById('faPriceMax').value = faState.priceMax;
+    // Sync chips
+    ['cond','days','dept'].forEach(type => {
+      document.querySelectorAll(`.fa-chip[data-${type}]`).forEach(c => {
+        c.classList.toggle('active', c.dataset[type] === faState[type]);
+      });
+    });
+    document.getElementById('faOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeFiltreAvanse(e) {
+    if (e && e.target !== document.getElementById('faOverlay')) return;
+    document.getElementById('faOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function selectFaChip(el, type) {
+    document.querySelectorAll(`.fa-chip[data-${type}]`).forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+  }
+
+  function resetFiltreAvanse() {
+    faState = { priceMin:'', priceMax:'', cond:'', days:'', dept:'' };
+    document.getElementById('faPriceMin').value = '';
+    document.getElementById('faPriceMax').value = '';
+    ['cond','days','dept'].forEach(type => {
+      document.querySelectorAll(`.fa-chip[data-${type}]`).forEach(c => c.classList.remove('active'));
+      const first = document.querySelector(`.fa-chip[data-${type}=""]`);
+      if (first) first.classList.add('active');
+    });
+    updateFaBadge();
+    applyFilters();
+    document.getElementById('faOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function applyFiltreAvanse() {
+    const cond = document.querySelector('.fa-chip.active[data-cond]')?.dataset.cond ?? '';
+    const days  = document.querySelector('.fa-chip.active[data-days]')?.dataset.days  ?? '';
+    const dept  = document.querySelector('.fa-chip.active[data-dept]')?.dataset.dept  ?? '';
+    faState = {
+      priceMin: document.getElementById('faPriceMin').value.trim(),
+      priceMax: document.getElementById('faPriceMax').value.trim(),
+      cond, days, dept
+    };
+    updateFaBadge();
+    applyFilters();
+    document.getElementById('faOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  function updateFaBadge() {
+    const count = [faState.priceMin, faState.priceMax, faState.cond, faState.days, faState.dept]
+      .filter(v => v !== '').length;
+    const badge = document.getElementById('faBadge');
+    const btn = document.getElementById('btnFiltreAvanse');
+    badge.textContent = count;
+    badge.classList.toggle('show', count > 0);
+    btn.classList.toggle('has-active', count > 0);
+  }
+
+  // Ferme drawer avèk Escape
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      document.getElementById('faOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  });
+
+  // ============ FILTER ENGINE (sèvè-side) ============
+  let _filterRequestId = 0;
+
+  async function applyFilters() {
+    const myRequestId = ++_filterRequestId;
+    grid.classList.add('is-loading');
+
+    try {
+      const results = await fetchListings({
+        category:  activeCatFilter,
+        location:  activeLocFilter,
+        sort:      activeSortFilter,
+        search:    searchQuery.trim(),
+        priceMin:  faState.priceMin,
+        priceMax:  faState.priceMax,
+        condition: faState.cond,
+        days:      faState.days,
+        dept:      faState.dept,
+        lat:       (nearMeActive && userCoords) ? userCoords.lat : null,
+        lng:       (nearMeActive && userCoords) ? userCoords.lng : null,
+        radius:    NEAR_ME_RADIUS_KM
+      });
+
+      // Si yon lòt rechèch te kòmanse apre sa a, jete rezilta sa a (anti race-condition)
+      if (myRequestId !== _filterRequestId) return;
+
+      ALL_LISTINGS = results; // kenbe pou detay/fav/klik
+      visibleCount = PAGE_SIZE; // reset pagination on every new filter
+      renderListings(results);
+      updateFilterLabel();
+    } catch (err) {
+      if (myRequestId !== _filterRequestId) return;
+      console.error('Erè filtraj:', err);
+      showToast('Pa kapab rechèche kounye a. Eseye ankò.');
+    } finally {
+      if (myRequestId === _filterRequestId) grid.classList.remove('is-loading');
+    }
+  }
+
+  // ============ FILTER LABEL (active filter pill) ============
+  function updateFilterLabel() {
+    const labelEl = document.getElementById('active-filter-label');
+    const textEl = document.getElementById('filter-label-text');
+    const parts = [];
+    if (nearMeActive) parts.push(`Toupre m (${NEAR_ME_RADIUS_KM}km)`);
+    if (activeCatFilter) parts.push(activeCatFilter);
+    if (activeLocFilter) parts.push(activeLocFilter.charAt(0).toUpperCase() + activeLocFilter.slice(1));
+    if (activeSortFilter === 'price_low') parts.push('Pri ki ba');
+    if (searchQuery.trim()) parts.push('"' + searchQuery.trim() + '"');
+    if (faState.priceMin && faState.priceMax) parts.push(`${Number(faState.priceMin).toLocaleString('fr-FR')} – ${Number(faState.priceMax).toLocaleString('fr-FR')} HTG`);
+    else if (faState.priceMin) parts.push(`≥ ${Number(faState.priceMin).toLocaleString('fr-FR')} HTG`);
+    else if (faState.priceMax) parts.push(`≤ ${Number(faState.priceMax).toLocaleString('fr-FR')} HTG`);
+    if (faState.cond) parts.push(faState.cond);
+    if (faState.days) {
+      const lbl = {1:'Jodi a',7:'7 dènye jou',30:'30 jou',90:'3 mwa'}[faState.days] || faState.days+'j';
+      parts.push(lbl);
+    }
+    if (faState.dept) parts.push(faState.dept);
+    if (parts.length) {
+      textEl.textContent = parts.join('  ·  ');
+      labelEl.style.display = '';
+    } else {
+      labelEl.style.display = 'none';
+    }
+  }
+
+  function clearAllFilters() {
+    activeCatFilter = '';
+    activeLocFilter = '';
+    activeSortFilter = '';
+    searchQuery = '';
+    nearMeActive = false;
+    userCoords = null;
+    faState = { priceMin:'', priceMax:'', cond:'', days:'', dept:'' };
+    document.querySelector('.nav-search input').value = '';
+    // Reset chips
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    document.querySelector('.chip[data-loc=""]').classList.add('active');
+    setNearMeUI(false);
+    // Reset category highlights
+    document.querySelectorAll('.katye').forEach(k => k.classList.remove('katye-active'));
+    // Reset badge
+    updateFaBadge();
+    applyFilters();
+  }
+
+  // ============ RENDER ============
+  const grid = document.getElementById('listings-grid');
+  const emptyState = document.getElementById('empty-state');
+  const emptyQuery = document.getElementById('empty-query');
+  const searchMeta = document.getElementById('search-meta');
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+
+  function cardHTML(item) {
+    const isFav = favorites.has(item.id);
+    const isFeatured = item.is_featured && item.boost_tier > 0;
+    const tier2 = item.boost_tier >= 2;
+    const featuredBadge = isFeatured
+      ? `<div class="featured-badge${tier2 ? ' tier2' : ''}">⭐ ${tier2 ? 'Super Vedèt' : 'Vedèt'}</div>`
+      : '';
+    const slug = slugify(`${item.title}-${item.loc || ''}`);
+    return `
+      <a class="card${isFeatured ? ' featured' : ''}${item.isSold ? ' is-sold' : ''}" data-id="${item.id}" href="/anons/${item.id}/${slug}" style="cursor:pointer;display:block;text-decoration:none;color:inherit">
+        <div class="card-img">
+          ${featuredBadge}
+          ${item.isSold ? `<div class="sold-overlay"><span class="sold-badge">Vann Deja</span></div>` : ''}
+          ${!isFeatured && !item.isSold && item.tag ? `<span class="card-tag">${item.tag}</span>` : ''}
+          <button class="card-fav" aria-label="Mete nan favori" data-id="${item.id}">${isFav ? '❤️' : '🤍'}</button>
+          <img src="${item.img}" alt="${item.alt}" loading="lazy">
+        </div>
+        <div class="card-body">
+          <div class="card-price">${item.price}</div>
+          <div class="card-title">${item.title}</div>
+          <div class="card-loc"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> ${item.loc}${item.distanceKm != null ? ` · ${item.distanceKm.toFixed(1)} km` : ''}</div>
+          <div class="card-foot">
+            <div class="seller"><span class="av">${item.seller}</span> ${item.sellerName}</div>
+            ${item.verified ? '<span class="verified" title="Vandè Verifye">✓</span>' : ''}
+          </div>
+        </div>
+      </a>`;
+  }
+
+  function renderListings(allFiltered) {
+    const visible = allFiltered.slice(0, visibleCount);
+    grid.innerHTML = visible.map(cardHTML).join('');
+
+    // Search meta count
+    const hasActiveFilter = searchQuery.trim() || activeCatFilter || activeLocFilter || activeSortFilter || nearMeActive;
+    if (hasActiveFilter) {
+      searchMeta.style.display = 'block';
+      searchMeta.textContent = allFiltered.length > 0
+        ? `${allFiltered.length} anons jwenn`
+        : '';
+    } else {
+      searchMeta.style.display = 'none';
+    }
+
+    // Empty state
+    if (allFiltered.length === 0) {
+      emptyState.style.display = 'block';
+      emptyQuery.textContent = searchQuery.trim() || activeCatFilter || activeLocFilter
+        || (nearMeActive ? `Toupre m (${NEAR_ME_RADIUS_KM}km)` : '');
+      grid.style.display = 'none';
+    } else {
+      emptyState.style.display = 'none';
+      grid.style.display = '';
+    }
+
+    // Load More button
+    if (visibleCount >= allFiltered.length) {
+      loadMoreBtn.style.display = 'none';
+    } else {
+      loadMoreBtn.style.display = '';
+      loadMoreBtn.textContent = `Chaje plis anons (${allFiltered.length - visibleCount} rete)`;
+    }
+
+    // Card click → detail panel (lyen <a> a rete pou Google ka endèkse URL la,
+    // men nou anpeche navigasyon reyèl pou kenbe eksperyans SPA a)
+    grid.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', e => {
+        if (e.target.closest('.card-fav')) { e.preventDefault(); return; }
+        e.preventDefault();
+        const item = ALL_LISTINGS.find(l => l.id == card.dataset.id);
+        if (item) openDetailPanel(item);
+      });
+    });
+
+    // Fav buttons
+    grid.querySelectorAll('.card-fav').forEach(btn => {
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        toggleFav(btn.dataset.id);
+      });
+    });
+  }
+
+  // ============ LOAD MORE ============
+  function loadMore() {
+    visibleCount += PAGE_SIZE;
+    renderListings(ALL_LISTINGS);
+    // Smooth scroll to newly added cards
+    const cards = grid.querySelectorAll('.card');
+    if (cards[visibleCount - PAGE_SIZE]) {
+      cards[visibleCount - PAGE_SIZE].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }
+
+  // ============ CATEGORY CLICKS ============
+  document.querySelectorAll('.katye[data-cat]').forEach(el => {
+    el.addEventListener('click', e => {
+      const cat = el.dataset.cat;
+      _trackCat(cat);
+      // Toggle: click same category again to clear it
+      if (activeCatFilter === cat) {
+        activeCatFilter = '';
+        el.classList.remove('katye-active');
+      } else {
+        activeCatFilter = cat;
+        document.querySelectorAll('.katye').forEach(k => k.classList.remove('katye-active'));
+        el.classList.add('katye-active');
+      }
+      // Reset location chip to "Tout"
+      activeLocFilter = '';
+      activeSortFilter = '';
+      nearMeActive = false;
+      userCoords = null;
+      setNearMeUI(false);
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      document.querySelector('.chip[data-loc=""]').classList.add('active');
+      applyFilters();
+    });
+  });
+
+  // ============ TOUPRE M (Filtraj Jeyolokalizasyon — rayon 10km) ============
+  function setNearMeUI(active) {
+    const chip = document.getElementById('chipNearMe');
+    if (!chip) return;
+    chip.classList.toggle('active', active);
+    chip.innerHTML = `<svg width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' style='margin-right:5px;vertical-align:-2px'><path d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z'/><circle cx='12' cy='10' r='3'/></svg>${active ? 'Toupre m (' + NEAR_ME_RADIUS_KM + 'km)' : 'Toupre m'}`;
+  }
+
+  function toggleNearMe() {
+    if (nearMeActive) {
+      nearMeActive = false;
+      userCoords = null;
+      setNearMeUI(false);
+      applyFilters();
+      return;
+    }
+
+    if (!('geolocation' in navigator)) {
+      showToast('Navigatè ou pa sipòte jeyolokalizasyon.');
+      return;
+    }
+
+    const chip = document.getElementById('chipNearMe');
+    if (chip) chip.innerHTML = `<svg width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' style='margin-right:5px;vertical-align:-2px'><path d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z'/><circle cx='12' cy='10' r='3'/></svg>Ap chèche...`;
+
+    navigator.geolocation.getCurrentPosition(
+      (pos) => {
+        userCoords = { lat: pos.coords.latitude, lng: pos.coords.longitude };
+        nearMeActive = true;
+
+        // "Toupre m" ranplase lòt filtè lokasyon/kategori/triyaj
+        activeLocFilter = '';
+        activeSortFilter = '';
+        activeCatFilter = '';
+        document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+        document.querySelectorAll('.katye').forEach(k => k.classList.remove('katye-active'));
+
+        setNearMeUI(true);
+        applyFilters();
+      },
+      (err) => {
+        setNearMeUI(false);
+        if (err.code === err.PERMISSION_DENIED) {
+          showToast('Ou refize pataje pozisyon ou. Aktive lokalizasyon nan paramèt navigatè a pou itilize "Toupre m".');
+        } else {
+          showToast('Nou pa kapab jwenn pozisyon ou kounye a. Tanpri eseye ankò.');
+        }
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 5 * 60 * 1000 }
+    );
+  }
+
+  // ============ CHIP FILTERS ============
+  document.querySelectorAll('.chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      if (chip.dataset.geo === 'near') { toggleNearMe(); return; }
+
+      // Yon chip nòmal te klike — dezaktive "Toupre m" si li te aktif
+      nearMeActive = false;
+      userCoords = null;
+      setNearMeUI(false);
+
+      document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      // Clear category filter when using a chip
+      activeCatFilter = '';
+      document.querySelectorAll('.katye').forEach(k => k.classList.remove('katye-active'));
+
+      if (chip.dataset.sort === 'price_low') {
+        activeSortFilter = 'price_low';
+        activeLocFilter = '';
+      } else {
+        activeSortFilter = '';
+        activeLocFilter = chip.dataset.loc || '';
+      }
+      applyFilters();
+    });
+  });
+
+  // ============ SEARCH ============
+  const searchInput = document.querySelector('.nav-search input');
+  let _searchDebounceTimer = null;
+
+  // Konekte tou de baw rechèch (desktop + mobil)
+  function bindSearchInput(el) {
+    if (!el) return;
+    el.addEventListener('input', e => {
+      searchQuery = e.target.value;
+      // Senkwonize lòt baw la
+      document.querySelectorAll('.nav-search input, #mobSearchInput').forEach(i => { if (i !== el) i.value = e.target.value; });
+      _trackSearch(searchQuery);
+      if (searchQuery.trim().length === 1) {
+        document.getElementById('anons').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      clearTimeout(_searchDebounceTimer);
+      _searchDebounceTimer = setTimeout(() => applyFilters(), 300);
+    });
+    el.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        clearTimeout(_searchDebounceTimer);
+        el.value = ''; searchQuery = '';
+        document.querySelectorAll('.nav-search input, #mobSearchInput').forEach(i => i.value = '');
+        applyFilters();
+      }
+    });
+  }
+  bindSearchInput(searchInput);
+  bindSearchInput(document.getElementById('mobSearchInput'));
+
+  // ============ INITIAL RENDER ============
+  // (loadAllListings + restoreSession + deeplink yo sekanse pi ba, apre definisyon restoreSession)
+
+  // ============ DEEPLINK: #listing-ID oswa #edit-ID (soti nan seller.html / account.html) ============
+  function handleDeepLinkHash() {
+    // ── Deeplink kategori: /?cat=Elektwonik (soti nan /categorie/elektronik) ──
+    const params = new URLSearchParams(window.location.search);
+    const catParam = params.get('cat');
+    if (catParam) {
+      const match = document.querySelector(`.katye[data-cat="${CSS.escape(catParam)}"]`);
+      if (match) {
+        activeCatFilter = catParam;
+        document.querySelectorAll('.katye').forEach(k => k.classList.remove('katye-active'));
+        match.classList.add('katye-active');
+        activeLocFilter = '';
+        activeSortFilter = '';
+        nearMeActive = false;
+        userCoords = null;
+        applyFilters();
+        match.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+      history.replaceState(null, '', window.location.pathname + window.location.hash);
+    }
+
+    const hash = window.location.hash;
+    if (!hash) return;
+    const matchView = hash.match(/^#listing-([\w-]+)$/);
+    const matchEdit = hash.match(/^#edit-([\w-]+)$/);
+    if (matchView) {
+      const item = ALL_LISTINGS.find(l => l.id == matchView[1]);
+      if (item) openDetailPanel(item);
+    } else if (matchEdit) {
+      const item = ALL_LISTINGS.find(l => l.id == matchEdit[1]);
+      if (item) {
+        openDetailPanel(item);
+        // ti tan pou owner-check fin fèt anvan ouvri fòm edit la
+        setTimeout(() => {
+          const ownerActions = document.getElementById('d-owner-actions');
+          if (ownerActions && ownerActions.style.display !== 'none') openEditListing();
+        }, 250);
+      }
+    }
+    // netwaye hash la pou l pa relouvri si moun navige
+    history.replaceState(null, '', window.location.pathname + window.location.search);
+  }
+
+  // ============ MODAL HELPERS ============
+  function openModal(id) {
+    document.getElementById(id).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(overlay.id); });
+  });
+  document.getElementById('authModalClose').addEventListener('click', () => closeModal('authModal'));
+  document.getElementById('publishModalClose').addEventListener('click', () => closeModal('publishModal'));
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeModal('authModal'); closeModal('publishModal'); closeModal('comingSoonModal'); closeModal('verifyModal'); closeModal('termsModal'); closeModal('privacyModal'); closeModal('reportModal'); closeDetailPanel(); }
+  });
+
+  // ============ AUTH (Supabase reyèl) ============
+  function openAuth() { openModal('authModal'); }
+
+  function showAuthError(elId, msg) {
+    const el = document.getElementById(elId);
+    el.textContent = msg;
+    el.style.display = msg ? 'block' : 'none';
+  }
+
+  document.getElementById('tabLogin').addEventListener('click', () => {
+    document.getElementById('tabLogin').classList.add('active');
+    document.getElementById('tabRegister').classList.remove('active');
+    document.getElementById('formLogin').style.display = '';
+    document.getElementById('formRegister').style.display = 'none';
+    document.getElementById('authModalTitle').textContent = 'Byenvini nan Ayiti Market';
+  });
+  document.getElementById('tabRegister').addEventListener('click', () => {
+    document.getElementById('tabRegister').classList.add('active');
+    document.getElementById('tabLogin').classList.remove('active');
+    document.getElementById('formRegister').style.display = '';
+    document.getElementById('formLogin').style.display = 'none';
+    document.getElementById('authModalTitle').textContent = 'Kreye Kont ou';
+  });
+
+  function switchToRegister(e) { e.preventDefault(); document.getElementById('tabRegister').click(); }
+  function switchToLogin(e) { e.preventDefault(); document.getElementById('tabLogin').click(); }
+
+  async function handleLogin() {
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    showAuthError('loginError', '');
+
+    if (!email || !password) {
+      showAuthError('loginError', 'Tanpri ranpli imèl ak modpas.');
+      return;
+    }
+
+    const btn = document.getElementById('loginSubmitBtn');
+    btn.disabled = true; btn.textContent = 'Ap konekte...';
+
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+    btn.disabled = false; btn.textContent = 'Konekte →';
+
+    if (error) {
+      showAuthError('loginError', 'Imèl oswa modpas pa kòrèk.');
+      return;
+    }
+    onAuthSuccess(data.user);
+  }
+
+  async function handleRegister() {
+    const firstName = document.getElementById('regFirstName').value.trim();
+    const lastName = document.getElementById('regLastName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const password = document.getElementById('regPassword').value;
+    showAuthError('registerError', '');
+
+    if (!firstName || !email || !password) {
+      showAuthError('registerError', 'Tanpri ranpli omwen non, imèl ak modpas.');
+      return;
+    }
+    if (password.length < 8) {
+      showAuthError('registerError', 'Modpas dwe gen omwen 8 karaktè.');
+      return;
+    }
+
+    const fullName = [firstName, lastName].filter(Boolean).join(' ');
+    const btn = document.getElementById('registerSubmitBtn');
+    btn.disabled = true; btn.textContent = 'Ap kreye kont...';
+
+    const { data, error } = await supabaseClient.auth.signUp({
+      email, password,
+      options: { data: { full_name: fullName } }
+    });
+
+    btn.disabled = false; btn.textContent = 'Kreye Kont Mwen →';
+
+    if (error) {
+      showAuthError('registerError', error.message.includes('already registered')
+        ? 'Yon kont deja egziste ak imèl sa a.'
+        : 'Pa kapab kreye kont. Tanpri eseye ankò.');
+      return;
+    }
+
+    if (!data.session) {
+      // Konfimasyon imèl aktive sou Supabase — itilizatè dwe konfime anvan l konekte
+      closeModal('authModal');
+      showToast('Verifye imèl ou pou konfime kont ou anvan ou konekte.');
+      return;
+    }
+    onAuthSuccess(data.user, fullName);
+  }
+
+  function setAccountLinkVisible(visible) {
+    document.querySelectorAll('[data-role="account-link"], [data-role="account-link-mobile"], [data-role="messages-link"], [data-role="messages-link-mobile"]')
+      .forEach(el => { el.style.display = visible ? '' : 'none'; });
+    if (visible) checkUnreadMessages();
+    else stopUnreadSubscription();
+  }
+
+  let _unreadChannel = null;
+
+  async function checkUnreadMessages() {
+    if (!currentUser) return;
+    try {
+      const { data: myConvs, error: convErr } = await supabaseClient
+        .from('conversations')
+        .select('id')
+        .or(`buyer_id.eq.${currentUser.id},seller_id.eq.${currentUser.id}`);
+      if (convErr) throw convErr;
+      const convIds = (myConvs || []).map(c => c.id);
+
+      let hasUnread = false;
+      if (convIds.length > 0) {
+        const { count, error } = await supabaseClient
+          .from('messages')
+          .select('id', { count: 'exact', head: true })
+          .in('conversation_id', convIds)
+          .eq('is_read', false)
+          .neq('sender_id', currentUser.id);
+        if (error) throw error;
+        hasUnread = (count || 0) > 0;
+      }
+
+      const badge1 = document.getElementById('unreadBadge');
+      const badge2 = document.getElementById('unreadBadgeMobile');
+      if (badge1) badge1.style.display = hasUnread ? '' : 'none';
+      if (badge2) badge2.style.display = hasUnread ? '' : 'none';
+    } catch (err) {
+      console.warn('Pa kapab tcheke mesaj ki pa lu:', err.message);
+    }
+    if (!_unreadChannel) {
+      _unreadChannel = supabaseClient
+        .channel('unread-badge-listen')
+        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'messages' }, () => checkUnreadMessages())
+        .on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'messages' }, () => checkUnreadMessages())
+        .subscribe();
+    }
+  }
+
+  function stopUnreadSubscription() {
+    if (_unreadChannel) { supabaseClient.removeChannel(_unreadChannel); _unreadChannel = null; }
+  }
+
+  function onAuthSuccess(user, fullNameOverride) {
+    currentUser = {
+      id: user.id,
+      email: user.email,
+      name: fullNameOverride || user.user_metadata?.full_name || user.email
+    };
+    closeModal('authModal');
+    const authBtnEl = document.querySelector('[data-role="auth-btn"]');
+    if (authBtnEl) authBtnEl.textContent = currentUser.name.split(' ')[0];
+    setAccountLinkVisible(true);
+    showToast('Ou konekte ak kont ou!');
+    loadFavsFromSupabase(); // Sync favori depi Supabase + merge local
+  }
+
+  async function handleLogout() {
+    await supabaseClient.auth.signOut();
+    currentUser = null;
+    // Kenbe favori localStorage — itilizatè ka toujou wè yo san kont
+    const authBtnEl = document.querySelector('[data-role="auth-btn"]');
+    if (authBtnEl) authBtnEl.textContent = 'Konekte';
+    setAccountLinkVisible(false);
+    showToast('Ou dekonekte.');
+  }
+
+  // Retabli sesyon si itilizatè a te deja konekte (rafrechi paj)
+  async function restoreSession() {
+    const { data } = await supabaseClient.auth.getSession();
+    if (data.session?.user) onAuthSuccess(data.session.user);
+  }
+  Promise.all([loadAllListings(), restoreSession()]).then(() => {
+    handleDeepLinkHash();
+  });
+
+
+  // ══════════════════════════════════════════════════
+  // PUSH NOTIFICATIONS — abonnen pou vandè resevwa
+  // notifikasyon mesaj menm lè yo pa sou messages.html
+  // ══════════════════════════════════════════════════
+  function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64  = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const raw     = atob(base64);
+    return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+  }
+
+  async function setupPushNotifications() {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (!session) return;
+      const hdrs = { 'Authorization': `Bearer ${session.access_token}` };
+
+      const res = await fetch(`${API_BASE}/api/vapid-public-key`, { headers: hdrs });
+      if (!res.ok) return;
+      const { key: vapidKey } = await res.json();
+
+      const reg = await navigator.serviceWorker.ready;
+      let sub = await reg.pushManager.getSubscription();
+      if (!sub) {
+        const perm = await Notification.requestPermission();
+        if (perm !== 'granted') return;
+        sub = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(vapidKey),
+        });
+      }
+      await fetch(`${API_BASE}/api/push-subscribe`, {
+        method: 'POST',
+        headers: { ...hdrs, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subscription: sub.toJSON() }),
+      });
+    } catch (err) {
+      console.warn('Push setup echwe:', err);
+    }
+  }
+
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    if (event === 'SIGNED_OUT') currentUser = null;
+    if (event === 'SIGNED_IN' && session) setupPushNotifications();
+  });
+
+  // ============ PUBLISH (vrè API) ============
+  let _pendingPhotoFiles = [];
+  let _editingListingId = null;
+
+  function openPublish() {
+    if (!currentUser) { openModal('authModal'); return; }
+    _editingListingId = null;
+    _pendingPhotoFiles = [];
+    document.getElementById('pubTitle').value = '';
+    document.getElementById('pubCategory').value = '';
+    document.getElementById('pubDesc').value = '';
+    document.getElementById('priceInput').value = '';
+    document.getElementById('negociabCheck').checked = false;
+    document.getElementById('pubLocation').value = '';
+    document.getElementById('photoPreview').innerHTML = '';
+    document.getElementById('publishSubmitBtn').textContent = 'Pibliye Anons Gratis →';
+    openModal('publishModal');
+  }
+
+  function handlePhotoUpload(input) {
+    const preview = document.getElementById('photoPreview');
+    preview.innerHTML = '';
+    _pendingPhotoFiles = Array.from(input.files).slice(0, 5);
+    _pendingPhotoFiles.forEach(file => {
+      const url = URL.createObjectURL(file); // sèlman pou prevyizyalizasyon lokal
+      const img = document.createElement('img');
+      img.src = url;
+      img.style.cssText = 'width:70px;height:70px;object-fit:cover;border-radius:8px;border:1.5px solid var(--liy)';
+      preview.appendChild(img);
+    });
+  }
+
+  // Telechaje tout foto ki ap tann nan bucket Supabase Storage, retounen lis URL piblik
+  async function uploadPendingPhotos() {
+    const urls = [];
+    for (const file of _pendingPhotoFiles) {
+      const ext = file.name.split('.').pop() || 'jpg';
+      const path = `${currentUser.id}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+      const { error: uploadError } = await supabaseClient.storage
+        .from('listing-images')
+        .upload(path, file, { cacheControl: '3600', upsert: false });
+
+      if (uploadError) {
+        throw new Error('Erè telechaje foto: ' + uploadError.message);
+      }
+
+      const { data: publicUrlData } = supabaseClient.storage
+        .from('listing-images')
+        .getPublicUrl(path);
+
+      urls.push(publicUrlData.publicUrl);
+    }
+    return urls;
+  }
+
+  async function handlePublish() {
+    if (!currentUser) { openModal('authModal'); return; }
+
+    const title = document.getElementById('pubTitle').value.trim();
+    const category = document.getElementById('pubCategory').value;
+    const description = document.getElementById('pubDesc').value.trim();
+    const priceVal = parseFloat(document.getElementById('priceInput').value) || 0;
+    const negociab = document.getElementById('negociabCheck').checked;
+    const location = document.getElementById('pubLocation').value;
+    const phone = document.getElementById('pubPhone').value.trim();
+    showAuthError('publishError', '');
+
+    if (!title || !category || !location) {
+      showAuthError('publishError', 'Tanpri ranpli tit, kategori, ak lokasyon.');
+      return;
+    }
+
+    const phoneDigits = phone.replace(/[\s\-]/g, '');
+    if (!phoneDigits) {
+      showAuthError('publishError', 'Tanpri antre nimewo WhatsApp / Telefòn ou. Achtè yo bezwen sa pou kontakte w.');
+      return;
+    }
+    if (!/^[0-9]{8}$/.test(phoneDigits)) {
+      showAuthError('publishError', 'Nimewo telefòn dwe gen 8 chif (ex. 3712-3456).');
+      return;
+    }
+
+    const priceLabel = priceVal > 0 ? `${priceVal.toLocaleString('fr-FR')} HTG` : 'Sou demann';
+    const isEditing = !!_editingListingId;
+
+    const btn = document.getElementById('publishSubmitBtn');
+    btn.disabled = true; btn.textContent = 'Ap telechaje foto...';
+
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const token = session?.access_token;
+
+      if (!token) {
+        showAuthError('publishError', 'Sesyon ou ekspire. Tanpri dekonekte epi konekte ankò.');
+        btn.disabled = false; btn.textContent = isEditing ? 'Sove Chanjman →' : 'Pibliye Anons Gratis →';
+        return;
+      }
+
+      // Si itilizatè a chwazi nouvo foto, telechaje yo. Sinon (an mòd edisyon), kenbe ansyen yo.
+      let imageUrls;
+      if (_pendingPhotoFiles.length > 0) {
+        imageUrls = await uploadPendingPhotos();
+      } else if (isEditing) {
+        const existing = ALL_LISTINGS.find(l => l.id == _editingListingId);
+        imageUrls = existing?.rawImages || [];
+      } else {
+        imageUrls = [];
+      }
+
+      const coords = coordsForLocation(location);
+      const payload = {
+        title,
+        description,
+        category,
+        location,
+        price_val: priceVal,
+        price_label: priceLabel,
+        tag: negociab ? 'Pri Negosyab' : '',
+        condition: 'Bon eta',
+        seller_name: currentUser.name,
+        phone_number: phoneDigits,
+        keywords: `${title} ${category} ${location}`.toLowerCase(),
+        images: imageUrls,
+        lat: coords ? coords.lat : null,
+        lng: coords ? coords.lng : null
+      };
+
+      btn.textContent = isEditing ? 'Ap sove...' : 'Ap pibliye...';
+
+      const url = isEditing ? `${API_BASE}/api/listings/${_editingListingId}` : `${API_BASE}/api/listings`;
+      const res = await fetch(url, {
+        method: isEditing ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Erè ${res.status} — ${res.statusText}`);
+      }
+
+      closeModal('publishModal');
+      document.getElementById('pubTitle').value = '';
+      document.getElementById('pubDesc').value = '';
+      document.getElementById('priceInput').value = '';
+      document.getElementById('pubPhone').value = '';
+      document.getElementById('photoPreview').innerHTML = '';
+      document.getElementById('negociabCheck').checked = false;
+      _pendingPhotoFiles = [];
+      _editingListingId = null;
+      document.getElementById('publishSubmitBtn').textContent = 'Pibliye Anons Gratis →';
+      showToast(isEditing ? 'Anons modifye avèk siksè!' : 'Anons ou pibliye avèk siksè!');
+      loadAllListings();
+    } catch (err) {
+      console.error('Erè pibliye:', err);
+      showAuthError('publishError', err.message);
+    } finally {
+      btn.disabled = false;
+      if (btn.textContent.startsWith('Ap ')) btn.textContent = isEditing ? 'Sove Chanjman →' : 'Pibliye Anons Gratis →';
+    }
+  }
+
+  // Wire up nav buttons
+  const authBtn = document.querySelector('[data-role="auth-btn"]');
+  if (authBtn) {
+    authBtn.addEventListener('click', e => {
+      e.preventDefault();
+      if (currentUser) handleLogout();
+      else openAuth();
+    });
+  }
+  document.querySelectorAll('a, button').forEach(el => {
+    const txt = el.textContent.trim();
+    if (txt === '+ Pibliye Anons' || txt === 'Pibliye gratis →' || txt === 'Kòmanse Vann →') {
+      el.addEventListener('click', e => { e.preventDefault(); openPublish(); });
+    }
+  });
+
+  // ============ DETAIL PANEL ============
+  const detailPanel = document.getElementById('detailPanel');
+  const detailBackdrop = document.getElementById('detailBackdrop');
+
+  // ── Anons Similè ────────────────────────────────────────────
+  function renderSimilar(currentItem) {
+    const section = document.getElementById('d-similar-section');
+    const grid    = document.getElementById('d-similar-grid');
+    // Filtre: menm kategori, pa menm anons, pa vann
+    const similar = ALL_LISTINGS
+      .filter(it => it.id !== currentItem.id && it.cat === currentItem.cat && !it.isSold)
+      .sort(() => Math.random() - 0.5)  // melanje
+      .slice(0, 4);
+
+    if (!similar.length) { section.style.display = 'none'; return; }
+
+    grid.innerHTML = similar.map(it => {
+      const slug = slugify(it.title);
+      return `
+        <a class="sim-card" data-id="${it.id}" href="/anons/${it.id}/${slug}">
+          <div class="sim-card-img">
+            <img src="${it.img}" alt="${it.alt}" loading="lazy"
+                 onerror="this.src='https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=400&q=60'">
+          </div>
+          <div class="sim-card-body">
+            <div class="sim-card-price">${it.price}</div>
+            <div class="sim-card-title">${it.title}</div>
+          </div>
+        </a>`;
+    }).join('');
+
+    // Klike sou yon anons similè → ouvri nan detail panel (pa navigate)
+    grid.querySelectorAll('.sim-card').forEach(el => {
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        const id   = el.dataset.id;
+        const found = ALL_LISTINGS.find(x => x.id === id);
+        if (found) openDetailPanel(found);
+      });
+    });
+
+    section.style.display = '';
+  }
+
+  function openDetailPanel(item) {
+    document.getElementById('d-img').src = item.img;
+    document.getElementById('d-img').alt = item.alt;
+    document.getElementById('d-price').textContent = item.price;
+    document.getElementById('d-title').textContent = item.title;
+    document.getElementById('d-loc').textContent = item.loc;
+    document.getElementById('d-cat').textContent = item.cat;
+    document.getElementById('d-cond').textContent = item.cond;
+    document.getElementById('d-date').textContent = item.daysAgo === 0 ? 'Jodi a' : `${item.daysAgo}j de sa`;
+    document.getElementById('d-desc').textContent = item.desc;
+    document.getElementById('d-av').textContent = item.seller;
+    document.getElementById('d-seller').textContent = item.sellerName;
+    const sellerLinkEl = document.getElementById('d-seller');
+    sellerLinkEl.href = item.sellerId ? `seller.html?id=${item.sellerId}` : '#';
+    document.getElementById('d-seller-loc').textContent = item.loc;
+    const tagEl = document.getElementById('d-tag');
+    if (item.tag) { tagEl.textContent = item.tag; tagEl.style.display = ''; }
+    else tagEl.style.display = 'none';
+    document.getElementById('d-verified').style.display = item.verified ? '' : 'none';
+    const phoneEl = document.getElementById('d-phone');
+    if (item.phone) {
+      document.getElementById('d-phone-val').textContent = item.phone;
+      phoneEl.style.display = '';
+    } else {
+      phoneEl.style.display = 'none';
+    }
+    document.getElementById('d-fav').textContent = favorites.has(item.id) ? '❤️' : '🤍';
+    detailPanel.dataset.itemId = item.id;
+
+    const ownerActions = document.getElementById('d-owner-actions');
+    const isOwner = currentUser && item.sellerId && currentUser.id === item.sellerId;
+    ownerActions.style.display = isOwner ? 'flex' : 'none';
+
+    // ── Sold state ──
+    const soldBanner  = document.getElementById('d-sold-banner');
+    const soldToggle  = document.getElementById('d-sold-toggle-btn');
+    const btnWa       = document.getElementById('d-btn-wa');
+    const btnMsg      = document.getElementById('d-btn-msg');
+
+    if (item.isSold) {
+      soldBanner.style.display = 'flex';
+      // Bloke bouton kontakt pou achtè
+      if (!isOwner) {
+        btnWa.disabled  = true; btnWa.style.opacity  = '0.4'; btnWa.title = 'Anons sa a deja vann';
+        btnMsg.disabled = true; btnMsg.style.opacity = '0.4'; btnMsg.title = 'Anons sa a deja vann';
+      } else {
+        btnWa.disabled  = false; btnWa.style.opacity  = '';
+        btnMsg.disabled = false; btnMsg.style.opacity = '';
+      }
+      if (isOwner) soldToggle.textContent = 'Mak kòm Disponib ankò';
+    } else {
+      soldBanner.style.display = 'none';
+      btnWa.disabled  = false; btnWa.style.opacity  = ''; btnWa.title = '';
+      btnMsg.disabled = false; btnMsg.style.opacity = ''; btnMsg.title = '';
+      if (isOwner) soldToggle.textContent = 'Mak kòm Vann Deja';
+    }
+
+    detailPanel.classList.add('open');
+    document.body.style.overflow = 'hidden';
+
+    // Anons similè
+    renderSimilar(item);
+
+    // Anrejistre yon view (silans — pa bloke UI)
+    (async () => {
+      try {
+        const opts = { method: 'POST', headers: { 'Content-Type': 'application/json' } };
+        const sess = supabase.auth.session ? supabase.auth.session() : (await supabase.auth.getSession()).data.session;
+        if (sess) opts.headers['Authorization'] = 'Bearer ' + sess.access_token;
+        await fetch(`${API_BASE}/api/listings/${item.id}/view`, opts);
+      } catch (_) {}
+    })();
+  }
+
+  function closeDetailPanel() {
+    detailPanel.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ============ DELETE LISTING ============
+  async function confirmDeleteListing() {
+    const id = detailPanel.dataset.itemId;
+    const item = ALL_LISTINGS.find(l => l.id == id);
+    if (!item) return;
+
+    if (!confirm(`Efase anons "${item.title}" pou tout tan? Aksyon sa pa ka anile.`)) return;
+
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const token = session?.access_token;
+      if (!token) { showToast('Sesyon ekspire. Konekte ankò.'); return; }
+
+      const res = await fetch(`${API_BASE}/api/listings/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.error || `Erè ${res.status}`);
+      }
+
+      closeDetailPanel();
+      showToast('Anons efase.');
+      loadAllListings();
+    } catch (err) {
+      console.error('Erè efase:', err);
+      showToast('Pa kapab efase anons: ' + err.message);
+    }
+  }
+
+  // ============ EDIT LISTING ============
+
+  function openEditListing() {
+    const id = detailPanel.dataset.itemId;
+    const item = ALL_LISTINGS.find(l => l.id == id);
+    if (!item) return;
+
+    _editingListingId = item.id;
+    document.getElementById('pubTitle').value = item.title;
+    document.getElementById('pubCategory').value = item.cat;
+    document.getElementById('pubDesc').value = item.desc;
+    document.getElementById('priceInput').value = item.priceVal || '';
+    document.getElementById('negociabCheck').checked = item.tag === 'Pri Negosyab';
+    document.getElementById('pubLocation').value = item.loc;
+    document.getElementById('pubPhone').value = item.phone || '';
+    document.getElementById('photoPreview').innerHTML = '';
+    _pendingPhotoFiles = [];
+    (item.rawImages || []).forEach(url => {
+      const img = document.createElement('img');
+      img.src = url;
+      img.style.cssText = 'width:70px;height:70px;object-fit:cover;border-radius:8px;border:1.5px solid var(--liy)';
+      document.getElementById('photoPreview').appendChild(img);
+    });
+
+    document.getElementById('publishSubmitBtn').textContent = 'Sove Chanjman →';
+    closeDetailPanel();
+    openModal('publishModal');
+  }
+
+  document.getElementById('detailBack').addEventListener('click', closeDetailPanel);
+  detailBackdrop.addEventListener('click', closeDetailPanel);
+  document.getElementById('d-fav').addEventListener('click', function() {
+    const id = document.getElementById('detailPanel').dataset.itemId;
+    if (id) toggleFav(id);
+  });
+
+  function openWhatsApp() {
+    const item = ALL_LISTINGS.find(l => l.id == detailPanel.dataset.itemId);
+    if (!item) return;
+    const slug = slugify(`${item.title}-${item.loc || ''}`);
+    const url = `${location.origin}/anons/${item.id}/${slug}`;
+    const msg = encodeURIComponent(
+      `Bonjou! Mwen wè anons sa a sou Ayiti Market:\n\n` +
+      `*${item.title}* — ${item.price}\n` +
+      `${item.loc}\n\n` +
+      `${url}\n\n` +
+      `Èske li toujou disponib?`
+    );
+    if (item.phone) {
+      const cleaned = item.phone.replace(/[\s\-\+]/g, '');
+      const full = cleaned.startsWith('509') ? cleaned : `509${cleaned}`;
+      window.open(`https://wa.me/${full}?text=${msg}`, '_blank');
+    } else {
+      window.open(`https://wa.me/?text=${msg}`, '_blank');
+    }
+  }
+
+  async function contactSeller(btnEl) {
+    const item = ALL_LISTINGS.find(l => l.id == detailPanel.dataset.itemId);
+    if (!item) return;
+    if (!currentUser) { openModal('authModal'); return; }
+    if (!item.sellerId) { showToast('Vandè sa a pa disponib pou chat kounye a.'); return; }
+    if (currentUser.id === item.sellerId) { showToast('Se anons pa w sa a.'); return; }
+
+    if (btnEl) { btnEl.disabled = true; btnEl.textContent = 'Ap louvri chat...'; }
+
+    try {
+      // Eseye jwenn konvèsasyon ki egziste deja pou (anons + mwen kòm achtè)
+      const { data: existing } = await supabaseClient
+        .from('conversations')
+        .select('id')
+        .eq('listing_id', item.id)
+        .eq('buyer_id', currentUser.id)
+        .maybeSingle();
+
+      let convId = existing?.id;
+
+      if (!convId) {
+        const { data: created, error } = await supabaseClient
+          .from('conversations')
+          .insert({ listing_id: item.id, buyer_id: currentUser.id, seller_id: item.sellerId })
+          .select('id')
+          .single();
+        if (error) throw error;
+        convId = created.id;
+      }
+
+      window.location.href = `messages.html?conv=${convId}`;
+    } catch (err) {
+      console.error(err);
+      showToast('Pa kapab louvri chat la. Eseye WhatsApp olye sa.');
+    } finally {
+      if (btnEl) { btnEl.disabled = false; btnEl.textContent = 'Voye Mesaj'; }
+    }
+  }
+
+  // ── TOGGLE SOLD STATUS ──────────────────────────────────────
+  async function toggleSoldStatus() {
+    const id   = detailPanel.dataset.itemId;
+    const item = ALL_LISTINGS.find(l => l.id == id);
+    if (!item) return;
+
+    const newSold = !item.isSold;
+    const btn = document.getElementById('d-sold-toggle-btn');
+    btn.disabled = true; btn.textContent = 'Ap chanje...';
+
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const token = session?.access_token;
+      if (!token) { showToast('Sesyon ekspire.', false); return; }
+
+      const res = await fetch(`${API_BASE}/api/listings/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ is_sold: newSold })
+      });
+      if (!res.ok) { const e = await res.json(); throw new Error(e.error || 'Erè'); }
+
+      // Mete ajou lokalkman san recharje tout lis
+      item.isSold = newSold;
+      openDetailPanel(item); // re-render panel
+      showToast(newSold ? 'Anons mak kòm Vann Deja.' : 'Anons mak kòm Disponib ankò.');
+
+      // Mete ajou kat la nan griy la
+      const card = document.querySelector(`.card[data-id="${id}"]`);
+      if (card) {
+        card.classList.toggle('is-sold', newSold);
+        const imgDiv = card.querySelector('.card-img');
+        const existOverlay = imgDiv?.querySelector('.sold-overlay');
+        if (newSold && !existOverlay && imgDiv) {
+          const ov = document.createElement('div');
+          ov.className = 'sold-overlay';
+          ov.innerHTML = '<span class="sold-badge">Vann Deja</span>';
+          imgDiv.prepend(ov);
+        } else if (!newSold && existOverlay) {
+          existOverlay.remove();
+        }
+        const priceEl = card.querySelector('.card-price');
+        if (priceEl) priceEl.style.textDecoration = newSold ? 'line-through' : '';
+      }
+    } catch (err) {
+      showToast(err.message, false);
+    } finally {
+      btn.disabled = false;
+    }
+  }
+  window.toggleSoldStatus = toggleSoldStatus;
+
+  function shareListing() {
+    const item = ALL_LISTINGS.find(l => l.id == detailPanel.dataset.itemId);
+    if (!item) return;
+    // Sèvi ak URL paj SEO a (/anons/id/slug) — se LI ki gen og:title, og:image,
+    // ak og:description, kidonk WhatsApp/Facebook ka jenere yon bèl kart pataj.
+    // (URL ?anons=id se sèlman pou navigasyon entèn nan SPA a, li pa gen meta tags.)
+    const slug = slugify(`${item.title}-${item.loc || ''}`);
+    const url = `${location.origin}/anons/${item.id}/${slug}`;
+    const btn = document.getElementById('btnShareListing');
+
+    // Eseye Web Share API (mobil natif) avan kopi clipboard
+    if (navigator.share) {
+      navigator.share({
+        title: item.title,
+        text: `${item.title} — ${item.price} · Ayiti Market`,
+        url
+      }).catch(() => {});
+      return;
+    }
+
+    // Fallback: kopi lyen nan clipboard
+    navigator.clipboard.writeText(url).then(() => {
+      btn.classList.add('copied');
+      setTimeout(() => btn.classList.remove('copied'), 2200);
+    }).catch(() => {
+      // Dènye recours: prompt manual
+      prompt('Kopye lyen an:', url);
+    });
+  }
+
+  // ============ MOBILE DRAWER ============
+  const navToggle = document.getElementById('navToggle');
+  const drawer = document.getElementById('mobileDrawer');
+  const closeDrawer = document.getElementById('closeDrawer');
+  navToggle.addEventListener('click', () => drawer.classList.add('open'));
+  closeDrawer.addEventListener('click', () => drawer.classList.remove('open'));
+
+  // ============ MÒD NWA (TOGGLE) ============
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('am-theme', theme); } catch (e) {}
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  }
+  const themeToggle = document.getElementById('themeToggle');
+  const themeToggleMobile = document.getElementById('themeToggleMobile');
+  if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+  if (themeToggleMobile) themeToggleMobile.addEventListener('click', toggleTheme);
+  drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', () => drawer.classList.remove('open')));
+
+  // ============ FAQ ============
+  document.querySelectorAll('.faq-item').forEach(item => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+
+  // ============ TOAST ============
+  function showToast(msg) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = `position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+      background:#14181F;color:#FBF6EC;padding:14px 22px;border-radius:100px;
+      font-weight:700;font-size:0.88rem;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.25);
+      white-space:nowrap;transition:opacity .4s;`;
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 400); }, 3000);
+  }
+
+  // ============ PWA: ENREJISTRE SERVICE WORKER ============
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(() => {
+        // Si sa echwe (ex. domèn pa sipòte HTTPS), pa kraze rès sit la
+      });
+    });
+  }
+</script>
+
+<!-- ══════════════════════════════════════════════════ -->
+<!-- MODAL: RECHÈCH PA FOTO (Vision AI)                -->
+<!-- ══════════════════════════════════════════════════ -->
+<div id="imageSearchModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:3000;display:none;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:var(--bg,#FBF6EC);border-radius:20px;width:100%;max-width:420px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.3);">
+
+    <!-- Header -->
+    <div style="background:var(--wouj,#B91C3C);padding:18px 20px;display:flex;align-items:center;gap:10px;">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <span style="color:#fff;font-weight:800;font-size:1rem;flex:1;">Chèche pa Foto</span>
+      <button onclick="closeImageSearch()" style="background:rgba(255,255,255,0.2);border:none;color:#fff;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;">×</button>
+    </div>
+
+    <!-- Drop zone -->
+    <div id="imgDropZone" style="margin:20px;border:2px dashed var(--bòd,#E5E0D5);border-radius:14px;padding:32px 20px;text-align:center;cursor:pointer;transition:border-color .2s;" onclick="document.getElementById('imageSearchInput').click()" ondragover="event.preventDefault();this.style.borderColor='var(--wouj,#B91C3C)'" ondragleave="this.style.borderColor=''" ondrop="handleImgDrop(event)">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--wouj,#B91C3C)" stroke-width="1.5" style="margin-bottom:12px;opacity:0.7"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+      <p style="font-weight:700;margin-bottom:4px;color:var(--teks,#14181F);">Pran yon foto oswa chwazi youn</p>
+      <p style="font-size:0.82rem;color:var(--lank,#6B7280);">Klike isit la oswa glise yon imaj</p>
+    </div>
+
+    <!-- Preview + loading + result -->
+    <div id="imgPreviewWrap" style="display:none;padding:0 20px 20px;">
+      <img id="imgPreview" style="width:100%;height:180px;object-fit:cover;border-radius:12px;margin-bottom:14px;"/>
+
+      <!-- Loading -->
+      <div id="imgLoading" style="display:none;text-align:center;padding:12px 0;">
+        <div style="display:inline-block;width:28px;height:28px;border:3px solid var(--bòd,#E5E0D5);border-top-color:var(--wouj,#B91C3C);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:8px;"></div>
+        <p style="font-size:0.88rem;color:var(--lank,#6B7280);">AI ap analyze foto a...</p>
+      </div>
+
+      <!-- Result -->
+      <div id="imgResult" style="display:none;">
+        <div style="background:var(--bg2,#fff);border-radius:12px;padding:14px;margin-bottom:14px;border:1.5px solid var(--bòd,#E5E0D5);">
+          <p style="font-size:0.78rem;font-weight:700;color:var(--lank,#6B7280);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em;">AI te jwenn</p>
+          <p id="imgResultDesc" style="font-weight:700;font-size:1rem;margin-bottom:4px;"></p>
+          <p id="imgResultCat" style="font-size:0.82rem;color:var(--lank,#6B7280);"></p>
+        </div>
+        <button onclick="applyImageSearch()" style="width:100%;padding:13px;background:var(--wouj,#B91C3C);color:#fff;border:none;border-radius:12px;font-weight:800;font-size:0.95rem;cursor:pointer;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" style="margin-right:6px;vertical-align:-2px"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Chèche pwodwi sa yo
+        </button>
+        <button onclick="resetImageSearch()" style="width:100%;padding:10px;background:none;border:none;color:var(--lank,#6B7280);font-size:0.85rem;cursor:pointer;margin-top:6px;">Eseye yon lòt foto</button>
+      </div>
+
+      <!-- Error -->
+      <div id="imgError" style="display:none;text-align:center;padding:8px 0;">
+        <p style="color:#dc2626;font-size:0.88rem;" id="imgErrorMsg"></p>
+        <button onclick="resetImageSearch()" style="margin-top:8px;background:none;border:none;color:var(--wouj,#B91C3C);font-weight:700;cursor:pointer;">Eseye ankò</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+@keyframes spin { to { transform: rotate(360deg); } }
+</style>
+
+<script>
+// ── IMAGE SEARCH ─────────────────────────────────────
+let _aiImageResult = null;
+
+function openImageSearch() {
+  const modal = document.getElementById('imageSearchModal');
+  modal.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeImageSearch() {
+  document.getElementById('imageSearchModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function resetImageSearch() {
+  document.getElementById('imgDropZone').style.display = '';
+  document.getElementById('imgPreviewWrap').style.display = 'none';
+  document.getElementById('imgLoading').style.display = 'none';
+  document.getElementById('imgResult').style.display = 'none';
+  document.getElementById('imgError').style.display = 'none';
+  document.getElementById('imageSearchInput').value = '';
+  _aiImageResult = null;
+}
+
+function handleImgDrop(e) {
+  e.preventDefault();
+  document.getElementById('imageSearchModal').querySelector('[ondragover]').style.borderColor = '';
+  const file = e.dataTransfer?.files?.[0];
+  if (file && file.type.startsWith('image/')) processImageFile(file);
+}
+
+async function handleImageSearch(input) {
+  const file = input.files?.[0];
+  if (!file) return;
+  processImageFile(file);
+}
+
+async function processImageFile(file) {
+  // Montre preview
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    const dataUrl = e.target.result;
+    const base64 = dataUrl.split(',')[1];
+    const mediaType = file.type || 'image/jpeg';
+
+    document.getElementById('imgDropZone').style.display = 'none';
+    document.getElementById('imgPreviewWrap').style.display = '';
+    document.getElementById('imgPreview').src = dataUrl;
+    document.getElementById('imgLoading').style.display = '';
+    document.getElementById('imgResult').style.display = 'none';
+    document.getElementById('imgError').style.display = 'none';
+
+    try {
+      const res = await fetch(`${API_BASE}/api/search-by-image`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ image_base64: base64, media_type: mediaType }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erè AI');
+
+      _aiImageResult = data;
+      document.getElementById('imgLoading').style.display = 'none';
+      document.getElementById('imgResultDesc').textContent = data.description || data.query || '—';
+      document.getElementById('imgResultCat').textContent = data.category ? data.category : '';
+      document.getElementById('imgResult').style.display = '';
+
+    } catch (err) {
+      document.getElementById('imgLoading').style.display = 'none';
+      document.getElementById('imgErrorMsg').textContent = 'Sèvis la okipe kounye a. Tanpri eseye ankò nan yon ti moman.';
+      document.getElementById('imgError').style.display = '';
+    }
+  };
+  reader.readAsDataURL(file);
+}
+
+function applyImageSearch() {
+  if (!_aiImageResult) return;
+
+  closeImageSearch();
+  resetImageSearch();
+
+  // Mete mo-kle nan baw rechèch la
+  const input = document.querySelector('.nav-search input');
+  if (input && _aiImageResult.query) {
+    input.value = _aiImageResult.query;
+    searchQuery = _aiImageResult.query;
+  }
+
+  // Aplike kategori si disponib
+  if (_aiImageResult.category) {
+    activeCatFilter = _aiImageResult.category;
+    // Mete ajou bouton kategori UI
+    document.querySelectorAll('.katye').forEach(el => {
+      const isSame = el.dataset.cat === _aiImageResult.category;
+      el.style.borderColor = isSame ? 'var(--wouj,#B91C3C)' : '';
+      el.style.background   = isSame ? 'var(--wouj-lite,#fce4ea)' : '';
+    });
+  }
+
+  // Scroll ba anons yo epi rechèche
+  document.getElementById('anons')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  applyFilters();
+
+  showToast(`Rechèch: "${_aiImageResult.query || _aiImageResult.description}"`);
+}
+
+// Fèmen modal si klike deyò
+document.getElementById('imageSearchModal').addEventListener('click', function(e) {
+  if (e.target === this) closeImageSearch();
+});
+</script>
+
+</body>
+</html>
