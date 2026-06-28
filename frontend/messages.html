@@ -521,7 +521,7 @@
           const myConv = conversations.find(c => c.id === msg.conversation_id);
           if (!myConv) return;
 
-          if (msg.conversation_id === activeConvId) {
+          if (String(msg.conversation_id) === String(activeConvId)) {
             // Ajoute mesaj la dirèk san rechaje tout
             const msgsEl = document.getElementById('chatMsgs');
             if (msgsEl) {
@@ -537,7 +537,7 @@
             }
           } else if (msg.sender_id !== currentUser.id) {
             // Mesaj nan yon lòt konvèsasyon — mete ajou badge
-            const idx = conversations.findIndex(c => c.id === msg.conversation_id);
+            const idx = conversations.findIndex(c => String(c.id) === String(msg.conversation_id));
             if (idx >= 0) {
               conversations[idx].unread = (conversations[idx].unread || 0) + 1;
               conversations[idx].last_body = msg.body || (msg.file_type === 'image' ? '📷 Foto' : '📎 Fichye');
