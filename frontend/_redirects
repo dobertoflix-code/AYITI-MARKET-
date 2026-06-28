@@ -1,0 +1,15 @@
+/manifest.json   /manifest.json   200
+/sw.js           /sw.js           200
+/icons/*         /icons/:splat    200
+/og-image.jpg    /og-image.jpg    200
+/robots.txt      /robots.txt      200
+/account.html    /account.html    200
+/seller.html     /seller.html     200
+/messages.html   /messages.html   200
+
+# Paj SEO pou chak anons + sitemap — pwoksi vè backend Express sou Render.
+/anons/*         https://ayiti-market-509.onrender.com/anons/:splat   200
+/kategori/*      https://ayiti-market-509.onrender.com/kategori/:splat   200
+/sitemap.xml     https://ayiti-market-509.onrender.com/sitemap.xml   200
+
+/*               /index.html      200
