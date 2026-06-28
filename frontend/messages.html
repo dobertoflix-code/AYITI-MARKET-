@@ -322,7 +322,7 @@
   // OUVRI KONVÈSASYON
   // ══════════════════════════════════════════════
   async function openConversation(convId) {
-    activeConvId = convId;
+    activeConvId = String(convId);
     document.body.classList.add('show-chat');
     document.querySelectorAll('.conv-item').forEach(el =>
       el.classList.toggle('active', el.dataset.id === convId));
