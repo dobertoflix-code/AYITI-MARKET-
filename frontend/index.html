@@ -2075,6 +2075,22 @@
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
       Anons sa a deja vann — pa ka kontakte vandè a ankò pou sa.
     </div>
+    <!-- ── NÒT VANDÈ ── -->
+    <div class="reviews-section" id="d-reviews-section" style="display:none">
+      <div class="detail-divider"></div>
+      <div class="reviews-header">
+        <span class="reviews-title">Nòt Vandè</span>
+        <div class="reviews-avg">
+          <span class="stars-display" id="d-stars-avg">☆☆☆☆☆</span>
+          <span id="d-avg-val"></span>
+          <span class="reviews-count" id="d-reviews-count"></span>
+        </div>
+      </div>
+      <div class="review-list" id="d-review-list"></div>
+      <!-- Fòm pou kite nòt (sèlman si konekte ak pa vandè a) -->
+      <div id="d-review-form-wrap"></div>
+    </div>
+
     <!-- Anons Similè -->
     <div class="similar-section" id="d-similar-section" style="display:none">
       <div class="similar-title">Anons Similè</div>
@@ -4758,6 +4774,13 @@
     detailPanel.classList.add('open');
     document.body.style.overflow = 'hidden';
 
+    // ── Chaje nòt vandè ──
+    if (item.sellerId) {
+      loadReviews(item.sellerId, item.id);
+    } else {
+      document.getElementById('d-reviews-section').style.display = 'none';
+    }
+
     // Anons similè
     renderSimilar(item);
 
@@ -5327,6 +5350,142 @@ document.getElementById('imageSearchModal').addEventListener('click', function(e
     });
     mo.observe(document.body, { childList: true, subtree: true });
   })();
+
+  // ══════════════════════════════════════════════════
+  // SISTÈM NÒT VANDÈ
+  // ══════════════════════════════════════════════════
+  let _reviewSellerId = null;
+  let _reviewListingId = null;
+  let _reviewRating = 0;
+
+  function starsHtml(rating, max = 5) {
+    let s = '';
+    for (let i = 1; i <= max; i++) s += i <= rating ? '★' : '☆';
+    return s;
+  }
+
+  function starsAvgHtml(avg, max = 5) {
+    let s = '';
+    for (let i = 1; i <= max; i++) {
+      if (avg >= i) s += '★';
+      else if (avg >= i - 0.5) s += '✮';
+      else s += '☆';
+    }
+    return s;
+  }
+
+  async function loadReviews(sellerId, listingId) {
+    _reviewSellerId = sellerId;
+    _reviewListingId = listingId;
+    _reviewRating = 0;
+
+    const section = document.getElementById('d-reviews-section');
+    const listEl = document.getElementById('d-review-list');
+    const avgEl = document.getElementById('d-avg-val');
+    const starsEl = document.getElementById('d-stars-avg');
+    const countEl = document.getElementById('d-reviews-count');
+    const formWrap = document.getElementById('d-review-form-wrap');
+
+    section.style.display = '';
+    listEl.innerHTML = '<div class="reviews-empty">Ap chaje...</div>';
+    formWrap.innerHTML = '';
+
+    try {
+      const res = await fetch(`${API}/api/reviews/${sellerId}`);
+      const reviews = res.ok ? await res.json() : [];
+
+      if (!reviews.length) {
+        listEl.innerHTML = '<div class="reviews-empty">Pa gen nòt ankò pou vandè sa a.</div>';
+        starsEl.textContent = '☆☆☆☆☆';
+        avgEl.textContent = '';
+        countEl.textContent = '(0 nòt)';
+      } else {
+        const avg = reviews.reduce((s, r) => s + r.rating, 0) / reviews.length;
+        starsEl.textContent = starsAvgHtml(avg);
+        avgEl.textContent = avg.toFixed(1);
+        countEl.textContent = `(${reviews.length} nòt)`;
+
+        listEl.innerHTML = reviews.map(r => `
+          <div class="review-item">
+            <div class="review-top">
+              <div>
+                <span class="review-author">${r.reviewer_name || 'Anonim'}</span>
+                <span class="review-stars"> ${starsHtml(r.rating)}</span>
+              </div>
+              <span class="review-date">${new Date(r.created_at).toLocaleDateString('fr-FR')}</span>
+            </div>
+            ${r.comment ? `<div class="review-text">${r.comment}</div>` : ''}
+          </div>`).join('');
+      }
+
+      // Fòm — sèlman si konekte ak pa vandè a
+      const isOwner = currentUser && currentUser.id === sellerId;
+      if (currentUser && !isOwner) {
+        // Verifye si itilizatè a deja kite yon nòt
+        const myReview = reviews.find(r => r.reviewer_id === currentUser.id);
+        if (myReview) {
+          formWrap.innerHTML = `<div class="review-login-note" style="color:var(--lo);font-weight:600;">✓ Ou deja kite yon nòt pou vandè sa a (${starsHtml(myReview.rating)})</div>`;
+        } else {
+          renderReviewForm(formWrap);
+        }
+      } else if (!currentUser) {
+        formWrap.innerHTML = `<div class="review-login-note">👉 <a href="#" onclick="document.querySelector('[data-role=auth-btn]').click();return false;" style="color:var(--wouj);font-weight:600;">Konekte</a> pou kite yon nòt</div>`;
+      }
+    } catch(e) {
+      listEl.innerHTML = '<div class="reviews-empty">Erè chajman — eseye ankò.</div>';
+    }
+  }
+
+  function renderReviewForm(container) {
+    container.innerHTML = `
+      <div class="review-form">
+        <div class="review-form-title">Kite yon nòt pou vandè sa a</div>
+        <div class="star-picker" id="starPicker">
+          ${[1,2,3,4,5].map(i => `<button class="star-btn" data-val="${i}" onclick="setReviewRating(${i})">★</button>`).join('')}
+        </div>
+        <textarea class="review-textarea" id="reviewComment" placeholder="Kòmantè ou (opsyonèl)..." maxlength="400"></textarea>
+        <button class="btn-submit-review" id="btnSubmitReview" onclick="submitReview()" disabled>Voye Nòt</button>
+      </div>`;
+  }
+
+  function setReviewRating(val) {
+    _reviewRating = val;
+    document.querySelectorAll('.star-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', i < val);
+    });
+    const submitBtn = document.getElementById('btnSubmitReview');
+    if (submitBtn) submitBtn.disabled = false;
+  }
+
+  async function submitReview() {
+    if (!_reviewRating || !_reviewSellerId || !currentUser) return;
+    const comment = document.getElementById('reviewComment')?.value?.trim() || '';
+    const btn = document.getElementById('btnSubmitReview');
+    btn.disabled = true;
+    btn.textContent = 'Ap voye...';
+
+    try {
+      const token = (await supabase.auth.getSession()).data.session?.access_token;
+      const res = await fetch(`${API}/api/reviews`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ seller_id: _reviewSellerId, listing_id: _reviewListingId, rating: _reviewRating, comment })
+      });
+      if (res.ok) {
+        showToast('Nòt ou a voye avèk siksè!', 'success');
+        loadReviews(_reviewSellerId, _reviewListingId);
+      } else {
+        const err = await res.json();
+        showToast(err.error || 'Erè — eseye ankò', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Voye Nòt';
+      }
+    } catch(e) {
+      showToast('Erè rezo — eseye ankò', 'error');
+      btn.disabled = false;
+      btn.textContent = 'Voye Nòt';
+    }
+  }
 </script>
 </body>
 </html>
