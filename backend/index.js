@@ -398,7 +398,10 @@ app.get('/api/listings/:id', async (req, res) => {
     .eq('id', id)
     .eq('status', 'active')
     .single();
-  if (error || !data) return res.status(404).json({ error: 'Anons pa jwenn' });
+  if (error || !data) {
+    console.error('Erè /api/listings/:id', id, JSON.stringify(error));
+    return res.status(404).json({ error: 'Anons pa jwenn', detail: error?.message });
+  }
   res.json(data);
 });
 
