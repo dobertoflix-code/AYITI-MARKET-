@@ -383,13 +383,13 @@
   /* ============ HERO ============ */
   .hero{
     position: relative;
-    padding: 76px 24px 0;
+    padding: 48px 24px 0;
     overflow:hidden;
   }
   .hero-inner{
     max-width: var(--container); margin: 0 auto;
     display:grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items:center;
-    padding-bottom: 60px;
+    padding-bottom: 32px;
   }
   .eyebrow{
     display:inline-flex; align-items:center; gap:8px;
@@ -401,7 +401,7 @@
   .eyebrow::before{ content:'●'; color: var(--lo); font-size: 0.6rem; }
   h1{
     font-family: var(--display); font-weight: 800;
-    font-size: clamp(2.6rem, 5vw, 4.1rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.04; letter-spacing: -0.02em;
     color: var(--lank); margin-bottom: 22px;
   }
@@ -411,7 +411,7 @@
     -webkit-background-clip: text; background-clip: text; color: transparent;
   }
   .hero-sub{
-    font-size: 1.15rem; color: var(--lank-soft); max-width: 480px;
+    font-size: 1rem; color: var(--lank-soft); max-width: 480px;
     margin-bottom: 34px; line-height:1.6;
   }
   .hero-actions{ display:flex; gap:14px; margin-bottom: 38px; flex-wrap:wrap; }
@@ -426,7 +426,7 @@
   .stat span{ font-size: 0.82rem; color: var(--lank-soft); font-weight:600; }
 
   /* Hero visual: stacked market tickets */
-  .hero-visual{ position:relative; height: 480px; }
+  .hero-visual{ position:relative; height: 360px; }
   .ticket{
     position:absolute; width: 250px;
     background: var(--blan); border-radius: 12px;
@@ -469,7 +469,7 @@
   @keyframes scroll{ 0%{ transform: translateX(0); } 100%{ transform: translateX(-50%); } }
 
   /* ============ SECTIONS GENERAL ============ */
-  section{ padding: 88px 0; }
+  section{ padding: 56px 0; }
   .sec-head{
     display:flex; justify-content:space-between; align-items:flex-end;
     margin-bottom: 44px; gap: 24px; flex-wrap:wrap;
@@ -1557,7 +1557,9 @@
     .nav-links, .nav-search{ display:none; }
     .mob-search-bar{ display:block; }
     .nav-toggle{ display:flex; font-size:1.6rem; }
-    .hero{ padding-top: 50px; }
+    .hero{ padding-top: 32px; }
+    .hero-sub{ display:none; }
+    .hero-stats{ display:none; }
     h1{ font-size: clamp(1.75rem, 7.5vw, 2.1rem); line-height: 1.12; }
     .hero-sub{ font-size: 0.97rem; }
     .hero-actions{ flex-direction: column; gap: 10px; }
