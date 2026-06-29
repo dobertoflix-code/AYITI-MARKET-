@@ -827,31 +827,103 @@
   .trust-card p{ font-size: 0.88rem; color: var(--lank-soft); line-height:1.6; }
 
   /* ============ CTA SELL ============ */
+  /* ============ CTA SELL ============ */
   .cta-sell{
-    background: linear-gradient(120deg, var(--wouj) 0%, var(--wouj-dark) 100%);
+    background: linear-gradient(135deg, #8B0000 0%, var(--wouj) 45%, #C0392B 100%);
     border-radius: 28px; margin: 0 24px; padding: 64px 56px;
-    display:grid; grid-template-columns: 1.3fr 0.7fr; align-items:center; gap: 40px;
+    display:grid; grid-template-columns: 1.1fr 0.9fr; align-items:center; gap: 48px;
     color: var(--krem); position:relative; overflow:hidden;
   }
-  .cta-sell::after{
-    content:''; position:absolute; right:-60px; top:-60px; width:280px; height:280px; border-radius:50%;
-    background: rgba(255,255,255,0.06);
+  .cta-sell-deco{
+    position:absolute; border-radius:50%; pointer-events:none;
+  }
+  .cta-deco1{
+    width:400px; height:400px; background: rgba(255,255,255,0.05);
+    top:-120px; right:-80px;
+  }
+  .cta-deco2{
+    width:200px; height:200px; background: rgba(255,255,255,0.04);
+    bottom:-60px; left:30%;
+  }
+  .cta-deco3{
+    width:100px; height:100px; background: rgba(255,200,100,0.08);
+    top:40px; left:40%;
+  }
+  .cta-content{ position:relative; z-index:1; }
+  .cta-eyebrow{
+    display:inline-block; font-size:0.72rem; font-weight:800; letter-spacing:0.12em;
+    text-transform:uppercase; background: rgba(255,255,255,0.15);
+    padding: 4px 12px; border-radius:100px; margin-bottom:18px;
+    color: rgba(251,246,236,0.95);
   }
   .cta-sell h2{
-    font-family: var(--display); font-size: clamp(1.8rem,3vw,2.5rem); font-weight:800; margin-bottom:16px;
-    line-height:1.1;
+    font-family: var(--display); font-size: clamp(2rem,3.5vw,3rem);
+    font-weight:800; margin-bottom:16px; line-height:1.05; color:#fff;
   }
-  .cta-sell p{ color: rgba(251,246,236,0.85); margin-bottom: 26px; max-width: 440px; }
-  .cta-sell .btn-lg{ background: var(--krem); color: var(--wouj-dark); }
-  .cta-sell .btn-lg:hover{ background: var(--blan); transform: translateY(-1px); }
-  .cta-visual{ display:flex; justify-content:center; }
-  .cta-visual .bigtag{
-    background: var(--krem); color: var(--lank); border-radius:16px; padding: 26px;
-    width: 220px; transform: rotate(-4deg); box-shadow: 0 24px 50px rgba(0,0,0,0.25);
-    font-family: var(--mono);
+  .cta-sell p{
+    color: rgba(251,246,236,0.82); margin-bottom:24px;
+    max-width: 420px; font-size:0.97rem; line-height:1.6;
   }
-  .bigtag .perc{ font-size: 2.4rem; font-weight:700; color: var(--wouj); line-height:1; }
-  .bigtag .perclabel{ font-size:0.78rem; color: var(--lank-soft); margin-top:6px; font-family: var(--body); font-weight:700;}
+  .cta-perks{ display:flex; flex-direction:column; gap:10px; margin-bottom:30px; }
+  .cta-perk{
+    display:flex; align-items:center; gap:10px;
+    font-size:0.88rem; font-weight:600; color: rgba(251,246,236,0.92);
+  }
+  .cta-perk svg{ flex-shrink:0; color:#fff; background:rgba(255,255,255,0.2); border-radius:50%; padding:2px; }
+  .cta-actions{ display:flex; align-items:center; gap:18px; flex-wrap:wrap; }
+  .cta-btn-main{
+    background:#fff; color: var(--wouj-dark); font-weight:800; font-size:0.95rem;
+    padding:14px 28px; border-radius:100px; border:none; cursor:pointer;
+    transition: transform .15s, box-shadow .15s;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+  .cta-btn-main:hover{ transform:translateY(-2px); box-shadow:0 12px 32px rgba(0,0,0,0.28); }
+  .cta-free-badge{
+    font-size:0.8rem; font-weight:700; color: rgba(251,246,236,0.7);
+    letter-spacing:0.02em;
+  }
+  /* Visual card stack */
+  .cta-visual{ position:relative; z-index:1; display:flex; justify-content:center; }
+  .cta-card-stack{ position:relative; width:260px; height:320px; }
+  .cta-mini-card{
+    position:absolute; background:#fff; border-radius:16px;
+    padding:14px; width:210px;
+    box-shadow: 0 12px 36px rgba(0,0,0,0.22);
+    display:flex; align-items:center; gap:12px;
+    color: var(--lank);
+  }
+  .cta-mc1{ top:0; left:0; transform:rotate(-3deg); z-index:1; }
+  .cta-mc2{ top:90px; left:30px; transform:rotate(1.5deg); z-index:2; }
+  .cta-mc3{ top:180px; left:10px; transform:rotate(-1deg); z-index:3; }
+  .cta-mc-img{
+    width:46px; height:46px; border-radius:10px; flex-shrink:0;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .cta-mc-body{ flex:1; min-width:0; }
+  .cta-mc-title{ font-weight:700; font-size:0.8rem; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .cta-mc-price{ font-size:0.75rem; color: var(--wouj); font-weight:700; margin-top:2px; }
+  .cta-mc-badge{
+    font-size:0.62rem; font-weight:800; background: var(--wouj);
+    color:#fff; padding:3px 8px; border-radius:100px; white-space:nowrap; flex-shrink:0;
+  }
+  .cta-stat-pill{
+    position:absolute; bottom:-18px; right:-10px; z-index:4;
+    background:#fff; color: var(--lank); border-radius:100px;
+    padding:8px 14px; font-size:0.75rem; font-weight:700;
+    display:flex; align-items:center; gap:6px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.18);
+  }
+  .cta-stat-pill svg{ color: var(--wouj); }
+
+  @media(max-width:900px){
+    .cta-sell{ grid-template-columns:1fr; padding:48px 32px; }
+    .cta-visual{ display:none; }
+  }
+  @media(max-width:600px){
+    .cta-sell{ margin:0 14px; padding:36px 22px; border-radius:20px; }
+    .cta-sell h2{ font-size:1.7rem; }
+    .cta-actions{ flex-direction:column; align-items:flex-start; }
+  }
 
   /* ============ TESTIMONIALS ============ */
   .quotes-grid{ display:grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
@@ -1399,7 +1471,7 @@
     .card-body{ padding: 12px; }
     .card-price{ font-size: 1rem; }
     .card-title{ font-size: 0.88rem; }
-    .how-bg, .cta-sell{ margin: 0 14px; padding: 36px 22px; border-radius:20px; }
+    .how-bg{ margin: 0 14px; padding: 36px 22px; border-radius:20px; }
     .how-grid, .trust-grid{ grid-template-columns: 1fr; }
     .trust-grid{ gap: 16px; }
     .quotes-grid{ gap: 14px; }
@@ -1408,7 +1480,6 @@
     .sec-head{ flex-direction:column; align-items:flex-start; }
     .sec-head h2{ font-size: 1.7rem; }
     .faq-q{ font-size: 0.95rem; }
-    .cta-sell h2{ font-size: 1.6rem; }
     section[id], div[id]{ scroll-margin-top: 70px; }
   }
 </style>
@@ -2082,15 +2153,68 @@
 <!-- ============ CTA SELL ============ -->
 <section>
   <div class="cta-sell">
-    <div>
-      <h2>Gen yon pwodwi oswa sèvis pou vann?</h2>
-      <p>Pibliye premye anons ou gratis kounye a e rive jwenn dè milye moun k ap chèche egzakteman sa w ap ofri.</p>
-      <a href="#" class="btn btn-lg">Kòmanse Vann →</a>
+    <div class="cta-sell-deco cta-deco1"></div>
+    <div class="cta-sell-deco cta-deco2"></div>
+    <div class="cta-sell-deco cta-deco3"></div>
+    <div class="cta-content">
+      <span class="cta-eyebrow">Gratis • Rapid • Efikas</span>
+      <h2>Kòmanse vann<br>sou Ayiti Market</h2>
+      <p>Pibliye yon anons an mwens pase 2 minit epi rive jwenn dè milye moun k ap chèche sa w ap ofri a — tounen nan peyi a, toupatou.</p>
+      <div class="cta-perks">
+        <div class="cta-perk">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Pibliye 100% gratis
+        </div>
+        <div class="cta-perk">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Jwenn mesaj dirèk nan minit
+        </div>
+        <div class="cta-perk">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Jere anons ou fasil depi telefòn
+        </div>
+      </div>
+      <div class="cta-actions">
+        <a href="#" class="btn cta-btn-main" onclick="openPublishModal()">Pibliye Anons Ou →</a>
+        <span class="cta-free-badge">0 HTG • Gratis pou toujou</span>
+      </div>
     </div>
     <div class="cta-visual">
-      <div class="bigtag">
-        <div class="perc">0 HTG</div>
-        <div class="perclabel">Frè pou pibliye yon anons</div>
+      <div class="cta-card-stack">
+        <div class="cta-mini-card cta-mc1">
+          <div class="cta-mc-img" style="background:#f3e8d0;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#B91C3C" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          </div>
+          <div class="cta-mc-body">
+            <div class="cta-mc-title">MacBook Air M2</div>
+            <div class="cta-mc-price">85,000 HTG</div>
+          </div>
+          <div class="cta-mc-badge">Nouvo</div>
+        </div>
+        <div class="cta-mini-card cta-mc2">
+          <div class="cta-mc-img" style="background:#e8f0fb;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="1.8"><rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="17" r="1"/></svg>
+          </div>
+          <div class="cta-mc-body">
+            <div class="cta-mc-title">iPhone 15 Pro</div>
+            <div class="cta-mc-price">42,000 HTG</div>
+          </div>
+          <div class="cta-mc-badge" style="background:#1D4ED8;">Disponib</div>
+        </div>
+        <div class="cta-mini-card cta-mc3">
+          <div class="cta-mc-img" style="background:#f0fdf4;">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="1.8"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+          </div>
+          <div class="cta-mc-body">
+            <div class="cta-mc-title">Chanm pou Lwaye</div>
+            <div class="cta-mc-price">8,500 HTG/mwa</div>
+          </div>
+          <div class="cta-mc-badge" style="background:#16A34A;">Lokatif</div>
+        </div>
+        <div class="cta-stat-pill">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          +2,400 vandè aktif
+        </div>
       </div>
     </div>
   </div>
