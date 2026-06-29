@@ -1768,9 +1768,6 @@ app.get('/anons/:id/:slug?', async (req, res) => {
   }
 
   const correctSlug = slugify(`${item.title}-${item.location || ''}`);
-  if (slug !== correctSlug) {
-    return res.redirect(301, `/anons/${id}/${correctSlug}`);
-  }
 
   const priceText = item.price_label || (item.price_val ? `${Number(item.price_val).toLocaleString('fr-FR')} HTG` : 'Sou demann');
   const title = `${item.title} — ${priceText} | Ayiti Market`;
