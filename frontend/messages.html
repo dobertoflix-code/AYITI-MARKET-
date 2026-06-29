@@ -140,6 +140,10 @@
   .loading-spin{ text-align:center; padding:40px; color:var(--lank-soft); }
 
   @media (max-width:760px){
+    body.show-chat .chat-area{ height: 100dvh; }
+    .chat-msgs{ padding-bottom: 8px; }
+    .chat-input-row{ position: sticky; bottom: 0; background: var(--blan); z-index: 10; padding: 10px 14px; padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+
     .chat-layout{ grid-template-columns: 1fr; }
     .conv-list{ display:flex; }
     .chat-area{ display:none; }
