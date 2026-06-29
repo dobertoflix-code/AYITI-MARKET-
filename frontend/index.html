@@ -501,6 +501,35 @@
   /* ============ SECTIONS GENERAL ============ */
   section{ padding: 56px 0; }
 
+  /* ── TÈMOINYAJ ── */
+  .testi-section{ background: var(--blan); }
+  .testi-grid{
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+    margin-top: 40px;
+  }
+  .testi-card{
+    background: var(--krem); border: 1px solid var(--liy);
+    border-radius: 16px; padding: 24px; display: flex;
+    flex-direction: column; gap: 16px;
+    transition: box-shadow 0.2s;
+  }
+  .testi-card:hover{ box-shadow: 0 4px 24px rgba(0,0,0,0.07); }
+  .testi-stars{ display:flex; gap:3px; color: #F59E0B; font-size: 0.95rem; }
+  .testi-text{
+    font-size: 0.95rem; color: var(--lank); line-height: 1.65;
+    flex: 1; font-style: italic;
+  }
+  .testi-author{ display:flex; align-items:center; gap:12px; }
+  .testi-avatar{
+    width: 40px; height: 40px; border-radius: 50%;
+    object-fit: cover; flex-shrink: 0;
+    background: var(--liy);
+  }
+  .testi-name{ font-weight: 700; font-size: 0.88rem; color: var(--lank); }
+  .testi-loc{ font-size: 0.78rem; color: var(--lank-soft); }
+  @media(max-width: 900px){ .testi-grid{ grid-template-columns: repeat(2,1fr); } }
+  @media(max-width: 600px){ .testi-grid{ grid-template-columns: 1fr; } }
+
   /* ── TRUST BAR ── */
   .trust-bar{
     background: var(--blan); border-top: 1px solid var(--liy); border-bottom: 1px solid var(--liy);
@@ -2546,6 +2575,91 @@
         <p>Sèvis kouti m lan kòmanse jwenn plis kliyan depi m pibliye sou Ayiti Market. Se gratis e li senp pou jere anons mwen yo.</p>
         <div class="quote-who"><span class="av">NF</span><div><b>Nadège F.</b><span>Antreprenè, Petyonvil</span></div></div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TÈMOINYAJ ============ -->
+<section class="testi-section">
+  <div class="wrap">
+    <div class="sec-head" style="justify-content:center; text-align:center; flex-direction:column; align-items:center;">
+      <h2>Sa moun yo di sou nou</h2>
+      <p class="sec-sub">Kliyan ki deja itilize Ayiti Market chak jou</p>
+    </div>
+    <div class="testi-grid">
+
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Mwen vann telefòn mwen an nan 2 jou sèlman. Achte a te kontakte m dirèkteman sou WhatsApp, tout te pase fasil. Mwen rekòmande Ayiti Market bay tout moun!"</p>
+        <div class="testi-author">
+          <img class="testi-avatar" src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=80<!-- ============ FAQ ============ -->q=80" alt="Jean-Robert M." loading="lazy">
+          <div>
+            <div class="testi-name">Jean-Robert M.</div>
+            <div class="testi-loc">Pòtoprens, Delmas</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Mwen jwenn yon appatman nan Pètion-Vil nan yon semèn grasa Ayiti Market. Sit la fasil itilize epi tout anons yo serye. Pa tankou lòt kote kote ou jwenn moun k ap pran lajan ou."</p>
+        <div class="testi-author">
+          <img class="testi-avatar" src="https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=80<!-- ============ FAQ ============ -->q=80" alt="Nadège P." loading="lazy">
+          <div>
+            <div class="testi-name">Nadège P.</div>
+            <div class="testi-loc">Pòtoprens, Pètion-Vil</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Kòm yon ti machann, Ayiti Market ban mwen yon bèl vitrin pou montre pwodwi mwen yo. Kliyan mwen yo vin jwenn mwen dirèkteman. Vant mwen double depi mwen kòmanse itilize sit la."</p>
+        <div class="testi-author">
+          <img class="testi-avatar" src="https://images.unsplash.com/photo-1488426862026-3ee34a7d66df?w=80<!-- ============ FAQ ============ -->q=80" alt="Marie-Flore D." loading="lazy">
+          <div>
+            <div class="testi-name">Marie-Flore D.</div>
+            <div class="testi-loc">Okap, Nord</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="testi-stars">★★★★☆</div>
+        <p class="testi-text">"Mwen achte yon moto nan bon kondisyon nan Gonayiv. Vandè a te serye, pri a te kòrèk. Sèl bagay — mwen ta renmen wè plis anons soti nan pwovens yo."</p>
+        <div class="testi-author">
+          <img class="testi-avatar" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80<!-- ============ FAQ ============ -->q=80" alt="Wilfrid C." loading="lazy">
+          <div>
+            <div class="testi-name">Wilfrid C.</div>
+            <div class="testi-loc">Gonayiv, Latibonit</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Mwen te chèche yon fotograf pou maryaj mwen. Mwen jwenn youn nan 30 minit sou Ayiti Market. Sèvis la te ekselan e pri a te abòdab. Mèsi anpil!"</p>
+        <div class="testi-author">
+          <img class="testi-avatar" src="https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=80<!-- ============ FAQ ============ -->q=80" alt="Roseline B." loading="lazy">
+          <div>
+            <div class="testi-name">Roseline B.</div>
+            <div class="testi-loc">Jakmèl, Sidès</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <p class="testi-text">"Mwen vann machin mwen an rapid rapid. Mwen te mete anons lan aswè, nan maten mwen te gen 5 moun ki te rele mwen. Ayiti Market se pi bon mache ann Ayiti!"</p>
+        <div class="testi-author">
+          <img class="testi-avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=80<!-- ============ FAQ ============ -->q=80" alt="Précius L." loading="lazy">
+          <div>
+            <div class="testi-name">Précius L.</div>
+            <div class="testi-loc">Pòtoprens, Tabarre</div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
