@@ -3550,41 +3550,6 @@
       history.replaceState(null, '', window.location.pathname + window.location.hash);
     }
 
-    // ── Deeplink anons dirèk: /?anons=UUID (soti nan /anons/:id/:slug SEO page) ──
-    const anonsParam = params.get('anons');
-    if (anonsParam) {
-      history.replaceState(null, '', window.location.pathname);
-      const item = ALL_LISTINGS.find(l => l.id === anonsParam);
-      if (item) {
-        openDetailPanel(item);
-      } else {
-        // Si listing pa nan cache a, chèche li dirèkteman
-        fetch(`/api/listings/${anonsParam}`)
-          .then(r => r.ok ? r.json() : null)
-          .then(data => {
-            if (!data) return;
-            const mapped = {
-              id: data.id,
-              title: data.title,
-              price: data.price_label || (data.price_val ? `${Number(data.price_val).toLocaleString('fr-FR')} HTG` : 'Sou demann'),
-              priceVal: data.price_val || 0,
-              loc: data.location || '',
-              cat: data.category || '',
-              cond: data.condition || '',
-              desc: data.description || '',
-              img: (data.images && data.images.length) ? data.images[0] : '',
-              rawImages: data.images || [],
-              seller_id: data.seller_id,
-              keywords: data.keywords || '',
-              created_at: data.created_at,
-              status: data.status,
-            };
-            openDetailPanel(mapped);
-          })
-          .catch(() => {});
-      }
-    }
-
     const hash = window.location.hash;
     if (!hash) return;
     const matchView = hash.match(/^#listing-([\w-]+)$/);
@@ -4550,7 +4515,7 @@
     if (!item) return;
     ga('contact_whatsapp', { item_id: item.id, item_name: item.title, item_category: item.cat });
     const slug = slugify(`${item.title}-${item.loc || ''}`);
-    const url = `${location.origin}/anons/${item.id}/${slug}`;
+    const url = `https://api.ayiti-market.com/anons/${item.id}/${slug}`;
     const msg = encodeURIComponent(
       `Bonjou! Mwen wè anons sa a sou Ayiti Market:\n\n` +
       `*${item.title}* — ${item.price}\n` +
@@ -4668,7 +4633,7 @@
     if (!item) return;
     _shareItem = item;
     const slug = slugify(`${item.title}-${item.loc || ''}`);
-    _shareUrl = `${location.origin}/anons/${item.id}/${slug}`;
+    _shareUrl = `https://api.ayiti-market.com/anons/${item.id}/${slug}`;
     ga('share_open', { item_id: item.id, item_name: item.title });
 
     // Montre bouton "Plis" si Web Share API disponib
