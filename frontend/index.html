@@ -501,6 +501,42 @@
   /* ============ SECTIONS GENERAL ============ */
   section{ padding: 56px 0; }
 
+  /* ── BIG NUMBERS SECTION ── */
+  .bignums{
+    background: linear-gradient(135deg, var(--lank) 0%, #2d1f3d 100%);
+    padding: 56px 0;
+  }
+  .bignums-grid{
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0; max-width: var(--container); margin: 0 auto; padding: 0 24px;
+  }
+  .bignum-item{
+    text-align: center; padding: 24px 16px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+  }
+  .bignum-item:last-child{ border-right: none; }
+  .bignum-val{
+    font-family: var(--display); font-size: clamp(2.4rem, 5vw, 3.5rem);
+    font-weight: 800; color: #fff; line-height: 1;
+    background: linear-gradient(135deg, #fff 0%, var(--lo) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    display: block; margin-bottom: 8px;
+  }
+  .bignum-label{
+    font-size: 0.88rem; color: rgba(255,255,255,0.65);
+    font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .bignum-sub{
+    font-size: 0.78rem; color: rgba(255,255,255,0.4);
+    margin-top: 4px; display: block;
+  }
+  @media(max-width: 720px){
+    .bignums-grid{ grid-template-columns: repeat(2,1fr); }
+    .bignum-item{ border-right: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
+    .bignum-item:nth-child(2n){ border-right: none; }
+    .bignum-item:nth-child(3), .bignum-item:nth-child(4){ border-bottom: none; }
+  }
+
   /* ── TÈMOINYAJ ── */
   .testi-section{ background: var(--blan); }
   .testi-grid{
@@ -2118,6 +2154,7 @@
       </div>
       <div class="hero-stats hero-stagger">
         <div class="stat"><b id="stat-anons">—</b><span>Anons aktif</span></div>
+        <div class="stat"><b id="stat-users">500+</b><span>Itilizatè rejis</span></div>
         <div class="stat"><b>9</b><span>Depatman kouvri</span></div>
         <div class="stat"><b id="stat-vandè">—</b><span>Vandè verifye</span></div>
       </div>
@@ -2195,6 +2232,32 @@
     </div>
   </div>
 </div>
+
+<!-- ── BIG NUMBERS ── -->
+<section class="bignums">
+  <div class="bignums-grid">
+    <div class="bignum-item">
+      <span class="bignum-val" id="bn-anons">—</span>
+      <div class="bignum-label">Anons Aktif</div>
+      <span class="bignum-sub">Nouvo chak jou</span>
+    </div>
+    <div class="bignum-item">
+      <span class="bignum-val" id="bn-users">500+</span>
+      <div class="bignum-label">Itilizatè Rejis</div>
+      <span class="bignum-sub">Nan tout peyi a</span>
+    </div>
+    <div class="bignum-item">
+      <span class="bignum-val">9</span>
+      <div class="bignum-label">Depatman</div>
+      <span class="bignum-sub">Pòtoprens rive Okap</span>
+    </div>
+    <div class="bignum-item">
+      <span class="bignum-val">2 min</span>
+      <div class="bignum-label">Pou Pibliye</div>
+      <span class="bignum-sub">Gratis pou tout moun</span>
+    </div>
+  </div>
+</section>
 
 <section id="kategori">
   <div class="wrap">
@@ -3264,6 +3327,8 @@
     const verified = ALL_LISTINGS.filter(l => l.verified).length;
 
     document.getElementById('stat-anons').textContent = total;
+    const bnAnons = document.getElementById('bn-anons');
+    if (bnAnons) bnAnons.textContent = total + '+';
     document.getElementById('stat-vandè').textContent = verified;
 
     // Category counts
