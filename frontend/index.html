@@ -857,8 +857,10 @@
   }
   .card:hover{ transform: translateY(-5px); box-shadow: 0 20px 36px -14px rgba(20,24,31,0.18); }
   .card-img{ position:relative; height: 170px; overflow:hidden; background:var(--liy); }
-  .card-img img{ width:100%; height:100%; object-fit:cover; transition: transform .4s; }
-  .card:hover .card-img img{ transform: scale(1.06); }
+  .card-img img{ width:100%; height:100%; object-fit:cover; transition: transform .4s, filter .3s; filter: blur(0); }
+  .card-img img.img-loading{ filter: blur(8px); transform: scale(1.05); }
+  .card-img img.img-loaded{ filter: blur(0); transform: scale(1); }
+  .card:hover .card-img img.img-loaded{ transform: scale(1.06); }
   .card-fav{
     position:absolute; top:10px; right:10px; width:34px; height:34px; border-radius:50%;
     background: rgba(255,255,255,0.92); display:flex; align-items:center; justify-content:center;
@@ -3216,7 +3218,7 @@
   }
 
   function mapListing(row) {
-    const img = (row.images && row.images.length) ? row.images[0] : 'https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=800&q=80';
+    const img = (row.images && row.images.length) ? row.images[0].replace(/[?&]w=\d+/, match => match.replace(/\d+/, '400')) : 'https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=400&q=70';
     const createdAt = row.created_at ? new Date(row.created_at) : new Date();
     const daysAgo = Math.max(0, Math.floor((Date.now() - createdAt.getTime()) / (1000 * 60 * 60 * 24)));
     return {
@@ -3545,7 +3547,7 @@
           ${item.isSold ? `<div class="sold-overlay"><span class="sold-badge">Vann Deja</span></div>` : ''}
           ${!isFeatured && !item.isSold && item.tag ? `<span class="card-tag">${item.tag}</span>` : ''}
           <button class="card-fav" aria-label="Mete nan favori" data-id="${item.id}">${isFav ? SVG_HEART_FULL : SVG_HEART_EMPTY}</button>
-          <img src="${item.img}" alt="${item.alt}" loading="lazy">
+          <img src="${item.img}" alt="${item.alt}" loading="lazy" decoding="async" class="img-loading" onload="this.classList.remove('img-loading');this.classList.add('img-loaded')">
         </div>
         <div class="card-body">
           <div class="card-price">${item.price}</div>
@@ -5299,6 +5301,32 @@ document.getElementById('imageSearchModal').addEventListener('click', function(e
 
   revealEls.forEach(function(el){ io.observe(el); });
 })();
+
+  // ── TRUE LAZY LOAD ak IntersectionObserver ──
+  (function() {
+    if (!('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const img = entry.target;
+        if (img.dataset.src) {
+          img.src = img.dataset.src;
+          delete img.dataset.src;
+        }
+        io.unobserve(img);
+      });
+    }, { rootMargin: '200px' });
+
+    // Observe new images added dynamically
+    const mo = new MutationObserver(muts => {
+      muts.forEach(m => m.addedNodes.forEach(node => {
+        if (node.nodeType !== 1) return;
+        node.querySelectorAll && node.querySelectorAll('img[data-src]').forEach(img => io.observe(img));
+        if (node.tagName === 'IMG' && node.dataset.src) io.observe(node);
+      }));
+    });
+    mo.observe(document.body, { childList: true, subtree: true });
+  })();
 </script>
 </body>
 </html>
