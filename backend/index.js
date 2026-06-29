@@ -389,6 +389,19 @@ app.delete('/api/alerts/:id', async (req, res) => {
 });
 
 // ── GET /api/listings/:id/price-history ────────────
+// ── GET /api/listings/:id ─── Yon sèl anons pa ID (piblik) ──
+app.get('/api/listings/:id', async (req, res) => {
+  const { id } = req.params;
+  const { data, error } = await supabase
+    .from('listings')
+    .select('*')
+    .eq('id', id)
+    .eq('status', 'active')
+    .single();
+  if (error || !data) return res.status(404).json({ error: 'Anons pa jwenn' });
+  res.json(data);
+});
+
 app.get('/api/listings/:id/price-history', async (req, res) => {
   const { data, error } = await supabase
     .from('listing_price_history')
