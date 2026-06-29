@@ -1,0 +1,1841 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Mon Kont — Ayiti Market</title>
+<meta name="robots" content="noindex">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23B91C3C'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='26' fill='%23FBF6EC'>AM</text></svg>">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#B91C3C" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#14181F" media="(prefers-color-scheme: dark)">
+
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('am-theme');
+      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ============ DESIGN TOKENS ============ */
+  :root {
+    --krem:       #FBF6EC;
+    --krem-dim:   #F3ECDC;
+    --lank:       #14181F;
+    --lank-soft:  #4A4F5A;
+    --wouj:       #B91C3C;
+    --wouj-dark:  #8C1530;
+    --ble:        #16335E;
+    --ble-soft:   #2A4D80;
+    --lo:         #E1962F;
+    --lo-soft:    #F2C26B;
+    --liy:        #E4DCC8;
+    --blan:       #FFFFFF;
+    --lank-light: #2A3040;
+    --lo-text:    #8A5D12;
+    --display:    'Manrope', sans-serif;
+    --body:       'Manrope', sans-serif;
+    --mono:       'Space Mono', monospace;
+    --radius:     14px;
+    --container:  1180px;
+  }
+
+  /* ============ DARK MODE ============ */
+  :root[data-theme="dark"] {
+    --krem:       #14181F;
+    --krem-dim:   #1B202A;
+    --lank:       #EDE8DA;
+    --lank-soft:  #A7AAB3;
+    --wouj:       #E14D63;
+    --wouj-dark:  #F2718A;
+    --ble:        #5C8AD6;
+    --ble-soft:   #3D6BB0;
+    --lo:         #F2B259;
+    --lo-soft:    #E1962F;
+    --liy:        #2A3040;
+    --blan:       #1E2430;
+    --lank-light: #343B4C;
+    --lo-text:    #F2C26B;
+  }
+  :root[data-theme="dark"] body         { background: var(--krem); color: var(--lank); }
+  :root[data-theme="dark"] header       { background: rgba(20,24,31,0.94); }
+  :root[data-theme="dark"] .acc-card    { background: var(--blan); border-color: var(--liy); }
+  :root[data-theme="dark"] .acc-tab.active { color: var(--wouj); border-bottom-color: var(--wouj); }
+  :root[data-theme="dark"] .form-error  { color: var(--wouj) !important; }
+  :root[data-theme="dark"] .form-group input,
+  :root[data-theme="dark"] .form-group select { background: var(--blan); color: var(--lank); border-color: var(--liy); }
+  :root[data-theme="dark"] .acc-head    { background: var(--krem-dim); }
+  :root[data-theme="dark"] h1, :root[data-theme="dark"] h2,
+  :root[data-theme="dark"] h3           { color: var(--lank); }
+
+  /* ============ RESET ============ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; overflow-x: hidden; }
+  body {
+    font-family: var(--body);
+    background: var(--krem);
+    color: var(--lank);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    width: 100%;
+  }
+  img { max-width: 100%; display: block; }
+  a { color: inherit; text-decoration: none; }
+  button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+  .wrap { max-width: var(--container); margin: 0 auto; padding: 0 20px; }
+
+  /* ============ HEADER ============ */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(251,246,236,0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--liy);
+  }
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 20px; max-width: var(--container); margin: 0 auto; gap: 12px;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--display); font-weight: 700; font-size: 1.3rem;
+    letter-spacing: -0.01em; color: var(--lank); white-space: nowrap; flex-shrink: 0;
+  }
+  .logo .dot {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--wouj), var(--lo));
+    flex-shrink: 0;
+  }
+  .nav-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+
+  /* ============ BUTTONS ============ */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    padding: 10px 18px; border-radius: 100px; font-weight: 700; font-size: 0.88rem;
+    transition: transform .18s, box-shadow .18s, background .18s;
+    white-space: nowrap; border: none; cursor: pointer; font-family: var(--body);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-primary { background: var(--wouj); color: #fff; box-shadow: 0 2px 0 var(--wouj-dark); }
+  .btn-primary:hover, .btn-primary:active { background: var(--wouj-dark); transform: translateY(-1px); }
+  .btn-ghost  { color: var(--lank); border: 1.5px solid var(--liy); background: transparent; }
+  .btn-ghost:hover { border-color: var(--lank); }
+  .btn-sm     { padding: 8px 14px; font-size: 0.8rem; }
+  .btn-full   { width: 100%; justify-content: center; padding: 14px; border-radius: 12px; font-size: 0.95rem; }
+  .btn-danger { color: var(--wouj); border-color: var(--wouj) !important; }
+  .btn-success { color: #16A34A; border-color: #16A34A !important; }
+
+  /* ============ EXPIRY BANNER ============ */
+  .expiry-banner {
+    display: flex; align-items: center; gap: 10px;
+    background: rgba(226,154,47,0.12);
+    border: 1.5px solid rgba(226,154,47,0.40);
+    border-radius: 10px;
+    padding: 10px 13px;
+    margin-bottom: 10px;
+    font-size: 0.82rem;
+    color: var(--lo-text);
+    line-height: 1.4;
+  }
+  :root[data-theme="dark"] .expiry-banner {
+    background: rgba(242,178,89,0.10);
+    border-color: rgba(242,178,89,0.30);
+    color: var(--lo-soft);
+  }
+  .expiry-banner .eb-icon { font-size: 1.15rem; flex-shrink: 0; }
+  .expiry-banner .eb-text { flex: 1; }
+  .expiry-banner .eb-text b { display: block; margin-bottom: 2px; }
+  .btn-renew {
+    flex-shrink: 0;
+    padding: 7px 13px; border-radius: 8px;
+    font-weight: 700; font-size: 0.78rem;
+    background: var(--lo); color: #fff;
+    border: none; cursor: pointer;
+    font-family: var(--body);
+    transition: background .18s, transform .15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .btn-renew:hover { background: var(--lo-soft); transform: translateY(-1px); }
+  .btn-renew:active { transform: translateY(0); }
+  .status-expiring { background: rgba(226,154,47,0.18); color: var(--lo-text); }
+
+  /* ============ MAIN LAYOUT ============ */
+  main {
+    padding: 0 0 80px;
+    min-height: 60vh;
+    width: 100%;
+    overflow-x: hidden;
+  }
+
+  /* ============ PROFILE HEADER BANNER ============ */
+  .acc-head {
+    background: var(--krem-dim);
+    border-bottom: 1px solid var(--liy);
+    padding: 28px 20px 24px;
+    margin-bottom: 0;
+  }
+  .acc-head-inner {
+    max-width: var(--container);
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .acc-avatar {
+    width: 60px; height: 60px; border-radius: 50%;
+    background: var(--ble-soft); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1.3rem;
+    flex-shrink: 0;
+    border: 3px solid var(--blan);
+    box-shadow: 0 4px 12px rgba(20,24,31,0.12);
+  }
+  .acc-info { min-width: 0; }
+  .acc-name {
+    font-family: var(--display); font-weight: 800; font-size: 1.25rem;
+    line-height: 1.2; margin-bottom: 2px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .acc-email { color: var(--lank-soft); font-size: 0.82rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* ============ TABS ============ */
+  .acc-tabs-wrap {
+    background: var(--krem);
+    border-bottom: 1.5px solid var(--liy);
+    position: sticky; top: 57px; z-index: 90;
+  }
+  .acc-tabs {
+    display: flex; gap: 0;
+    max-width: var(--container); margin: 0 auto;
+    padding: 0 20px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .acc-tabs::-webkit-scrollbar { display: none; }
+  .acc-tab {
+    padding: 14px 16px; font-weight: 700; font-size: 0.88rem;
+    color: var(--lank-soft);
+    border-bottom: 3px solid transparent;
+    cursor: pointer; white-space: nowrap;
+    background: none; border-top: none; border-left: none; border-right: none;
+    font-family: var(--body);
+    transition: color .2s, border-color .2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .acc-tab.active { color: var(--wouj); border-bottom-color: var(--wouj); }
+
+  /* ============ PANELS ============ */
+  .acc-panel { display: none; padding: 24px 20px; max-width: var(--container); margin: 0 auto; }
+  .acc-panel.active { display: block; }
+
+  /* ============ LISTING CARDS ============ */
+  .acc-card {
+    background: var(--blan);
+    border: 1px solid var(--liy);
+    border-radius: var(--radius);
+    padding: 14px;
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 10px;
+    transition: box-shadow .2s;
+  }
+  .acc-card:hover { box-shadow: 0 4px 14px rgba(20,24,31,0.08); }
+  .acc-card-img {
+    width: 64px; height: 64px;
+    border-radius: 10px;
+    object-fit: cover;
+    background: var(--liy);
+    flex-shrink: 0;
+  }
+  .acc-card-body { flex: 1; min-width: 0; }
+  .acc-card-title {
+    font-weight: 700; font-size: 0.92rem;
+    margin-bottom: 4px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-height: 1.3;
+  }
+  .acc-card-price {
+    font-family: var(--mono); font-weight: 700;
+    color: var(--wouj-dark); font-size: 0.9rem; margin-bottom: 4px;
+  }
+  .acc-card-meta { font-size: 0.74rem; color: var(--lank-soft); line-height: 1.4; }
+
+  /* Actions stack vertically on mobile */
+  .acc-card-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+    align-self: center;
+  }
+
+  /* ============ MACHE TANDE — Alèt pa Kategori ============ */
+  .alert-row {
+    background: var(--blan);
+    border: 1px solid var(--liy);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .alert-row-label { font-weight: 600; font-size: 0.92rem; }
+  .alert-switch {
+    position: relative; width: 44px; height: 26px; flex-shrink: 0;
+    cursor: pointer;
+  }
+  .alert-switch input { position:absolute; opacity:0; width:100%; height:100%; margin:0; cursor:pointer; }
+  .alert-switch .track {
+    position: absolute; inset: 0; background: var(--liy);
+    border-radius: 14px; transition: background .2s;
+  }
+  .alert-switch .knob {
+    position: absolute; top: 3px; left: 3px; width: 20px; height: 20px;
+    background: var(--blan); border-radius: 50%; transition: transform .2s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  }
+  .alert-switch input:checked ~ .track { background: var(--wouj-dark); }
+  .alert-switch input:checked ~ .knob { transform: translateX(18px); }
+  .alert-switch input:disabled ~ .track { opacity: 0.5; }
+
+  /* ============ EMPTY STATE ============ */
+  .empty-box {
+    text-align: center; padding: 60px 20px; color: var(--lank-soft);
+  }
+  .empty-box p { margin-bottom: 18px; font-size: 0.95rem; }
+
+  /* ============ PROFILE FORM ============ */
+  .profile-section { max-width: 500px; }
+  .form-group { margin-bottom: 18px; }
+  .form-group label {
+    display: block; font-weight: 700; font-size: 0.82rem;
+    margin-bottom: 6px; color: var(--lank-soft);
+    text-transform: uppercase; letter-spacing: 0.04em;
+  }
+  .form-group input, .form-group select {
+    width: 100%; padding: 12px 14px;
+    border: 1.5px solid var(--liy); border-radius: 10px;
+    font-family: var(--body); font-size: 0.92rem;
+    background: var(--blan); color: var(--lank);
+    transition: border-color .2s;
+    outline: none;
+    -webkit-appearance: none;
+  }
+  .form-group input:focus, .form-group select:focus { border-color: var(--wouj); }
+  .form-note-sm { font-size: 0.76rem; color: var(--lank-soft); margin-top: 8px; }
+  .form-error {
+    color: var(--wouj); font-size: 0.85rem; margin-bottom: 14px;
+    padding: 10px 14px; background: rgba(185,28,60,0.07);
+    border-radius: 10px; border-left: 3px solid var(--wouj);
+  }
+
+  /* ============ STATUS BADGES ============ */
+  .status-badge { font-size: 0.65rem; font-weight: 800; padding: 3px 9px; border-radius: 6px; display: inline-block; vertical-align: middle; margin-left: 4px; }
+  .status-active   { background: rgba(22,163,74,0.12); color: #16A34A; }
+  .status-removed  { background: rgba(185,28,60,0.12); color: var(--wouj-dark); }
+  .verified-badge-sm { font-size: 0.65rem; font-weight: 800; padding: 3px 9px; border-radius: 6px; background: rgba(22,51,94,0.12); color: var(--ble); display: inline-block; vertical-align: middle; margin-left: 4px; }
+
+  /* ============ LOADING ============ */
+  .loading-spin {
+    text-align: center; padding: 48px 20px; color: var(--lank-soft);
+    font-size: 0.9rem;
+  }
+  .loading-spin::before {
+    content: '';
+    display: block; width: 28px; height: 28px;
+    border: 2.5px solid var(--liy); border-top-color: var(--wouj);
+    border-radius: 50%; margin: 0 auto 14px;
+    animation: spin .7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ============ ADMIN SUBTABS ============ */
+  .admin-subtabs {
+    display: flex; gap: 0;
+    border-bottom: 1px solid var(--liy); margin-bottom: 20px;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .admin-subtabs::-webkit-scrollbar { display: none; }
+  .admin-subtab {
+    padding: 11px 14px; font-weight: 700; font-size: 0.84rem;
+    color: var(--lank-soft); border-bottom: 2px solid transparent;
+    background: none; border-top: none; border-left: none; border-right: none;
+    white-space: nowrap; font-family: var(--body); cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .admin-subtab.active { color: var(--wouj); border-bottom-color: var(--wouj); }
+  .admin-subpanel { display: none; }
+  .admin-subpanel.active { display: block; }
+
+  /* ============ AVATAR SM (admin sellers) ============ */
+  .av-sm {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--ble-soft); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 0.88rem;
+    flex-shrink: 0;
+  }
+
+  /* ============ GUARD OUT ============ */
+  .guard-box {
+    text-align: center; padding: 80px 24px;
+  }
+  .guard-box p { margin-bottom: 20px; color: var(--lank-soft); }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 480px) {
+    .logo { font-size: 1.1rem; }
+    .logo .dot { width: 8px; height: 8px; }
+    .acc-tabs-wrap { top: 53px; }
+
+    .acc-head { padding: 20px 16px 18px; }
+    .acc-panel { padding: 18px 16px; }
+
+    .acc-avatar { width: 52px; height: 52px; font-size: 1.1rem; }
+    .acc-name { font-size: 1.1rem; }
+
+    .acc-card { padding: 12px; gap: 10px; }
+    .acc-card-img { width: 56px; height: 56px; border-radius: 8px; }
+    .acc-card-title { font-size: 0.87rem; }
+    .acc-card-price { font-size: 0.85rem; }
+
+    .btn-sm { padding: 7px 12px; font-size: 0.76rem; }
+
+    .acc-tabs { padding: 0 16px; }
+    .acc-tab { padding: 12px 12px; font-size: 0.83rem; }
+
+    .profile-section { max-width: 100%; }
+  }
+
+  @media (max-width: 360px) {
+    .nav { padding: 12px 14px; }
+    .acc-card-actions { gap: 5px; }
+    .btn-sm { padding: 6px 10px; font-size: 0.73rem; }
+  }
+
+  /* Touch targets — ensure tap area at least 44px */
+  .btn, .acc-tab, .admin-subtab { min-height: 44px; }
+  .status-badge.status-featured { background:#fff3cd; color:#856404; }
+  .btn-boost { background:linear-gradient(135deg,#f5a623,#e0901a); color:#fff; border:none; }
+  .btn-boost:hover { background:linear-gradient(135deg,#e0901a,#c47f00); transform:translateY(-1px); }
+  /* Modal Boost */
+  .boost-modal-overlay {
+    display:none; position:fixed; inset:0; background:rgba(0,0,0,0.55);
+    z-index:9000; align-items:center; justify-content:center;
+  }
+  .boost-modal-overlay.open { display:flex; }
+  .boost-modal {
+    background:var(--blan,#fff); border-radius:16px; padding:28px 24px;
+    width:min(92vw,400px); box-shadow:0 24px 60px rgba(0,0,0,0.25);
+  }
+  .boost-modal h3 { margin:0 0 6px; font-size:1.1rem; }
+  .boost-modal p  { font-size:0.85rem; color:#666; margin:0 0 20px; line-height:1.5; }
+  .boost-options { display:flex; flex-direction:column; gap:10px; margin-bottom:20px; }
+  .boost-opt {
+    border:1.5px solid var(--liy,#e5e7eb); border-radius:10px; padding:14px 16px;
+    cursor:pointer; transition:border-color .2s, background .2s;
+  }
+  .boost-opt:hover, .boost-opt.selected { border-color:#f5a623; background:#fffbf0; }
+  .boost-opt .opt-title { font-weight:700; font-size:0.92rem; margin-bottom:2px; }
+  .boost-opt .opt-desc  { font-size:0.78rem; color:#888; }
+  .btn-sm { min-height: 38px; }
+
+  /* ── ESTATISTIK PANEL ───────────────────────────── */
+  .stats-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  @media (min-width: 600px) { .stats-cards { grid-template-columns: repeat(4, 1fr); } }
+  .stat-kard {
+    background: var(--blan);
+    border: 1px solid var(--liy);
+    border-radius: 14px;
+    padding: 18px 14px;
+    text-align: center;
+  }
+  :root[data-theme="dark"] .stat-kard { background: var(--blan); border-color: var(--liy); }
+  .stat-kard-val {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--wouj);
+    line-height: 1.1;
+  }
+  .stat-kard-lbl {
+    font-size: 0.72rem;
+    color: var(--lank-soft);
+    margin-top: 4px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .stats-section { margin-bottom: 28px; }
+  .stats-sec-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    margin-bottom: 14px;
+    color: var(--lank);
+  }
+  .chart-wrap {
+    background: var(--blan);
+    border: 1px solid var(--liy);
+    border-radius: 14px;
+    padding: 16px;
+    position: relative;
+    height: 200px;
+  }
+  :root[data-theme="dark"] .chart-wrap { background: var(--blan); border-color: var(--liy); }
+  .stats-top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--liy);
+    font-size: 0.88rem;
+    gap: 8px;
+  }
+  .stats-top-row:last-child { border-bottom: none; }
+  .stats-top-title { flex: 1; color: var(--lank); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .stats-top-bar-wrap { flex: 0 0 100px; background: var(--liy); border-radius: 4px; height: 8px; }
+  .stats-top-bar { background: var(--wouj); height: 8px; border-radius: 4px; transition: width 0.5s; }
+  .stats-top-count { flex: 0 0 40px; text-align: right; font-weight: 700; color: var(--wouj); }
+  .stats-tip {
+    background: linear-gradient(135deg, rgba(185,28,60,0.06) 0%, rgba(185,28,60,0.02) 100%);
+    border: 1px solid rgba(185,28,60,0.2);
+    border-radius: 12px;
+    padding: 16px 18px;
+    font-size: 0.9rem;
+    color: var(--lank);
+    line-height: 1.6;
+  }
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3671082075819991"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo">
+      <svg width="26" height="26" viewBox="0 0 64 64" fill="none" style="border-radius:7px;flex-shrink:0;">
+        <rect width="64" height="64" rx="14" fill="#B91C3C"/>
+        <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="26" fill="#FBF6EC">AM</text>
+      </svg>
+      Ayiti Market
+    </a>
+    <div class="nav-actions">
+      <a href="messages.html" class="btn btn-ghost btn-sm">Mesaj</a>
+      <a href="index.html" class="btn btn-ghost btn-sm">← Mache a</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- GUARDED: Pa konekte -->
+  <div id="guardedOut" style="display:none">
+    <div class="guard-box">
+      <p>Ou dwe konekte pou wè paj sa a.</p>
+      <a href="index.html" class="btn btn-primary">Tounen nan Akèy →</a>
+    </div>
+  </div>
+
+  <!-- CONTENT: Konekte -->
+  <div id="accountContent" style="display:none">
+
+    <!-- Profile Banner -->
+    <div class="acc-head">
+      <div class="acc-head-inner">
+        <div class="acc-avatar" id="accAvatar">??</div>
+        <div class="acc-info">
+          <div class="acc-name" id="accName">—</div>
+          <div class="acc-email" id="accEmail">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs Nav -->
+    <div class="acc-tabs-wrap">
+      <div class="acc-tabs" role="tablist">
+        <button class="acc-tab active" data-tab="listings" role="tab">Anons Mwen</button>
+        <button class="acc-tab" data-tab="favs" role="tab">Favori Mwen</button>
+        <button class="acc-tab" data-tab="alerts" role="tab">🔔 Alèt</button>
+        <button class="acc-tab" data-tab="stats" role="tab"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Estatistik</button>
+        <button class="acc-tab" data-tab="profile" role="tab">Pwofil</button>
+        <button class="acc-tab" data-tab="admin" id="adminTabBtn" style="display:none" role="tab"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Admin</button>
+      </div>
+    </div>
+
+    <!-- PANEL: Anons Mwen -->
+    <section class="acc-panel active" id="panel-listings" role="tabpanel">
+      <div id="myListingsLoading" class="loading-spin">Ap chaje anons ou yo...</div>
+      <div id="myListingsList"></div>
+      <div id="myListingsEmpty" class="empty-box" style="display:none">
+        <p>Ou poko gen anons pibliye.</p>
+        <a href="index.html" class="btn btn-primary">Pibliye Premye Anons ou →</a>
+      </div>
+    </section>
+
+    <!-- PANEL: Favori Mwen -->
+    <section class="acc-panel" id="panel-favs" role="tabpanel">
+      <div id="myFavsLoading" class="loading-spin">Ap chaje favori ou yo...</div>
+      <div id="myFavsList"></div>
+      <div id="myFavsEmpty" class="empty-box" style="display:none">
+        <p>Ou poko gen anons nan favori ou.</p>
+        <a href="index.html" class="btn btn-primary">Dekouvri Anons →</a>
+      </div>
+    </section>
+
+    <!-- PANEL: Mache Tande (Alèt pa Kategori) -->
+    <section class="acc-panel" id="panel-alerts" role="tabpanel">
+      <p style="color:var(--lank-soft);font-size:0.9rem;line-height:1.6;margin-bottom:20px;">
+        🔔 <b>Mache Tande</b> — chwazi kategori ou enterese, epi resevwa yon notifikasyon chak fwa yon nouvo anons parèt ladan yo.
+      </p>
+      <div id="alertsLoading" class="loading-spin">Ap chaje alèt ou yo...</div>
+      <div id="alertsList" style="display:none;"></div>
+      <div id="alertsError" class="empty-box" style="display:none">
+        <p>Pa ka chaje alèt ou yo. Eseye ankò.</p>
+      </div>
+    </section>
+
+    <!-- PANEL: Estatistik -->
+    <section class="acc-panel" id="panel-stats" role="tabpanel">
+      <div id="statsLoading" class="loading-spin">Ap chaje estatistik ou yo...</div>
+      <div id="statsContent" style="display:none">
+
+        <!-- Kat rezime -->
+        <div class="stats-cards">
+          <div class="stat-kard">
+            <div class="stat-kard-val" id="statTotalViews">—</div>
+            <div class="stat-kard-lbl">Total vye tout tan</div>
+          </div>
+          <div class="stat-kard">
+            <div class="stat-kard-val" id="statViews28">—</div>
+            <div class="stat-kard-lbl">Vye 28 dènye jou</div>
+          </div>
+          <div class="stat-kard">
+            <div class="stat-kard-val" id="statBestDay">—</div>
+            <div class="stat-kard-lbl">Jou pi bon</div>
+          </div>
+          <div class="stat-kard">
+            <div class="stat-kard-val" id="statActiveListings">—</div>
+            <div class="stat-kard-lbl">Anons aktif</div>
+          </div>
+        </div>
+
+        <!-- Grafik: Views pa jou -->
+        <div class="stats-section">
+          <h3 class="stats-sec-title"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Views 28 dènye jou</h3>
+          <div class="chart-wrap">
+            <canvas id="chartPerDay"></canvas>
+          </div>
+        </div>
+
+        <!-- Top anons -->
+        <div class="stats-section">
+          <h3 class="stats-sec-title"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M6 9H4a2 2 0 0 1-2-2V5h4"/><path d="M18 9h2a2 2 0 0 0 2-2V5h-4"/><path d="M6 9a6 6 0 0 0 12 0"/><path d="M12 15v4"/><path d="M8 19h8"/></svg>Top Anons (28 jou)</h3>
+          <div id="topListingsTable"></div>
+        </div>
+
+        <!-- Konsèy -->
+        <div class="stats-section">
+          <h3 class="stats-sec-title"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17H8v-2.26A7 7 0 0 1 5 9a7 7 0 0 1 7-7z"/></svg>Konsèy</h3>
+          <div id="statsTip" class="stats-tip"></div>
+        </div>
+      </div>
+      <div id="statsError" class="empty-box" style="display:none">
+        <p>Pa ka chaje estatistik. Eseye ankò.</p>
+      </div>
+    </section>
+
+    <!-- PANEL: Pwofil -->
+    <section class="acc-panel" id="panel-profile" role="tabpanel">
+      <div class="profile-section">
+        <div id="profileError" class="form-error" style="display:none"></div>
+
+        <!-- Avatar preview + URL -->
+        <div class="form-group">
+          <label>Foto Pwofil</label>
+          <div style="display:flex;align-items:center;gap:14px;margin-bottom:10px;">
+            <div id="avatarPreview" style="width:64px;height:64px;border-radius:50%;background:var(--ble-soft);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.3rem;overflow:hidden;flex-shrink:0;border:2px solid var(--liy);">??</div>
+            <div style="flex:1;">
+              <input type="url" id="profAvatarUrl" placeholder="https://... (lyen foto ou)" autocomplete="off" oninput="previewAvatar(this.value)">
+              <p class="form-note-sm">Kole lyen yon foto soti nan entènèt (imgur, Google Drive, etc.)</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Non Konplè</label>
+          <input type="text" id="profFullName" placeholder="Non w" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label>Bio (kout deskripsyon sou ou)</label>
+          <textarea id="profBio" placeholder="Egz: Machann rad depi 2015, baze Pòtoprens. Livrezon rapid nan tout Ayiti." maxlength="300" style="width:100%;padding:12px 14px;border:1.5px solid var(--liy);border-radius:10px;font-family:var(--body);font-size:0.92rem;background:var(--blan);color:var(--lank);outline:none;resize:vertical;min-height:80px;transition:border-color .2s;" onfocus="this.style.borderColor='var(--wouj)'" onblur="this.style.borderColor='var(--liy)'"></textarea>
+          <p class="form-note-sm" id="bioCharCount">0 / 300 karaktè</p>
+        </div>
+        <div class="form-group">
+          <label>Telefòn</label>
+          <input type="tel" id="profPhone" placeholder="+509 3712-3456" inputmode="tel">
+        </div>
+        <div class="form-group">
+          <label>Vil / Katye</label>
+          <input type="text" id="profLocation" placeholder="Pòtoprens, Okap...">
+        </div>
+        <button class="btn btn-primary btn-full" id="profileSaveBtn" onclick="saveProfile()">Sove Chanjman →</button>
+        <p class="form-note-sm" style="margin-top:12px;">Imèl ou (<span id="profEmailNote"></span>) pa ka chanje isit la.</p>
+      </div>
+    </section>
+
+    <!-- PANEL: Admin -->
+    <section class="acc-panel" id="panel-admin" role="tabpanel">
+      <div class="admin-subtabs">
+        <button class="admin-subtab active" data-admin-subtab="moderation">Modere Anons</button>
+        <button class="admin-subtab" data-admin-subtab="sellers">Vandè</button>
+        <button class="admin-subtab" data-admin-subtab="natcash">Peman NatCash</button>
+      </div>
+
+      <div class="admin-subpanel active" id="admin-moderation">
+        <div id="adminListingsLoading" class="loading-spin">Ap chaje tout anons yo...</div>
+        <div id="adminListingsList"></div>
+      </div>
+
+      <div class="admin-subpanel" id="admin-sellers">
+        <div class="form-group" style="margin-bottom:16px;">
+          <label>Chèche vandè pa imèl oswa non</label>
+          <input type="search" id="adminSellerSearch" placeholder="Tape pou chèche..." oninput="filterAdminSellers()">
+        </div>
+        <div id="adminSellersLoading" class="loading-spin">Ap chaje vandè yo...</div>
+        <div id="adminSellersList"></div>
+      </div>
+
+      <div class="admin-subpanel" id="admin-natcash">
+        <p style="color:var(--lank-soft);font-size:0.88rem;margin-bottom:14px;">
+          Verifye chak referans tranzaksyon NatCash nan app NatCash machann ou anvan ou konfime.
+        </p>
+        <div id="adminNatcashLoading" class="loading-spin">Ap chaje peman an atant...</div>
+        <div id="adminNatcashList"></div>
+      </div>
+    </section>
+
+  </div><!-- end #accountContent -->
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  const SUPABASE_URL = 'https://cisjnsdnxqvgqjuzwobk.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpc2puc2RueHF2Z3FqdXp3b2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0MTI2OTQsImV4cCI6MjA5Nzk4ODY5NH0.rWwbLUOs8TjZpHD19fDYX4B9mOIyn-eAFpcwGcdav_E';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const API_BASE = 'https://api.ayiti-market.com';
+
+  let currentUser = null;
+
+  /* ============ TOAST ============ */
+  function showToast(msg) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = `
+      position:fixed; bottom:24px; left:50%; transform:translateX(-50%);
+      background:#14181F; color:#FBF6EC; padding:13px 20px; border-radius:100px;
+      font-weight:700; font-size:0.85rem; z-index:9999;
+      box-shadow:0 8px 24px rgba(0,0,0,0.25); white-space:nowrap;
+      max-width:90vw; overflow:hidden; text-overflow:ellipsis;
+      transition:opacity .4s;`;
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; setTimeout(() => t.remove(), 400); }, 3000);
+  }
+
+  /* ============ MAP LISTING ============ */
+  function mapListing(row) {
+    const img = (row.images && row.images.length)
+      ? row.images[0]
+      : 'https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=400&q=70';
+    return {
+      id: row.id,
+      title: row.title,
+      price: row.price_label || (row.price_val ? `${Number(row.price_val).toLocaleString('fr-FR')} HTG` : 'Sou demann'),
+      loc: row.location || '',
+      cat: row.category || '',
+      img,
+      status: row.status || 'active',
+      createdAt: row.created_at,
+      renewedAt: row.renewed_at || null,
+      is_featured: row.is_featured,
+      boost_tier: row.boost_tier
+    };
+  }
+
+  /* ============ LISTING CARD HTML ============ */
+  function listingCardHTML(item, ownerView) {
+    const dateStr = item.createdAt
+      ? new Date(item.createdAt).toLocaleDateString('fr-FR')
+      : '';
+
+    // ── Kalkile âj anons la (kreye ou renouvèle, sa ki pi resan) ──
+    const refDate = item.renewedAt
+      ? new Date(item.renewedAt)
+      : (item.createdAt ? new Date(item.createdAt) : null);
+    const daysSinceRef = refDate
+      ? Math.floor((Date.now() - refDate.getTime()) / 86400000)
+      : 0;
+    const isExpired   = daysSinceRef >= 60;   // 60 jou: mande renouvèlman
+    const isExpiring  = !isExpired && daysSinceRef >= 50; // 50–59 jou: avètisman
+
+    const removedBadge = item.status === 'removed'
+      ? `<span class="status-badge status-removed">Retire</span>`
+      : '';
+    const soldBadge = item.status === 'sold'
+      ? `<span class="status-badge status-removed">Vann</span>`
+      : '';
+    const expiringBadge = ownerView && item.status !== 'removed' && item.status !== 'sold' && isExpiring && !isExpired
+      ? `<span class="status-badge status-expiring">Prèske ekspire</span>`
+      : '';
+    const featuredBadge = item.is_featured && item.boost_tier > 0
+      ? `<span class="status-badge status-featured"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>${item.boost_tier >= 2 ? 'Super Vedèt' : 'Vedèt'}</span>`
+      : '';
+    const boostBtn = ownerView && item.status !== 'removed' && item.status !== 'sold'
+      ? `<button class="btn btn-boost btn-sm" onclick="openBoostModal('${item.id}','${(item.title||'').replace(/'/g,'')}')">Booster</button>`
+      : '';
+    const soldBtn = ownerView && item.status !== 'removed' && item.status !== 'sold'
+      ? `<button class="btn btn-ghost btn-sm" onclick="markListingSold('${item.id}','${(item.title||'').replace(/'/g,'')}')">Mete kòm Vann</button>`
+      : '';
+    const actions = ownerView
+      ? `<div class="acc-card-actions">
+           <button class="btn btn-ghost btn-sm" onclick="window.location.href='index.html#edit-${item.id}'">Modifye</button>
+           ${boostBtn}
+           ${soldBtn}
+           <button class="btn btn-ghost btn-sm btn-danger" onclick="deleteMyListing('${item.id}')">Efase</button>
+         </div>`
+      : '';
+
+    // ── Banner renouvèlman (sèlman pou pwopriyetè + anons ki ekspire / prèske ekspire) ──
+    let expiryBanner = '';
+    if (ownerView && item.status !== 'removed' && item.status !== 'sold' && (isExpired || isExpiring)) {
+      const daysLeft = 60 - daysSinceRef;
+      const msg = isExpired
+        ? `<b>Anons sa a gen ${daysSinceRef} jou — toujou disponib?</b>Konfime pou li rete aktif sou Ayiti Market.`
+        : `<b>Ekspire nan ${daysLeft} jou!</b>Renouvèle l kounye a pou l pa disparèt.`;
+      expiryBanner = `
+      <div class="expiry-banner">
+        <span class="eb-icon">${isExpired ? '⏰' : '⚠️'}</span>
+        <span class="eb-text">${msg}</span>
+        <button class="btn-renew" onclick="renewListing('${item.id}')">
+          ${isExpired ? 'Wi, toujou la!' : 'Renouvèle'}
+        </button>
+      </div>`;
+    }
+
+    return `
+      ${expiryBanner}
+      <div class="acc-card">
+        <img class="acc-card-img" src="${item.img}" alt="${item.title}" loading="lazy">
+        <div class="acc-card-body">
+          <div class="acc-card-title">${item.title}${removedBadge}${soldBadge}${expiringBadge}${featuredBadge}</div>
+          <div class="acc-card-price">${item.price}</div>
+          <div class="acc-card-meta">${item.cat}${item.loc ? ' · ' + item.loc : ''}${dateStr ? ' · ' + dateStr : ''}</div>
+        </div>
+        ${actions}
+      </div>`;
+  }
+
+  /* ============ AUTH GUARD ============ */
+  async function init() {
+    const { data } = await supabaseClient.auth.getSession();
+    if (!data.session?.user) {
+      document.getElementById('guardedOut').style.display = 'block';
+      return;
+    }
+    currentUser = data.session.user;
+    document.getElementById('accountContent').style.display = 'block';
+
+    const fullName = currentUser.user_metadata?.full_name || currentUser.email;
+    document.getElementById('accName').textContent = fullName;
+    document.getElementById('accEmail').textContent = currentUser.email;
+    document.getElementById('accAvatar').textContent = fullName
+      .split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
+    document.getElementById('profEmailNote').textContent = currentUser.email;
+
+    loadMyListings();
+    loadMyFavorites();
+    loadProfile();
+    checkIsAdmin();
+  }
+  init();
+
+  let isAdmin = false;
+  async function checkIsAdmin() {
+    try {
+      const { data } = await supabaseClient
+        .from('profiles').select('is_admin').eq('id', currentUser.id).single();
+      if (!data?.is_admin) return;
+      isAdmin = true;
+      document.getElementById('adminTabBtn').style.display = '';
+    } catch (e) { /* pa admin */ }
+  }
+
+  /* ============ TABS ============ */
+  document.querySelectorAll('.acc-tabs .acc-tab[data-tab]').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.acc-tabs .acc-tab[data-tab]').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.acc-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.tab).classList.add('active');
+      if (tab.dataset.tab === 'admin' && isAdmin) {
+        loadAdminListings();
+        loadAdminSellers();
+      }
+    });
+  });
+
+  document.querySelectorAll('.admin-subtab[data-admin-subtab]').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.admin-subtab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.admin-subpanel').forEach(p => {
+        p.classList.remove('active'); p.style.display = 'none';
+      });
+      tab.classList.add('active');
+      const target = document.getElementById('admin-' + tab.dataset.adminSubtab);
+      target.classList.add('active'); target.style.display = 'block';
+      if (tab.dataset.adminSubtab === 'natcash') loadAdminNatcash();
+    });
+  });
+
+  /* ============ ANONS MWEN ============ */
+  async function loadMyListings() {
+    const listEl   = document.getElementById('myListingsList');
+    const loadEl   = document.getElementById('myListingsLoading');
+    const emptyEl  = document.getElementById('myListingsEmpty');
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/my-listings`, {
+        headers: { 'Authorization': `Bearer ${session?.access_token}` }
+      });
+      const data = await res.json();
+      const mine = (data || []).map(mapListing);
+      loadEl.style.display = 'none';
+      if (mine.length === 0) { emptyEl.style.display = 'block'; return; }
+      listEl.innerHTML = mine.map(item => listingCardHTML(item, true)).join('');
+    } catch (err) {
+      loadEl.textContent = 'Pa kapab chaje anons ou yo. Eseye ankò.';
+      console.error(err);
+    }
+  }
+
+  async function deleteMyListing(id) {
+    if (!confirm('Efase anons sa a pou tout tan? Aksyon sa pa ka anile.')) return;
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/listings/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${session?.access_token}` }
+      });
+      if (!res.ok) throw new Error('Erè pandan efase');
+      showToast('Anons efase avèk siksè.');
+      document.getElementById('myListingsList').innerHTML = '';
+      document.getElementById('myListingsEmpty').style.display = 'none';
+      const loadEl = document.getElementById('myListingsLoading');
+      loadEl.style.display = 'block';
+      loadEl.textContent = 'Ap chaje anons ou yo...';
+      loadMyListings();
+    } catch (err) {
+      showToast('Pa kapab efase: ' + err.message);
+    }
+  }
+  window.deleteMyListing = deleteMyListing;
+
+  /* ============ RENOUVÈLE ANONS ============ */
+  async function renewListing(id) {
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/listings/${id}/renew`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${session?.access_token}` }
+      });
+      if (!res.ok) throw new Error('Erè renouvèlman');
+      showToast('✅ Anons renouvèle avèk siksè — 60 jou kòmanse kounye a.');
+      loadMyListings();
+    } catch (err) {
+      showToast('Erè: ' + err.message);
+    }
+  }
+  window.renewListing = renewListing;
+
+  /* ============ METE KÒM VANN ============ */
+  async function markListingSold(id, title) {
+    if (!confirm(`Make "${title}" kòm vann? Anons lan p ap parèt nan rezilta rechèch ankò.`)) return;
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/listings/${id}/mark-sold`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${session?.access_token}` }
+      });
+      if (!res.ok) throw new Error('Erè pandan operasyon an');
+      showToast('✅ Anons make kòm vann.');
+      loadMyListings();
+    } catch (err) {
+      showToast('Erè: ' + err.message);
+    }
+  }
+  window.markListingSold = markListingSold;
+  async function loadMyFavorites() {
+    const listEl  = document.getElementById('myFavsList');
+    const loadEl  = document.getElementById('myFavsLoading');
+    const emptyEl = document.getElementById('myFavsEmpty');
+    try {
+      const { data: favRows, error: favErr } = await supabaseClient
+        .from('user_favorites').select('listing_id').eq('user_id', currentUser.id);
+      if (favErr) throw favErr;
+
+      const ids = favRows.map(r => r.listing_id);
+      loadEl.style.display = 'none';
+      if (ids.length === 0) { emptyEl.style.display = 'block'; return; }
+
+      const res = await fetch(`${API_BASE}/api/listings`);
+      const allListings = await res.json();
+      const favListings = allListings.filter(row => ids.includes(row.id)).map(mapListing);
+
+      if (favListings.length === 0) { emptyEl.style.display = 'block'; return; }
+      listEl.innerHTML = favListings.map(item => listingCardHTML(item, false)).join('');
+    } catch (err) {
+      loadEl.textContent = 'Pa kapab chaje favori ou yo. Eseye ankò.';
+      console.error(err);
+    }
+  }
+
+  /* ============ PWOFIL ============ */
+  async function loadProfile() {
+    try {
+      const { data, error } = await supabaseClient
+        .from('profiles').select('full_name, phone, location, bio, avatar_url')
+        .eq('id', currentUser.id).single();
+      if (error) { console.warn('Pwofil pa jwenn:', error.message); return; }
+      document.getElementById('profFullName').value = data.full_name || '';
+      document.getElementById('profPhone').value    = data.phone    || '';
+      document.getElementById('profLocation').value = data.location || '';
+      document.getElementById('profBio').value      = data.bio      || '';
+      document.getElementById('profAvatarUrl').value = data.avatar_url || '';
+      // Chaje preview avatar
+      previewAvatar(data.avatar_url, data.full_name);
+      // Bio char count
+      updateBioCount();
+    } catch (err) { console.error(err); }
+  }
+
+  function previewAvatar(url, name) {
+    const el = document.getElementById('avatarPreview');
+    if (!el) return;
+    if (url) {
+      el.innerHTML = `<img src="${url}" alt="avatar" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentElement.innerHTML='??'">`;
+    } else {
+      const n = name || document.getElementById('profFullName')?.value || '??';
+      el.innerHTML = '';
+      el.textContent = n.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase() || '??';
+    }
+  }
+  window.previewAvatar = previewAvatar;
+
+  function updateBioCount() {
+    const bio = document.getElementById('profBio');
+    const cnt = document.getElementById('bioCharCount');
+    if (bio && cnt) {
+      bio.addEventListener('input', () => { cnt.textContent = `${bio.value.length} / 300 karaktè`; });
+      cnt.textContent = `${bio.value.length} / 300 karaktè`;
+    }
+  }
+
+  async function saveProfile() {
+    const errorEl    = document.getElementById('profileError');
+    errorEl.style.display = 'none';
+    const fullName   = document.getElementById('profFullName').value.trim();
+    const phone      = document.getElementById('profPhone').value.trim();
+    const location   = document.getElementById('profLocation').value.trim();
+    const bio        = document.getElementById('profBio').value.trim() || null;
+    const avatar_url = document.getElementById('profAvatarUrl').value.trim() || null;
+
+    const btn = document.getElementById('profileSaveBtn');
+    btn.disabled = true; btn.textContent = 'Ap sove...';
+
+    const { error } = await supabaseClient.from('profiles')
+      .upsert({ id: currentUser.id, full_name: fullName, phone, location, bio, avatar_url }, { onConflict: 'id' });
+
+    btn.disabled = false; btn.textContent = 'Sove Chanjman →';
+
+    if (error) {
+      errorEl.textContent = 'Pa kapab sove pwofil: ' + error.message;
+      errorEl.style.display = 'block';
+      return;
+    }
+    await supabaseClient.auth.updateUser({ data: { full_name: fullName } });
+    document.getElementById('accName').textContent = fullName || currentUser.email;
+    // Update nav avatar
+    const navAv = document.getElementById('accAvatar');
+    if (avatar_url) {
+      navAv.innerHTML = `<img src="${avatar_url}" alt="${fullName}" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+    } else {
+      navAv.textContent = (fullName || currentUser.email)
+        .split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
+    }
+    showToast('Pwofil sove avèk siksè!');
+  }
+  window.saveProfile = saveProfile;
+
+  /* ============ ADMIN: MODERE ANONS ============ */
+  let _adminListingsCache = [];
+  async function loadAdminListings() {
+    const listEl = document.getElementById('adminListingsList');
+    const loadEl = document.getElementById('adminListingsLoading');
+    loadEl.style.display = 'block'; listEl.innerHTML = '';
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/admin/listings`, {
+        headers: { 'Authorization': `Bearer ${session?.access_token}` }
+      });
+      if (!res.ok) throw new Error('Aksè refize oswa erè sèvè');
+      const data = await res.json();
+      _adminListingsCache = data || [];
+      loadEl.style.display = 'none';
+      if (_adminListingsCache.length === 0) {
+        listEl.innerHTML = '<div class="empty-box"><p>Pa gen okenn anons nan sistèm lan.</p></div>';
+        return;
+      }
+      listEl.innerHTML = _adminListingsCache.map(row => adminListingCardHTML(row)).join('');
+    } catch (err) {
+      loadEl.textContent = 'Pa kapab chaje anons yo: ' + err.message;
+    }
+  }
+
+  function adminListingCardHTML(row) {
+    const img = (row.images && row.images.length) ? row.images[0]
+      : 'https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=400&q=70';
+    const price = row.price_label || (row.price_val
+      ? `${Number(row.price_val).toLocaleString('fr-FR')} HTG` : 'Sou demann');
+    const status = row.status || 'active';
+    const isActive = status === 'active';
+    const isFeatured = row.is_featured && row.boost_tier > 0;
+    const featuredLabel = isFeatured
+      ? `<span class="status-badge status-featured"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Tier ${row.boost_tier}</span>`
+      : '';
+    return `
+      <div class="acc-card">
+        <img class="acc-card-img" src="${img}" alt="${row.title}" loading="lazy">
+        <div class="acc-card-body">
+          <div class="acc-card-title">${row.title} <span class="status-badge status-${status}">${isActive ? 'Aktif' : 'Retire'}</span>${featuredLabel}</div>
+          <div class="acc-card-price">${price}</div>
+          <div class="acc-card-meta">${row.category || ''}${row.location ? ' · ' + row.location : ''} · ${row.seller_name || 'N/A'}</div>
+        </div>
+        <div class="acc-card-actions">
+          ${isActive
+            ? `<button class="btn btn-ghost btn-sm btn-danger" onclick="toggleListingStatus('${row.id}','removed')">Retire</button>`
+            : `<button class="btn btn-ghost btn-sm btn-success" onclick="toggleListingStatus('${row.id}','active')">Restore</button>`}
+          ${isFeatured
+            ? `<button class="btn btn-ghost btn-sm" onclick="adminUnfeature('${row.id}')">Retire vedèt</button>`
+            : `<button class="btn btn-boost btn-sm" onclick="adminFeatureModal('${row.id}','${(row.title||'').replace(/'/g,'')}')">Featured</button>`}
+        </div>
+      </div>`;
+  }
+
+  async function toggleListingStatus(id, newStatus) {
+    const msg = newStatus === 'removed'
+      ? 'Retire anons sa a? Li p ap parèt pou piblik la ankò.'
+      : 'Restore anons sa a pou piblik ka wè l ankò?';
+    if (!confirm(msg)) return;
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/admin/listings/${id}/status`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session?.access_token}` },
+        body: JSON.stringify({ status: newStatus })
+      });
+      if (!res.ok) throw new Error('Erè pandan mete ajou');
+      showToast(newStatus === 'removed' ? 'Anons retire.' : 'Anons restore.');
+      loadAdminListings();
+    } catch (err) { showToast('Erè: ' + err.message); }
+  }
+  window.toggleListingStatus = toggleListingStatus;
+
+  /* ============ ADMIN: VANDÈ ============ */
+  let _adminSellersCache = [];
+  async function loadAdminSellers() {
+    const listEl = document.getElementById('adminSellersList');
+    const loadEl = document.getElementById('adminSellersLoading');
+    loadEl.style.display = 'block'; listEl.innerHTML = '';
+    try {
+      const { data, error } = await supabaseClient
+        .from('profiles')
+        .select('id, full_name, phone, location, is_verified_seller, created_at')
+        .order('created_at', { ascending: false }).limit(300);
+      if (error) throw error;
+      _adminSellersCache = data || [];
+      loadEl.style.display = 'none';
+      renderAdminSellers(_adminSellersCache);
+    } catch (err) {
+      loadEl.textContent = 'Pa kapab chaje vandè yo: ' + err.message;
+    }
+  }
+
+  function renderAdminSellers(rows) {
+    const listEl = document.getElementById('adminSellersList');
+    if (rows.length === 0) {
+      listEl.innerHTML = '<div class="empty-box"><p>Pa gen vandè jwenn.</p></div>';
+      return;
+    }
+    listEl.innerHTML = rows.map(p => `
+      <div class="acc-card">
+        <div class="av-sm">${(p.full_name || '??').split(' ').map(x => x[0]).join('').slice(0,2).toUpperCase()}</div>
+        <div class="acc-card-body">
+          <div class="acc-card-title">${p.full_name || 'Itilizatè'}${p.is_verified_seller ? '<span class="verified-badge-sm"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px"><polyline points="20 6 9 17 4 12"/></svg>Verifye</span>' : ''}</div>
+          <div class="acc-card-meta">${p.phone || 'Pa gen telefòn'}${p.location ? ' · ' + p.location : ''}</div>
+        </div>
+        <div class="acc-card-actions">
+          ${p.is_verified_seller
+            ? `<button class="btn btn-ghost btn-sm" onclick="toggleSellerVerified('${p.id}', false)">Retire Badge</button>`
+            : `<button class="btn btn-primary btn-sm" onclick="toggleSellerVerified('${p.id}', true)"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"11\" height=\"11\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\" style=\"vertical-align:-1px;margin-right:2px\"><polyline points=\"20 6 9 17 4 12\"/></svg>Verifye</button>`}
+        </div>
+      </div>`).join('');
+  }
+
+  function filterAdminSellers() {
+    const q = document.getElementById('adminSellerSearch').value.trim().toLowerCase();
+    if (!q) { renderAdminSellers(_adminSellersCache); return; }
+    renderAdminSellers(_adminSellersCache.filter(p =>
+      (p.full_name || '').toLowerCase().includes(q) || (p.phone || '').toLowerCase().includes(q)
+    ));
+  }
+  window.filterAdminSellers = filterAdminSellers;
+
+  async function toggleSellerVerified(id, verify) {
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/admin/profiles/${id}/verify`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session?.access_token}` },
+        body: JSON.stringify({ is_verified_seller: verify })
+      });
+      if (!res.ok) throw new Error('Erè pandan mete ajou');
+      showToast(verify ? 'Vandè verifye!' : 'Badge retire.');
+      loadAdminSellers();
+    } catch (err) { showToast('Erè: ' + err.message); }
+  }
+  window.toggleSellerVerified = toggleSellerVerified;
+
+  // ══════════════════════════════════════════
+  // BOOST MODAL (pou vandè)
+  // ══════════════════════════════════════════
+  let _boostListingId = null;
+  let _boostSelectedTier = 1;
+  let _boostSelectedDays = 7;
+
+  const BOOST_TIERS = [
+    { tier:1, label:'Vedèt',       days:7,  price:500,  desc:'Parèt an premye pandan 7 jou — bòdè jòn' },
+    { tier:2, label:'Super Vedèt', days:14, price:1200, desc:'Tèt paj + badge espesyal pandan 14 jou' },
+    { tier:2, label:'Inivèsèl',    days:30, price:2500, desc:'30 jou — plis ekspozisyon maksimòm' },
+  ];
+
+  function openBoostModal(listingId, title) {
+    _boostListingId  = listingId;
+    _boostSelectedTier = 1;
+    _boostSelectedDays = 7;
+    document.getElementById('boostModalTitle').textContent = `Booster: ${title}`;
+    document.getElementById('boostModal').classList.add('open');
+    renderBoostOptions();
+  }
+  window.openBoostModal = openBoostModal;
+
+  function renderBoostOptions() {
+    const el = document.getElementById('boostOptionsList');
+    el.innerHTML = BOOST_TIERS.map((opt, i) => `
+      <div class="boost-opt${i===0?' selected':''}" onclick="selectBoostOpt(${i})">
+        <div class="opt-title">${opt.label} — ${opt.price.toLocaleString('fr-FR')} HTG</div>
+        <div class="opt-desc">${opt.desc}</div>
+      </div>`).join('');
+  }
+
+  function selectBoostOpt(i) {
+    _boostSelectedTier = BOOST_TIERS[i].tier;
+    _boostSelectedDays = BOOST_TIERS[i].days;
+    document.querySelectorAll('.boost-opt').forEach((el, j) =>
+      el.classList.toggle('selected', j === i));
+  }
+  window.selectBoostOpt = selectBoostOpt;
+
+  function closeBoostModal() {
+    document.getElementById('boostModal').classList.remove('open');
+    _boostListingId = null;
+    document.getElementById('boostPayMethods').style.display = '';
+    document.getElementById('boostNatcashForm').style.display = 'none';
+  }
+  window.closeBoostModal = closeBoostModal;
+
+  let _boostPendingPaymentId = null;
+
+  async function payWithMoncash() {
+    await submitBoostPayment('moncash');
+  }
+  window.payWithMoncash = payWithMoncash;
+
+  function showNatcashForm() {
+    document.getElementById('boostPayMethods').style.display = 'none';
+    document.getElementById('boostNatcashForm').style.display = 'block';
+    submitBoostPayment('natcash');
+  }
+  window.showNatcashForm = showNatcashForm;
+
+  async function submitBoostPayment(method) {
+    if (!_boostListingId) return;
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/boost/initiate`, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${session?.access_token}` },
+        body: JSON.stringify({ listing_id: _boostListingId, tier: _boostSelectedTier, days: _boostSelectedDays, method })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erè pandan inisye peman');
+
+      if (method === 'moncash') {
+        window.location.href = data.redirect_url; // ale sou paj peman MonCash la
+        return;
+      }
+
+      // NatCash: montre enstriksyon + chan pou antre referans
+      _boostPendingPaymentId = data.payment_id;
+      document.getElementById('natcashInstructions').textContent =
+        `Peye ${data.instructions.amount.toLocaleString('fr-FR')} HTG sou NatCash nan nimewo: ${data.instructions.phone}. Aprè sa, antre referans tranzaksyon w jwenn lan anba a.`;
+    } catch (err) {
+      showToast('Erè: ' + err.message);
+      closeBoostModal();
+    }
+  }
+
+  async function confirmNatcashPayment() {
+    const ref = document.getElementById('natcashRefInput').value.trim();
+    if (!ref) { showToast('Antre referans tranzaksyon an dabò.'); return; }
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/boost/natcash/confirm`, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${session?.access_token}` },
+        body: JSON.stringify({ payment_id: _boostPendingPaymentId, reference: ref })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erè');
+      showToast(data.message || 'Referans anrejistre — n ap verifye l.');
+      closeBoostModal();
+    } catch (err) {
+      showToast('Erè: ' + err.message);
+    }
+  }
+  window.confirmNatcashPayment = confirmNatcashPayment;
+
+  // Lè moun retounen sou paj la aprè peman MonCash (?boost=success|failed)
+  (function checkBoostReturn() {
+    const params = new URLSearchParams(window.location.search);
+    const boostStatus = params.get('boost');
+    if (boostStatus === 'success') {
+      showToast('Peman konfime! Anons ou kounye a an vedèt. 🎉');
+      loadMyListings();
+    } else if (boostStatus === 'failed') {
+      showToast('Peman pa konfime. Eseye ankò oswa kontakte sipò.', false);
+    }
+    if (boostStatus) {
+      params.delete('boost');
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  })();
+
+  // ══════════════════════════════════════════
+  // ADMIN: konfime/rejte peman NatCash
+  // ══════════════════════════════════════════
+  async function loadAdminNatcash() {
+    const listEl = document.getElementById('adminNatcashList');
+    const loadEl = document.getElementById('adminNatcashLoading');
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/admin/boost-payments?status=pending_review`, {
+        headers: { 'Authorization': `Bearer ${session?.access_token}` }
+      });
+      const rows = await res.json();
+      loadEl.style.display = 'none';
+      if (!rows.length) { listEl.innerHTML = '<p style="color:var(--lank-soft);">Pa gen peman an atant.</p>'; return; }
+      listEl.innerHTML = rows.map(r => `
+        <div class="acc-card" style="flex-direction:column;align-items:stretch;gap:8px;padding:14px;">
+          <div><b>${r.listings?.title || r.listing_id}</b></div>
+          <div style="font-size:0.85rem;color:var(--lank-soft);">
+            Nivo ${r.tier} · ${r.days}j · ${Number(r.price_htg).toLocaleString('fr-FR')} HTG<br>
+            Referans NatCash: <b>${r.natcash_reference || '—'}</b>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-boost btn-sm" onclick="adminApproveBoost('${r.id}')" style="flex:1">✓ Konfime</button>
+            <button class="btn btn-ghost btn-sm btn-danger" onclick="adminRejectBoost('${r.id}')" style="flex:1">✕ Rejte</button>
+          </div>
+        </div>`).join('');
+    } catch (err) {
+      loadEl.textContent = 'Erè pandan chajman: ' + err.message;
+    }
+  }
+
+  async function adminApproveBoost(id) {
+    if (!confirm('Konfime peman sa a epi aktive vedèt la?')) return;
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/admin/boost-payments/${id}/approve`, {
+        method: 'PUT', headers: { 'Authorization': `Bearer ${session?.access_token}` }
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      showToast('Vedèt aktive!');
+      loadAdminNatcash();
+    } catch (err) { showToast('Erè: ' + err.message); }
+  }
+  window.adminApproveBoost = adminApproveBoost;
+
+  async function adminRejectBoost(id) {
+    if (!confirm('Rejte peman sa a?')) return;
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/admin/boost-payments/${id}/reject`, {
+        method: 'PUT', headers: { 'Authorization': `Bearer ${session?.access_token}` }
+      });
+      if (!res.ok) throw new Error('Erè sèvè');
+      showToast('Peman rejte.');
+      loadAdminNatcash();
+    } catch (err) { showToast('Erè: ' + err.message); }
+  }
+  window.adminRejectBoost = adminRejectBoost;
+
+  // ══════════════════════════════════════════
+  // ADMIN: aktive / dezaktive vedèt
+  // ══════════════════════════════════════════
+  let _adminFeatureId = null;
+  let _adminFeatureTier = 1;
+  let _adminFeatureDays = 7;
+
+  function adminFeatureModal(id, title) {
+    _adminFeatureId = id;
+    document.getElementById('adminBoostModalTitle').textContent = `Featured: ${title}`;
+    document.getElementById('adminBoostModal').classList.add('open');
+  }
+  window.adminFeatureModal = adminFeatureModal;
+
+  function closeAdminBoostModal() {
+    document.getElementById('adminBoostModal').classList.remove('open');
+    _adminFeatureId = null;
+  }
+  window.closeAdminBoostModal = closeAdminBoostModal;
+
+  async function adminConfirmFeature() {
+    if (!_adminFeatureId) return;
+    const tier  = Number(document.getElementById('adminFeatureTier').value);
+    const days  = Number(document.getElementById('adminFeatureDays').value);
+    const price = Number(document.getElementById('adminFeaturePrice').value) || 0;
+    const notes = document.getElementById('adminFeatureNotes').value.trim();
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/admin/listings/${_adminFeatureId}/feature`, {
+        method: 'PUT',
+        headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${session?.access_token}` },
+        body: JSON.stringify({ tier, days, price_htg: price, notes })
+      });
+      if (!res.ok) throw new Error('Erè sèvè');
+      showToast('Anons la koulye a an vedèt!');
+      closeAdminBoostModal();
+      loadAdminListings();
+    } catch (err) { showToast('Erè: ' + err.message); }
+  }
+  window.adminConfirmFeature = adminConfirmFeature;
+
+  async function adminUnfeature(id) {
+    if (!confirm('Retire vedèt pou anons sa a?')) return;
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/admin/listings/${id}/feature`, {
+        method: 'PUT',
+        headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${session?.access_token}` },
+        body: JSON.stringify({ tier:0, days:0 })
+      });
+      if (!res.ok) throw new Error('Erè sèvè');
+      showToast('Vedèt retire.');
+      loadAdminListings();
+    } catch (err) { showToast('Erè: ' + err.message); }
+  }
+  window.adminUnfeature = adminUnfeature;
+</script>
+
+<!-- ── Modal Boost (pou vandè) ── -->
+<div class="boost-modal-overlay" id="boostModal">
+  <div class="boost-modal">
+    <h3 id="boostModalTitle">Booster Anons</h3>
+    <p>Chwazi yon nivo pwomosyon, epi peye dirèkteman ak MonCash oswa NatCash.</p>
+    <div class="boost-options" id="boostOptionsList"></div>
+
+    <div id="boostPayMethods" style="display:flex;gap:10px;">
+      <button class="btn btn-ghost btn-sm" onclick="closeBoostModal()" style="flex:1">Anile</button>
+      <button class="btn btn-boost btn-sm" onclick="payWithMoncash()" style="flex:1">Peye ak MonCash</button>
+      <button class="btn btn-boost btn-sm" onclick="showNatcashForm()" style="flex:1">Peye ak NatCash</button>
+    </div>
+
+    <div id="boostNatcashForm" style="display:none;margin-top:10px;">
+      <p id="natcashInstructions" style="font-size:0.86rem;color:var(--lank-soft);margin-bottom:10px;"></p>
+      <input type="text" id="natcashRefInput" class="search-input" placeholder="Referans tranzaksyon NatCash" style="width:100%;margin-bottom:10px;">
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-ghost btn-sm" onclick="closeBoostModal()" style="flex:1">Anile</button>
+        <button class="btn btn-boost btn-sm" onclick="confirmNatcashPayment()" style="flex:2">Soumèt referans →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Modal Admin Featured ── -->
+<div class="boost-modal-overlay" id="adminBoostModal">
+  <div class="boost-modal">
+    <h3 id="adminBoostModalTitle">Aktive Vedèt</h3>
+    <p style="margin-bottom:14px;">Konfigire pwomosyon an pou anons sa a.</p>
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;">
+      <label style="font-size:0.82rem;font-weight:700;">Nivo (tier)
+        <select id="adminFeatureTier" class="search-input" style="margin-top:4px;width:100%">
+          <option value="1">1 — Vedèt</option>
+          <option value="2">2 — Super Vedèt</option>
+        </select>
+      </label>
+      <label style="font-size:0.82rem;font-weight:700;">Dire (jou)
+        <select id="adminFeatureDays" class="search-input" style="margin-top:4px;width:100%">
+          <option value="7">7 jou</option>
+          <option value="14">14 jou</option>
+          <option value="30">30 jou</option>
+        </select>
+      </label>
+      <label style="font-size:0.82rem;font-weight:700;">Pri peye (HTG)
+        <input id="adminFeaturePrice" type="number" class="search-input" placeholder="ex: 500" style="margin-top:4px;width:100%">
+      </label>
+      <label style="font-size:0.82rem;font-weight:700;">Referans peman
+        <input id="adminFeatureNotes" type="text" class="search-input" placeholder="MonCash #12345" style="margin-top:4px;width:100%">
+      </label>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button class="btn btn-ghost btn-sm" onclick="closeAdminBoostModal()" style="flex:1">Anile</button>
+      <button class="btn btn-boost btn-sm" onclick="adminConfirmFeature()" style="flex:2"><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><polyline points="20 6 9 17 4 12"/></svg>Aktive vedèt</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ════════════════════════════════════════════════════
+// ESTATISTIK VANDÈ
+// ════════════════════════════════════════════════════
+(function () {
+  let chartInstance = null;
+  let statsLoaded = false;
+
+  // Chaje stats lè onglet ouvri
+  document.querySelector('[data-tab="stats"]').addEventListener('click', () => {
+    if (!statsLoaded) loadStats();
+  });
+
+  async function loadStats() {
+    const el = id => document.getElementById(id);
+    el('statsLoading').style.display = 'block';
+    el('statsContent').style.display = 'none';
+    el('statsError').style.display = 'none';
+
+    try {
+      const session = supabase.auth.session ? supabase.auth.session() : (await supabase.auth.getSession()).data.session;
+      if (!session) throw new Error('Pa konekte');
+      const token = session.access_token;
+
+      const res = await fetch(`${API_BASE}/api/seller/stats`, {
+        headers: { Authorization: 'Bearer ' + token }
+      });
+      if (!res.ok) throw new Error(await res.text());
+      const data = await res.json();
+
+      renderStats(data);
+      statsLoaded = true;
+      el('statsLoading').style.display = 'none';
+      el('statsContent').style.display = 'block';
+    } catch (err) {
+      el('statsLoading').style.display = 'none';
+      el('statsError').style.display = 'block';
+      console.error('Stats error:', err);
+    }
+  }
+
+  function renderStats(data) {
+    const el = id => document.getElementById(id);
+
+    // Kat chif
+    el('statTotalViews').textContent = data.totalViews.toLocaleString();
+    el('statViews28').textContent = data.views28.toLocaleString();
+    el('statActiveListings').textContent = data.activeListings.toLocaleString();
+
+    if (data.bestDay && data.bestDay.views > 0) {
+      const d = new Date(data.bestDay.date + 'T12:00:00');
+      const lbl = d.toLocaleDateString('fr-HT', { weekday: 'short', month: 'short', day: 'numeric' });
+      el('statBestDay').textContent = lbl;
+    } else {
+      el('statBestDay').textContent = '—';
+    }
+
+    // Grafik pa jou
+    renderChart(data.perDay);
+
+    // Top anons
+    renderTopListings(data.topListings);
+
+    // Konsèy
+    renderTip(data);
+  }
+
+  function renderChart(perDay) {
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+    const textColor = isDark ? '#aaa' : '#666';
+
+    // Montre sèlman 14 dènye jou sou aks X pou evite foul
+    const labels = perDay.map((d, i) => {
+      if (i % 4 === 0 || i === perDay.length - 1) {
+        const dt = new Date(d.date + 'T12:00:00');
+        return dt.toLocaleDateString('fr-HT', { month: 'short', day: 'numeric' });
+      }
+      return '';
+    });
+    const values = perDay.map(d => d.views);
+
+    if (chartInstance) chartInstance.destroy();
+
+    const ctx = document.getElementById('chartPerDay').getContext('2d');
+    chartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Views',
+          data: values,
+          backgroundColor: 'rgba(185,28,60,0.75)',
+          borderRadius: 5,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              title: (items) => {
+                const idx = items[0].dataIndex;
+                const dt = new Date(perDay[idx].date + 'T12:00:00');
+                return dt.toLocaleDateString('fr-HT', { weekday: 'long', month: 'long', day: 'numeric' });
+              },
+              label: (item) => ` ${item.raw} view${item.raw !== 1 ? 's' : ''}`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { color: gridColor },
+            ticks: { color: textColor, font: { size: 10 } }
+          },
+          y: {
+            beginAtZero: true,
+            grid: { color: gridColor },
+            ticks: { color: textColor, stepSize: 1, precision: 0 }
+          }
+        }
+      }
+    });
+  }
+
+  function renderTopListings(topListings) {
+    const el = document.getElementById('topListingsTable');
+    if (!topListings || topListings.length === 0) {
+      el.innerHTML = '<p style="color:var(--lank-soft);font-size:0.88rem;">Pa gen done pou 28 jou sa yo.</p>';
+      return;
+    }
+    const max = topListings[0].views;
+    el.innerHTML = topListings.map((l, i) => `
+      <div class="stats-top-row">
+        <span class="stats-top-title">${i + 1}. ${escHtml(l.title)}</span>
+        <div class="stats-top-bar-wrap">
+          <div class="stats-top-bar" style="width:${max > 0 ? Math.round((l.views / max) * 100) : 0}%"></div>
+        </div>
+        <span class="stats-top-count">${l.views}</span>
+      </div>
+    `).join('');
+  }
+
+  function renderTip(data) {
+    const el = document.getElementById('statsTip');
+    const tips = [];
+
+    // Jou pi bon
+    if (data.bestDay && data.bestDay.views > 0) {
+      const d = new Date(data.bestDay.date + 'T12:00:00');
+      const jourSemèn = d.toLocaleDateString('fr-HT', { weekday: 'long' });
+      tips.push(`<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><b>Jou pi bon ou se ${jourSemèn}</b> — eseye pibliye nouvo anons nan mitan semèn sa a.`);
+    }
+
+    // Rate views
+    if (data.views28 === 0) {
+      tips.push('<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>Ajoute plis foto nan anons ou yo — anons ak foto yo jwenn 3× plis klik.');
+    } else if (data.views28 < 10) {
+      tips.push('<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>Eseye <b>Vedèt</b> pou yon anons — li parèt an premye e li reyisi plis vye.');
+    } else {
+      tips.push('<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><polyline points="20 6 9 17 4 12"/></svg>Ou ap pwogrese! Repons rapid nan mesaj ogmante chans vant ou.');
+    }
+
+    // Si pa gen anons aktif
+    if (data.activeListings === 0) {
+      tips.push('<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Ou pa gen anons aktif. Kreye premye anons ou gratis!');
+    }
+
+    el.innerHTML = tips.join('<br><br>');
+  }
+
+  function escHtml(str) {
+    return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+})();
+</script>
+
+<script>
+// ════════════════════════════════════════════════════
+// MACHE TANDE — Alèt pa Kategori
+// ════════════════════════════════════════════════════
+(function () {
+  const CATEGORIES = ['Elektwonik', 'Vwati & Moto', 'Imobilye', 'Mòd & Rad', 'Sèvis', 'Manje & Bwason', 'Atizay', 'Lòt'];
+  let alertsLoaded = false;
+  let myAlertCategories = new Set(); // kategori ki aktif (id alèt: category map)
+  let alertIdByCategory = {};
+
+  document.querySelector('[data-tab="alerts"]').addEventListener('click', () => {
+    if (!alertsLoaded) loadAlerts();
+  });
+
+  async function getToken() {
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    return session?.access_token || null;
+  }
+
+  async function loadAlerts() {
+    const loadingEl = document.getElementById('alertsLoading');
+    const listEl = document.getElementById('alertsList');
+    const errEl = document.getElementById('alertsError');
+    loadingEl.style.display = 'block';
+    listEl.style.display = 'none';
+    errEl.style.display = 'none';
+
+    try {
+      const token = await getToken();
+      if (!token) throw new Error('Pa konekte');
+
+      const res = await fetch(`${API_BASE}/api/alerts`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!res.ok) throw new Error('Erè sèvè');
+      const data = await res.json();
+
+      myAlertCategories = new Set(data.map(a => a.category));
+      alertIdByCategory = {};
+      data.forEach(a => { alertIdByCategory[a.category] = a.id; });
+
+      renderAlertsList();
+      alertsLoaded = true;
+      loadingEl.style.display = 'none';
+      listEl.style.display = 'flex';
+      listEl.style.flexDirection = 'column';
+      listEl.style.gap = '10px';
+    } catch (err) {
+      console.error('Erè chaje alèt:', err);
+      loadingEl.style.display = 'none';
+      errEl.style.display = 'block';
+    }
+  }
+
+  function renderAlertsList() {
+    const listEl = document.getElementById('alertsList');
+    listEl.innerHTML = CATEGORIES.map(cat => {
+      const isActive = myAlertCategories.has(cat);
+      const safeId = 'alertSwitch_' + cat.replace(/[^a-zA-Z0-9]/g, '');
+      return `
+        <div class="alert-row">
+          <span class="alert-row-label">${escHtmlAlert(cat)}</span>
+          <label class="alert-switch">
+            <input type="checkbox" id="${safeId}" data-cat="${escHtmlAlert(cat)}" ${isActive ? 'checked' : ''} onchange="window.__toggleCategoryAlert(this)">
+            <span class="track"></span>
+            <span class="knob"></span>
+          </label>
+        </div>`;
+    }).join('');
+  }
+
+  window.__toggleCategoryAlert = async function (checkbox) {
+    const cat = checkbox.dataset.cat;
+    checkbox.disabled = true;
+    try {
+      const token = await getToken();
+      if (!token) throw new Error('Pa konekte');
+
+      if (checkbox.checked) {
+        const res = await fetch(`${API_BASE}/api/alerts`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ category: cat })
+        });
+        if (!res.ok) throw new Error('Erè sèvè');
+        const created = await res.json();
+        alertIdByCategory[cat] = created.id;
+        myAlertCategories.add(cat);
+      } else {
+        const id = alertIdByCategory[cat];
+        if (id) {
+          const res = await fetch(`${API_BASE}/api/alerts/${id}`, {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+          });
+          if (!res.ok) throw new Error('Erè sèvè');
+        }
+        myAlertCategories.delete(cat);
+        delete alertIdByCategory[cat];
+      }
+    } catch (err) {
+      console.error('Erè alèt:', err);
+      checkbox.checked = !checkbox.checked; // anile chanjman si li echwe
+      alert('Pa kapab sove chwa ou kounye a. Eseye ankò.');
+    } finally {
+      checkbox.disabled = false;
+    }
+  };
+
+  function escHtmlAlert(str) {
+    return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+})();
+</script>
+
+
+</body>
+
+</html>
