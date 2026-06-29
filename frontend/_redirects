@@ -7,9 +7,9 @@
 /seller.html     /seller.html     200
 /messages.html   /messages.html   200
 
-# Paj SEO pou chak anons + sitemap — pwoksi vè backend Express sou Render.
-/anons/*         https://ayiti-market-509.onrender.com/anons/:splat   200
-/kategori/*      https://ayiti-market-509.onrender.com/kategori/:splat   200
-/sitemap.xml     https://ayiti-market-509.onrender.com/sitemap.xml   200
+# Redirect vè backend pou paj SEO yo
+/anons/*         https://ayiti-market-509.onrender.com/anons/:splat   301
+/kategori/*      https://ayiti-market-509.onrender.com/kategori/:splat   301
+/sitemap.xml     https://ayiti-market-509.onrender.com/sitemap.xml   301
 
 /*               /index.html      200
