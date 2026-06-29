@@ -279,6 +279,36 @@
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--liy);
   }
+
+  /* ── BANN KATEGORI ── */
+  .cat-bar{
+    position: sticky; top: 65px; z-index: 99;
+    background: var(--krem); border-bottom: 1px solid var(--liy);
+    overflow-x: auto; scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .cat-bar::-webkit-scrollbar{ display:none; }
+  .cat-bar-inner{
+    display: flex; gap: 6px; padding: 8px 16px;
+    max-width: var(--container); margin: 0 auto;
+    width: max-content; min-width: 100%;
+  }
+  .cat-pill{
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 7px 14px; border-radius: 100px;
+    font-size: 0.82rem; font-weight: 600; white-space: nowrap;
+    border: 1.5px solid var(--liy); background: var(--blan);
+    color: var(--lank-soft); cursor: pointer;
+    transition: all 0.18s ease;
+    font-family: var(--body);
+  }
+  .cat-pill:hover, .cat-pill.katye-active{
+    background: var(--wouj); color: #fff; border-color: var(--wouj);
+  }
+  .cat-pill svg{ flex-shrink:0; }
+  /* Pouse kontni an pou navbar + cat-bar */
+  body > *:not(header):not(.cat-bar):not(.mobile-drawer):not(#detailOverlay):not(#filterDrawer):not(#imageSearchModal):not(#shareModal):not(#alertModal):not(.toast-container){ scroll-margin-top: 104px;
+  }
   .nav{
     display:flex; align-items:center; justify-content:space-between;
     padding: 18px 24px; max-width: var(--container); margin: 0 auto;
@@ -1666,6 +1696,41 @@
     <button class="nav-toggle" id="navToggle" aria-label="Louvri meni">&#9776;</button>
   </div>
 </header>
+
+<!-- ── BANN KATEGORI FIXED ── -->
+<div class="cat-bar" id="catBar">
+  <div class="cat-bar-inner">
+    <button class="cat-pill katye" data-cat="">Tout</button>
+    <button class="cat-pill katye" data-cat="Elektwonik">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/></svg>
+      Elektwonik
+    </button>
+    <button class="cat-pill katye" data-cat="Vwati &amp; Moto">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v9a2 2 0 01-2 2h-2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>
+      Vwati &amp; Moto
+    </button>
+    <button class="cat-pill katye" data-cat="Imobilye">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Imobilye
+    </button>
+    <button class="cat-pill katye" data-cat="Mòd &amp; Rad">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
+      Mòd &amp; Rad
+    </button>
+    <button class="cat-pill katye" data-cat="Sèvis">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+      Sèvis
+    </button>
+    <button class="cat-pill katye" data-cat="Manje &amp; Bwason">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/></svg>
+      Manje &amp; Bwason
+    </button>
+    <button class="cat-pill katye" data-cat="Elektwomenaje">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      Elektwomenaje
+    </button>
+  </div>
+</div>
 
 <div class="mobile-drawer" id="mobileDrawer">
   <button class="close-x" id="closeDrawer" aria-label="Fèmen meni">&times;</button>
