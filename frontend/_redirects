@@ -6,9 +6,6 @@
 /account.html    /account.html    200
 /seller.html     /seller.html     200
 /messages.html   /messages.html   200
-
-/anons/*         https://api.ayiti-market.com/anons/:splat   301
-/kategori/*      https://api.ayiti-market.com/kategori/:splat   301
 /sitemap.xml     https://api.ayiti-market.com/sitemap.xml   301
 
 /*               /index.html      200
