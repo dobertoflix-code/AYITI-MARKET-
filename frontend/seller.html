@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Pwofil Vandè — Ayiti Market</title>
+<meta name="robots" content="noindex">
 
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23B91C3C'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='26' fill='%23FBF6EC'>AM</text></svg>">
 <link rel="apple-touch-icon" href="/icons/icon-180.png">
@@ -16,6 +17,30 @@
       var saved = localStorage.getItem('am-theme');
       var theme = saved || 'dark';
       document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+
+<!-- ============ MIY OBLIGATWA: fòk itilizatè a konekte anvan l wè paj sa a ============ -->
+<script>
+  (function () {
+    try {
+      var hash = window.location.hash || '';
+      var search = window.location.search || '';
+      var isOAuthCallback = hash.indexOf('access_token=') !== -1 || /[?&]code=/.test(search);
+      if (isOAuthCallback) return;
+
+      var tokenKey = 'sb-cisjnsdnxqvgqjuzwobk-auth-token';
+      var raw = localStorage.getItem(tokenKey);
+      var hasSession = false;
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        var token = (parsed && parsed.access_token) || (parsed && parsed.currentSession && parsed.currentSession.access_token);
+        if (token) hasSession = true;
+      }
+      if (!hasSession) {
+        window.location.replace('enskripsyon.html');
+      }
     } catch (e) {}
   })();
 </script>
@@ -960,9 +985,11 @@
   async function init() {
     // Verifye sesyon utilisateur
     const { data: authData } = await supabaseClient.auth.getSession();
-    if (authData.session?.user) {
-      currentUser = authData.session.user;
+    if (!authData.session?.user) {
+      window.location.replace('enskripsyon.html');
+      return;
     }
+    currentUser = authData.session.user;
 
     const params   = new URLSearchParams(window.location.search);
     const sellerId = params.get('id');
