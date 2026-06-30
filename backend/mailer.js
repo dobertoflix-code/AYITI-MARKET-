@@ -177,11 +177,35 @@ async function sendNewMessageEmail({ to, senderName, messagePreview, conversatio
   return sendEmail({ to, subject: `💬 ${senderName} voye yon mesaj ban ou`, html });
 }
 
+// ════════════════════════════════════════════════════
+// 5) IMÈL KONFIMASYON PEMAN KONT BOUTIK PRO
+// ════════════════════════════════════════════════════
+async function sendShopProConfirmedEmail({ to, days, priceHtg, method, expiresAt }) {
+  const methodLabel = method === 'moncash' ? 'MonCash' : (method === 'natcash' ? 'NatCash' : (method || 'Admin'));
+  const expiresStr = expiresAt ? new Date(expiresAt).toLocaleDateString('fr-FR') : '';
+  const html = wrapEmail(`
+    <h2 style="color:#ffffff;font-size:20px;margin:0 0 16px;">Kont Boutik Pro aktive 👑</h2>
+    <p style="margin:0 0 12px;">Peman ou pou <strong>Kont Boutik Pro</strong> konfime. Boutik ou kounye a gen tout avantaj Pro yo.</p>
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:12px 0;background:#0E1116;border-radius:8px;">
+      <tr><td style="padding:14px 16px;font-size:14px;color:#C9D1D9;">
+        <div style="margin-bottom:6px;"><strong style="color:#fff;">Dire:</strong> ${days} jou</div>
+        <div style="margin-bottom:6px;"><strong style="color:#fff;">Pri:</strong> ${priceHtg} HTG</div>
+        <div style="margin-bottom:6px;"><strong style="color:#fff;">Metòd:</strong> ${methodLabel}</div>
+        ${expiresStr ? `<div><strong style="color:#fff;">Ekspire:</strong> ${expiresStr}</div>` : ''}
+      </tr>
+    </table>
+    ${button('Wè boutik mwen', `${FRONTEND_URL}/account.html`)}
+  `, 'Kont Boutik Pro aktive');
+
+  return sendEmail({ to, subject: 'Kont Boutik Pro ou aktive 👑', html });
+}
+
 export {
   sendEmail,
   sendWelcomeEmail,
   sendSoldEmail,
   sendListingSoldNoticeToBuyer,
   sendBoostConfirmedEmail,
+  sendShopProConfirmedEmail,
   sendNewMessageEmail,
 };
