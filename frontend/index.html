@@ -1768,7 +1768,6 @@
     .faq-q{ font-size: 0.95rem; }
     section[id], div[id]{ scroll-margin-top: 70px; }
     body{ padding-bottom: calc(58px + env(safe-area-inset-bottom)); }
-    .bottom-nav{ display: flex; }
   }
 
   /* ============ BOTTOM NAV (mobil) ============ */
@@ -1795,6 +1794,9 @@
     background: var(--wouj); display: none; border: 1.5px solid var(--blan);
   }
   :root[data-theme="dark"] .bottom-nav{ background: var(--blan); border-top-color: var(--liy); }
+  @media(max-width:720px){
+    .bottom-nav{ display: flex; }
+  }
 
   /* ══ DÈNYE WÈ ══ */
   .recent-section{
@@ -4184,6 +4186,16 @@
 
     const hash = window.location.hash;
     if (!hash) return;
+    if (hash === '#publish') {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+      bottomNavPublish();
+      return;
+    }
+    if (hash === '#search') {
+      history.replaceState(null, '', window.location.pathname + window.location.search);
+      bottomNavSearch();
+      return;
+    }
     const matchView = hash.match(/^#listing-([\w-]+)$/);
     const matchEdit = hash.match(/^#edit-([\w-]+)$/);
     if (matchView) {
