@@ -2111,6 +2111,7 @@
       console.error('Admin KPI error:', e);
     }
   }
+  window.loadAdminKpi = loadAdminKpi;
 
   async function loadAdminChart() {
     const since30 = new Date(Date.now() - 30 * 864e5).toISOString();
@@ -2206,6 +2207,7 @@
         <button onclick="deleteAdminReview('${r.id}')" style="background:none;border:none;color:var(--wouj);cursor:pointer;font-size:0.8rem;white-space:nowrap;padding:4px 8px;border:1px solid var(--wouj);border-radius:8px;">Efase</button>
       </div>`).join('');
   }
+  window.loadAdminReviews = loadAdminReviews;
 
   window.deleteAdminReview = async function(id) {
     if (!confirm('Efase nòt sa a?')) return;
