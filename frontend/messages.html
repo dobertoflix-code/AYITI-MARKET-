@@ -149,8 +149,6 @@
     body.show-chat .conv-list{ display:none; }
     body.show-chat .chat-area{ display:flex; }
     .chat-back-mobile{ display:inline-flex !important; }
-    .bottom-nav{ display:flex; }
-    body.show-chat .bottom-nav{ display:none; }
   }
   .chat-back-mobile{ display:none; }
 
@@ -168,6 +166,10 @@
   }
   .bn-item svg{ width: 22px; height: 22px; stroke: currentColor; }
   .bn-item.active{ color: var(--wouj); }
+  @media (max-width:760px){
+    .bottom-nav{ display:flex; }
+    body.show-chat .bottom-nav{ display:none; }
+  }
 
   /* ── Fichye / Imaj ── */
   .chat-attach-btn{
