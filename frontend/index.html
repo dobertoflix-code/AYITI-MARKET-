@@ -1773,7 +1773,7 @@
   /* ============ BOTTOM NAV (mobil) ============ */
   .bottom-nav{
     display: none;
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 950;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 90;
     background: var(--blan); border-top: 1px solid var(--liy);
     padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
     box-shadow: 0 -4px 18px rgba(0,0,0,0.06);
@@ -1797,6 +1797,62 @@
   @media(max-width:720px){
     .bottom-nav{ display: flex; }
   }
+
+  /* ============ SEARCH OVERLAY (plen ekran) ============ */
+  .search-overlay{
+    position: fixed; inset: 0; z-index: 2000; background: var(--krem);
+    display: flex; flex-direction: column; visibility: hidden;
+    transform: translateY(100%); transition: transform .25s cubic-bezier(.4,0,.2,1), visibility 0s linear .25s;
+  }
+  .search-overlay.open{ transform: translateY(0); visibility: visible; transition: transform .25s cubic-bezier(.4,0,.2,1); }
+  .so-header{
+    display: flex; align-items: center; gap: 10px; padding: 14px 16px;
+    border-bottom: 1px solid var(--liy); flex-shrink: 0;
+  }
+  .so-back{
+    width: 38px; height: 38px; border-radius: 50%; background: var(--krem-dim);
+    border: 1px solid var(--liy); display: flex; align-items: center; justify-content: center;
+    color: var(--lank); flex-shrink: 0; cursor: pointer;
+  }
+  .so-input-wrap{
+    flex: 1; display: flex; align-items: center; gap: 8px; background: var(--krem-dim);
+    border: 1.5px solid var(--liy); border-radius: 100px; padding: 9px 14px; transition: border-color .15s;
+  }
+  .so-input-wrap:focus-within{ border-color: var(--wouj); }
+  .so-input-wrap svg{ flex-shrink: 0; color: var(--lank-soft); }
+  .so-input-wrap input{
+    flex: 1; min-width: 0; background: none; border: none; outline: none; color: var(--lank);
+    font-family: var(--body); font-size: 0.92rem;
+  }
+  .so-input-wrap input::placeholder{ color: var(--lank-soft); }
+  .so-clear{ display:none; color: var(--lank-soft); cursor: pointer; flex-shrink: 0; background:none; border:none; padding:0; }
+  .so-clear.show{ display:flex; }
+  .so-body{ flex: 1; overflow-y: auto; padding: 18px 16px 90px; -webkit-overflow-scrolling: touch; }
+  .so-section{ margin-bottom: 24px; }
+  .so-label{
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 0.7rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+    color: var(--lank-soft); margin-bottom: 10px;
+  }
+  .so-label button{
+    background: none; border: none; color: var(--wouj); font-size: 0.7rem;
+    font-weight: 700; cursor: pointer; text-transform: none; letter-spacing: 0; font-family: var(--body);
+  }
+  .so-chip-row{ display: flex; flex-wrap: wrap; gap: 8px; }
+  .so-chip{
+    display: flex; align-items: center; gap: 6px; background: var(--krem-dim); border: 1px solid var(--liy);
+    color: var(--lank); font-size: 0.82rem; font-weight: 600; padding: 8px 14px; border-radius: 100px;
+    cursor: pointer; transition: border-color .15s; font-family: var(--body);
+  }
+  .so-chip:hover{ border-color: var(--wouj); }
+  .so-chip svg{ flex-shrink: 0; color: var(--lank-soft); }
+  .so-chip.cat svg{ color: var(--lo); }
+  .so-results-count{ font-size: 0.78rem; color: var(--lank-soft); margin-bottom: 12px; }
+  .so-results-count b{ color: var(--lank); }
+  .so-grid{ display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .so-empty{ text-align: center; padding: 60px 20px; color: var(--lank-soft); }
+  .so-empty svg{ opacity: 0.35; margin-bottom: 14px; }
+  .so-loading{ text-align: center; padding: 40px; color: var(--lank-soft); font-size: 0.85rem; }
 
   /* ══ DÈNYE WÈ ══ */
   .recent-section{
@@ -1883,11 +1939,28 @@
     <span class="bn-badge" id="bnMesajBadge"></span>
     Mesaj
   </button>
-  <button type="button" class="bn-item" id="bnPwofil" onclick="bottomNavProfile()">
+  <a href="account.html" class="bn-item" id="bnPwofil" onclick="bottomNavProfile();return false;">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
     Pwofil
-  </button>
+  </a>
 </nav>
+
+<!-- ============ SEARCH OVERLAY (plen ekran) ============ -->
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Chèche">
+  <div class="so-header">
+    <button class="so-back" id="soBack" aria-label="Tounen">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="so-input-wrap">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="soInput" placeholder="Chèche yon pwodwi, sèvis, oswa katye...">
+      <button class="so-clear" id="soClear" aria-label="Efase">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="so-body" id="soBody"></div>
+</div>
 
 <!-- ============ HEADER ============ -->
 <header>
@@ -5863,11 +5936,160 @@ document.getElementById('imageSearchModal').addEventListener('click', function(e
   }
 
   // ============ BOTTOM NAV (mobil) ============
+  const SO_CATS = [
+    { name: 'Elektwonik', svg: '<rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12" y2="18"/>' },
+    { name: 'Vwati & Moto', svg: '<path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v9a2 2 0 01-2 2h-2"/><circle cx="7.5" cy="17.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>' },
+    { name: 'Imobilye', svg: '<path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>' },
+    { name: 'Mòd & Rad', svg: '<path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/>' },
+    { name: 'Sèvis', svg: '<path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/>' },
+    { name: 'Manje & Bwason', svg: '<path d="M18 8h1a4 4 0 010 8h-1"/><path d="M2 8h16v9a4 4 0 01-4 4H6a4 4 0 01-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>' },
+    { name: 'Elektwomenaje', svg: '<rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>' }
+  ];
+  const SO_RECENT_KEY = 'am-recent-searches';
+  const SO_MAX_RECENT = 6;
+  let soResults = [];
+  let soDebounceTimer = null;
+
+  function soGetRecent() {
+    try { return JSON.parse(localStorage.getItem(SO_RECENT_KEY)) || []; } catch (e) { return []; }
+  }
+  function soAddRecent(term) {
+    term = term.trim();
+    if (!term) return;
+    let recent = soGetRecent().filter(t => t.toLowerCase() !== term.toLowerCase());
+    recent.unshift(term);
+    recent = recent.slice(0, SO_MAX_RECENT);
+    try { localStorage.setItem(SO_RECENT_KEY, JSON.stringify(recent)); } catch (e) {}
+  }
+  function soClearRecent() {
+    try { localStorage.removeItem(SO_RECENT_KEY); } catch (e) {}
+    soRenderEmptyState();
+  }
+
+  function soRenderEmptyState() {
+    const recent = soGetRecent();
+    const body = document.getElementById('soBody');
+    body.innerHTML = `
+      ${recent.length ? `
+      <div class="so-section">
+        <div class="so-label">Rechèch Resan <button onclick="soClearRecent()">Efase</button></div>
+        <div class="so-chip-row">
+          ${recent.map(r => `<div class="so-chip" onclick="soSearchTerm(${JSON.stringify(r)})">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            ${r}
+          </div>`).join('')}
+        </div>
+      </div>` : ''}
+      <div class="so-section">
+        <div class="so-label">Kategori Popilè</div>
+        <div class="so-chip-row">
+          ${SO_CATS.map(c => `<div class="so-chip cat" onclick="soSearchCategory(${JSON.stringify(c.name)})">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">${c.svg}</svg>
+            ${c.name}
+          </div>`).join('')}
+        </div>
+      </div>`;
+  }
+
+  function soRenderLoading() {
+    document.getElementById('soBody').innerHTML = `<div class="so-loading">Ap chèche...</div>`;
+  }
+
+  function soRenderResults(query, results) {
+    soResults = results;
+    const body = document.getElementById('soBody');
+    if (results.length === 0) {
+      body.innerHTML = `<div class="so-empty">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <p>Pa gen rezilta pou "${query}"</p>
+      </div>`;
+      return;
+    }
+    body.innerHTML = `
+      <div class="so-results-count"><b>${results.length}</b> rezilta pou "${query}"</div>
+      <div class="so-grid">${results.map(cardHTML).join('')}</div>`;
+    body.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', e => {
+        if (e.target.closest('.card-fav')) { e.preventDefault(); return; }
+        e.preventDefault();
+        const item = soResults.find(l => l.id == card.dataset.id);
+        if (item) { closeSearchOverlay(); openDetailPanel(item); }
+      });
+      const favBtn = card.querySelector('.card-fav');
+      if (favBtn) favBtn.addEventListener('click', e => { e.stopPropagation(); toggleFav(favBtn.dataset.id); });
+    });
+  }
+
+  async function soRunSearch(query) {
+    soAddRecent(query);
+    soRenderLoading();
+    try {
+      const results = await fetchListings({ search: query });
+      if (document.getElementById('soInput').value.trim() === query) soRenderResults(query, results);
+    } catch (err) {
+      console.error('Erè rechèch:', err);
+      document.getElementById('soBody').innerHTML = `<div class="so-empty"><p>Pa kapab chèche kounye a. Eseye ankò.</p></div>`;
+    }
+  }
+
+  async function soRunCategorySearch(catName) {
+    soRenderLoading();
+    try {
+      const results = await fetchListings({ category: catName });
+      soRenderResults(catName, results);
+    } catch (err) {
+      console.error('Erè rechèch:', err);
+      document.getElementById('soBody').innerHTML = `<div class="so-empty"><p>Pa kapab chèche kounye a. Eseye ankò.</p></div>`;
+    }
+  }
+
+  function soSearchTerm(term) {
+    document.getElementById('soInput').value = term;
+    document.getElementById('soClear').classList.add('show');
+    soRunSearch(term);
+  }
+  function soSearchCategory(catName) {
+    document.getElementById('soInput').value = catName;
+    document.getElementById('soClear').classList.add('show');
+    soRunCategorySearch(catName);
+  }
+
+  function openSearchOverlay() {
+    const overlay = document.getElementById('searchOverlay');
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    soRenderEmptyState();
+    setTimeout(() => document.getElementById('soInput').focus(), 280);
+  }
+  function closeSearchOverlay() {
+    document.getElementById('searchOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+    document.getElementById('soInput').value = '';
+    document.getElementById('soClear').classList.remove('show');
+  }
+
+  function soInitListeners() {
+    const input = document.getElementById('soInput');
+    const clearBtn = document.getElementById('soClear');
+    input.addEventListener('input', () => {
+      const v = input.value.trim();
+      clearBtn.classList.toggle('show', !!v);
+      clearTimeout(soDebounceTimer);
+      if (!v) { soRenderEmptyState(); return; }
+      soDebounceTimer = setTimeout(() => soRunSearch(v), 380);
+    });
+    clearBtn.addEventListener('click', () => {
+      input.value = '';
+      clearBtn.classList.remove('show');
+      soRenderEmptyState();
+      input.focus();
+    });
+    document.getElementById('soBack').addEventListener('click', closeSearchOverlay);
+  }
+  soInitListeners();
+
   function bottomNavSearch() {
-    const input = document.getElementById('mobSearchInput') || document.querySelector('.nav-search input');
-    const bar = document.querySelector('.mob-search-bar');
-    if (bar) bar.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    setTimeout(() => input && input.focus(), 250);
+    openSearchOverlay();
   }
   function bottomNavPublish() {
     if (typeof openPublish === 'function') openPublish();
