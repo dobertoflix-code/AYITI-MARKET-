@@ -25,6 +25,7 @@ if (allowedOrigin === '*') {
 }
 app.use(cors({ origin: allowedOrigin }));
 app.use(express.json());
+const uploadJsonParser = express.json({ limit: '8mb' });
 
 // Verifye kle Supabase yo egziste anvan sèvè a demare
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
@@ -37,6 +38,29 @@ const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_SERVICE_KEY  // service_role key — pi puisan
 );
+
+// ── STORAGE: kreye bucket piblik pou imaj upload yo (avatar, anons, elatriye) ──
+// si li poko egziste. Sa kouri yon sèl fwa lè sèvè a demare.
+const UPLOAD_BUCKET = 'uploads';
+(async () => {
+  try {
+    const { data: existing } = await supabase.storage.getBucket(UPLOAD_BUCKET);
+    if (!existing) {
+      const { error } = await supabase.storage.createBucket(UPLOAD_BUCKET, {
+        public: true,
+        fileSizeLimit: '5MB',
+        allowedMimeTypes: ['image/png', 'image/jpeg', 'image/webp', 'image/gif']
+      });
+      if (error && !/already exists/i.test(error.message)) {
+        console.warn('⚠️  Pa kapab kreye bucket "uploads":', error.message);
+      } else {
+        console.log('✅ Bucket Supabase Storage "uploads" kreye.');
+      }
+    }
+  } catch (err) {
+    console.warn('⚠️  Verifikasyon bucket "uploads" echwe:', err.message);
+  }
+})();
 
 
 // ── VAPID — Push Notifications ─────────────────────
@@ -827,11 +851,11 @@ function isShopProActive(profile) {
 // Voye imèl bay yon lis adrès, an chenn (yonn aprè lòt) ak yon ti delè ant chak
 // pou respekte limit Resend (evite rate-limit/echèk anmas). Pa janm throw —
 // nou kontinye menm si yon imèl echwe, epi nou jis konte siksè/echèk yo.
-async function sendBroadcastInBatches(emails, { subject, bodyHtml }) {
+async function sendBroadcastInBatches(emails, { subject, bodyHtml, imageUrl }) {
   let sent = 0, failed = 0;
   for (const to of emails) {
     try {
-      await sendBroadcastEmail({ to, subject, bodyHtml });
+      await sendBroadcastEmail({ to, subject, bodyHtml, imageUrl });
       sent++;
     } catch (err) {
       failed++;
@@ -851,9 +875,14 @@ app.post('/api/admin/broadcast', async (req, res) => {
   const user = await requireAdmin(req, res);
   if (!user) return;
 
-  const { subject, message, test_only } = req.body;
+  const { subject, message, test_only, image_url } = req.body;
   if (!subject || !subject.trim()) return res.status(400).json({ error: 'Antre yon objè (sijè) pou imèl la' });
   if (!message || !message.trim()) return res.status(400).json({ error: 'Antre yon mesaj' });
+
+  let imageUrl = (image_url || '').trim() || null;
+  if (imageUrl && !/^https?:\/\//i.test(imageUrl)) {
+    return res.status(400).json({ error: 'Lyen imaj la dwe kòmanse ak http:// oswa https://' });
+  }
 
   // Konvèti newlines an <br> pou HTML lan, San touche tèks orijinal la twòp.
   const bodyHtml = message.trim()
@@ -863,7 +892,7 @@ app.post('/api/admin/broadcast', async (req, res) => {
 
   if (test_only) {
     try {
-      await sendBroadcastEmail({ to: user.email, subject: `[TEST] ${subject}`, bodyHtml });
+      await sendBroadcastEmail({ to: user.email, subject: `[TEST] ${subject}`, bodyHtml, imageUrl });
       return res.json({ success: true, message: `Imèl tès voye bay ${user.email}` });
     } catch (err) {
       return res.status(500).json({ error: 'Erè pandan voye imèl tès la: ' + err.message });
@@ -888,9 +917,47 @@ app.post('/api/admin/broadcast', async (req, res) => {
   // Reponn imedyatman, epi voye imèl yo an background (sa ka pran plizyè minit).
   res.json({ success: true, message: `Ap voye anons bay ${allEmails.length} itilizatè an background.`, recipient_count: allEmails.length });
 
-  sendBroadcastInBatches(allEmails, { subject, bodyHtml }).catch(err => {
+  sendBroadcastInBatches(allEmails, { subject, bodyHtml, imageUrl }).catch(err => {
     console.error('Erè jeneral broadcast:', err.message);
   });
+});
+
+// ── POST /api/upload-image ──────────────────────────
+// Upload yon imaj (foto pwofil, imaj anons, elatriye) bay Supabase Storage.
+// Body: { image_base64: "data:image/png;base64,...", folder: "avatars"|"broadcast"|"misc" }
+// Repons: { url: "https://...public-url..." }
+// Itilizatè konekte sèlman (pa bezwen admin — tout moun ka chanje foto pwofil yo).
+app.post('/api/upload-image', uploadJsonParser, async (req, res) => {
+  const user = await requireAuthUser(req, res);
+  if (!user) return;
+
+  const { image_base64, folder } = req.body;
+  if (!image_base64 || typeof image_base64 !== 'string') {
+    return res.status(400).json({ error: 'Pa gen imaj voye' });
+  }
+
+  const match = image_base64.match(/^data:(image\/(png|jpe?g|webp|gif));base64,(.+)$/i);
+  if (!match) return res.status(400).json({ error: 'Fòma imaj pa sipòte (sèlman PNG, JPG, WEBP, GIF)' });
+
+  const mime = match[1].toLowerCase();
+  const ext = mime.split('/')[1].replace('jpeg', 'jpg');
+  const buffer = Buffer.from(match[3], 'base64');
+
+  if (buffer.length > 5 * 1024 * 1024) {
+    return res.status(400).json({ error: 'Imaj la twò gwo (maksimòm 5MB)' });
+  }
+
+  const safeFolder = ['avatars', 'broadcast', 'listings'].includes(folder) ? folder : 'misc';
+  const filename = `${safeFolder}/${user.id}-${Date.now()}.${ext}`;
+
+  const { error: upErr } = await supabase.storage
+    .from(UPLOAD_BUCKET)
+    .upload(filename, buffer, { contentType: mime, upsert: true });
+
+  if (upErr) return res.status(500).json({ error: 'Erè pandan upload: ' + upErr.message });
+
+  const { data: pub } = supabase.storage.from(UPLOAD_BUCKET).getPublicUrl(filename);
+  res.json({ url: pub.publicUrl });
 });
 
 // Aktive vedèt la sou yon anons + anrejistre nan istwa promotions.
