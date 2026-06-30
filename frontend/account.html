@@ -761,6 +761,21 @@
           </div>
         </div>
 
+        <!-- ── REFERANS / PARENNAJ ── -->
+        <div class="acc-card" id="referralCard" style="flex-direction:column;align-items:stretch;gap:10px;padding:16px;margin-bottom:20px;border:1.5px solid #2ea043;border-radius:12px;">
+          <div>
+            <div style="font-weight:800;font-size:1rem;">🎁 Envite zanmi ou, jwenn Boutik Pro gratis</div>
+            <div style="font-size:0.85rem;color:var(--lank-soft);margin-top:2px;">
+              Chak fwa yon zanmi enskri ak lyen ou epi pibliye premye anons li, ou jwenn <b>7 jou Boutik Pro gratis</b> — li menm li jwenn 3 jou kòm byenveni.
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <input type="text" id="referralLinkInput" readonly style="flex:1;min-width:200px;padding:10px 12px;border:1.5px solid var(--liy);border-radius:8px;font-size:0.85rem;background:var(--blan);color:var(--lank);" value="Chajman...">
+            <button class="btn btn-ghost btn-sm" onclick="copyReferralLink()">Kopye lyen</button>
+          </div>
+          <div id="referralStats" style="font-size:0.82rem;color:var(--lank-soft);"></div>
+        </div>
+
         <!-- ── AVATAR SECTION ── -->
         <div class="form-group">
           <label>Foto Pwofil</label>
@@ -1804,6 +1819,40 @@
 
   document.addEventListener('DOMContentLoaded', loadProStatus);
   if (document.readyState !== 'loading') loadProStatus();
+
+  // ══════════════════════════════════════════
+  // REFERANS / PARENNAJ (pou vandè)
+  // ══════════════════════════════════════════
+  async function loadReferralStatus() {
+    const inputEl = document.getElementById('referralLinkInput');
+    const statsEl = document.getElementById('referralStats');
+    if (!inputEl) return;
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (!session) { inputEl.value = ''; return; }
+      const res = await fetch(`${API_BASE}/api/referral/my`, {
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erè');
+      inputEl.value = data.referral_link;
+      statsEl.textContent = `${data.referred_count} moun enskri ak lyen ou · ${data.rewarded_count} rekonpans jwenn jiska prezan`;
+    } catch (err) {
+      inputEl.value = '';
+    }
+  }
+
+  function copyReferralLink() {
+    const inputEl = document.getElementById('referralLinkInput');
+    if (!inputEl.value) return;
+    navigator.clipboard.writeText(inputEl.value)
+      .then(() => showToast('Lyen kopye! Pataje l ak zanmi ou.'))
+      .catch(() => showToast('Pa kapab kopye — chwazi tèks la manyèlman.'));
+  }
+  window.copyReferralLink = copyReferralLink;
+
+  document.addEventListener('DOMContentLoaded', loadReferralStatus);
+  if (document.readyState !== 'loading') loadReferralStatus();
 
   // ══════════════════════════════════════════
   // ADMIN: konfime/rejte peman NatCash
