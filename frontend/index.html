@@ -5391,8 +5391,11 @@ document.getElementById('imageSearchModal').addEventListener('click', function(e
     formWrap.innerHTML = '';
 
     try {
-      const res = await fetch(`${API}/api/reviews/${sellerId}`);
-      const reviews = res.ok ? await res.json() : [];
+      const res = await fetch(`${API_BASE}/api/reviews/${sellerId}`);
+      const raw = res.ok ? await res.json() : { reviews: [], count: 0, avg: 0 };
+      const reviews = raw.reviews || [];
+      const reviewAvg = raw.avg || 0;
+      const reviewCount = raw.count || 0;
 
       if (!reviews.length) {
         listEl.innerHTML = '<div class="reviews-empty">Pa gen nòt ankò pou vandè sa a.</div>';
@@ -5400,10 +5403,9 @@ document.getElementById('imageSearchModal').addEventListener('click', function(e
         avgEl.textContent = '';
         countEl.textContent = '(0 nòt)';
       } else {
-        const avg = reviews.reduce((s, r) => s + r.rating, 0) / reviews.length;
-        starsEl.textContent = starsAvgHtml(avg);
-        avgEl.textContent = avg.toFixed(1);
-        countEl.textContent = `(${reviews.length} nòt)`;
+        starsEl.textContent = starsAvgHtml(reviewAvg);
+        avgEl.textContent = reviewAvg > 0 ? reviewAvg.toFixed(1) : '';
+        countEl.textContent = `(${reviewCount} nòt)`;
 
         listEl.innerHTML = reviews.map(r => `
           <div class="review-item">
@@ -5466,7 +5468,7 @@ document.getElementById('imageSearchModal').addEventListener('click', function(e
 
     try {
       const token = (await supabase.auth.getSession()).data.session?.access_token;
-      const res = await fetch(`${API}/api/reviews`, {
+      const res = await fetch(`${API_BASE}/api/reviews`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify({ seller_id: _reviewSellerId, listing_id: _reviewListingId, rating: _reviewRating, comment })
