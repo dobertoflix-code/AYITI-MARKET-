@@ -2148,8 +2148,8 @@
       <div class="detail-section-title">Deskripsyon</div>
       <div class="detail-desc" id="d-desc"></div>
 
-      <!-- Native ad anba deskripsyon pwodwi a -->
-      <div class="native-ad" id="d-native-ad">
+      <!-- Native ad anba deskripsyon pwodwi a (dezaktive pou kounye a) -->
+      <div class="native-ad" id="d-native-ad" style="display:none;">
         <span class="ad-label">Piblisite</span>
         <div id="d-native-ad-slot"></div>
       </div>
@@ -3505,32 +3505,56 @@
       el.textContent = count + ' anons';
     });
   }
-  // ============ REKLAM (ADS) ============
-  // Kòd Adsterra/effectivecpmnetwork yo retire (yo t ap bay kalite anons
-  // ki pa pwofesyonèl: casino/jwèt aza, sit piratri/streaming ilegal).
-  // Plas yo rete pare pou yon rezo "brand-safe" tankou Ezoic, Mediavine,
-  // oswa Google AdSense — jis ranplase fonksyon yo anba a.
+  // ============ REKLAM (ADS) — Adsterra (sèlman fòma banner) ============
+  // Native ad widget ak social bar yo PA itilize (se yo ki te bay
+  // anons casino/streaming ilegal). Sèlman 3 fòma banner senp:
+  // 728×90 (desktop), 320×50 (mobil), 300×250 (rezilta rechèch).
   const AdsNetwork = (() => {
-    function showPlaceholder(el, label) {
-      if (!el) return;
-      el.innerHTML = `<span style="font-size:0.78rem;font-weight:600;color:var(--lank-soft);opacity:0.65;">${label}</span>`;
+    function injectAtOptionsAd(container, key, width, height) {
+      if (!container) return;
+      container.innerHTML = '';
+      const iframe = document.createElement('iframe');
+      iframe.style.cssText = `border:0;width:${width}px;height:${height}px;max-width:100%;display:block;margin:0 auto;`;
+      iframe.setAttribute('scrolling', 'no');
+      iframe.setAttribute('frameborder', '0');
+      container.appendChild(iframe);
+      const doc = iframe.contentWindow.document;
+      doc.open();
+      doc.write(`<!DOCTYPE html><html><head><style>body{margin:0;padding:0;}</style></head><body>
+        <script>
+          atOptions = { 'key':'${key}', 'format':'iframe', 'height':${height}, 'width':${width}, 'params':{} };
+        <\/script>
+        <script src="https://www.highperformanceformat.com/${key}/invoke.js"><\/script>
+      </body></html>`);
+      doc.close();
     }
 
+    // Banner anlè lis anons paj dakèy la: 728x90 sou desktop, 320x50 sou mobil
     function loadHomeBanner() {
-      showPlaceholder(document.getElementById('home-banner-ad-slot'), 'Espas pou reklam — banner 728×90');
+      const el = document.getElementById('home-banner-ad-slot');
+      if (!el) return;
+      const isMobile = window.innerWidth < 768;
+      injectAtOptionsAd(
+        el,
+        isMobile ? 'd0a1d29a8103a1c4b8514ce42af69725' : '6b1c20b5208b9724a7d317e64681b92c',
+        isMobile ? 320 : 728,
+        isMobile ? 50 : 90
+      );
     }
 
+    // Zòn 300x250 itilize nan kat rezilta rechèch (.ad-card)
     function loadSearchAd(el) {
-      showPlaceholder(el, 'Espas pou reklam — 300×250');
+      injectAtOptionsAd(el, '99b9662a298240a32e5b314b330b2870', 300, 250);
     }
 
+    // Pa gen native ad widget — kite plas la vid/senp
     function loadNativeAd() {
-      showPlaceholder(document.getElementById('d-native-ad-slot'), 'Espas pou reklam — native ad');
+      const el = document.getElementById('d-native-ad-slot');
+      if (el) el.innerHTML = '';
     }
 
-    function loadSocialBarOnce() {
-      // Pa gen okenn rezo konekte pou kounye a — anyen pa enjekte.
-    }
+    // Pa gen social bar konekte
+    function loadSocialBarOnce() {}
 
     return { loadHomeBanner, loadSearchAd, loadNativeAd, loadSocialBarOnce };
   })();
