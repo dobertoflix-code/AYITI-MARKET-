@@ -183,6 +183,17 @@
   .reg-card h2{ font-family:var(--display); font-weight:400; font-size:1.7rem; margin-bottom:6px; }
   .reg-sub{ font-size:0.92rem; color:var(--lank-soft); margin-bottom:26px; }
 
+  /* ---- TAB SWITCH (Konekte / Enskri) ---- */
+  .auth-tabs{
+    display:flex; gap:0; background:var(--krem-dim); border-radius:10px;
+    padding:4px; margin-bottom:26px;
+  }
+  .auth-tab{
+    flex:1; padding:10px; border-radius:7px; font-weight:700; font-size:0.88rem;
+    text-align:center; color:var(--lank-soft); transition:all .2s; border:none; background:none;
+  }
+  .auth-tab.active{ background:var(--blan); color:var(--lank); box-shadow:0 1px 4px rgba(0,0,0,0.1); }
+
   .field{ margin-bottom:15px; }
   .field label{ display:block; font-weight:700; font-size:0.78rem; margin-bottom:6px; color:var(--lank-soft); text-transform:uppercase; letter-spacing:0.04em; }
   .field input{
@@ -362,6 +373,52 @@
   <main class="reg-form-side">
     <div class="reg-card">
 
+      <div class="auth-tabs">
+        <button class="auth-tab" id="tabLogin" type="button">Konekte</button>
+        <button class="auth-tab active" id="tabRegister" type="button">Enskri</button>
+      </div>
+
+      <div id="loginStep" style="display:none">
+        <h2 id="loginHeading">Byenvini tounen</h2>
+        <p class="reg-sub">Konekte pou kontinye sou Ayiti Market.</p>
+
+        <form id="loginForm" novalidate>
+          <div class="field">
+            <label for="loginEmail">Imèl</label>
+            <input type="email" id="loginEmail" placeholder="ou@egzanp.com" autocomplete="email">
+          </div>
+
+          <div class="field">
+            <label for="loginPassword">Modpas</label>
+            <div class="pw-wrap">
+              <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password">
+              <button type="button" class="pw-toggle" id="loginPwToggle" aria-label="Montre modpas">
+                <svg id="loginPwIconShow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg id="loginPwIconHide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.7 18.7 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-error" id="loginError" role="alert"></div>
+
+          <button type="submit" class="btn btn-primary" id="loginSubmitBtn">Konekte →</button>
+        </form>
+
+        <div class="reg-divider">oswa</div>
+
+        <button class="btn-google" id="googleLoginBtn" type="button">
+          <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          </svg>
+          Konekte ak Google
+        </button>
+
+        <p class="reg-login-note">Pa gen kont? <a href="#" id="switchToRegisterLink">Enskri gratis</a></p>
+      </div>
+
       <div id="regStep">
         <h2>Kreye kont ou</h2>
         <p class="reg-sub">Li gratis, e pran mwens pase yon minit.</p>
@@ -419,7 +476,7 @@
         </button>
 
         <p class="reg-note">Gratis pou tout tan. San kòmisyon sou premye anons ou.</p>
-        <p class="reg-login-note">Deja gen kont? <a href="index.html">Konekte</a></p>
+        <p class="reg-login-note">Deja gen kont? <a href="#" id="switchToLoginLink">Konekte</a></p>
       </div>
 
       <div id="regSuccess">
@@ -428,7 +485,7 @@
         </div>
         <h2>Tcheke imèl ou</h2>
         <p>Nou voye yon lyen konfimasyon bay <strong id="successEmail"></strong>. Klike sou li pou aktive kont ou epi kòmanse itilize Ayiti Market.</p>
-        <a href="index.html" class="btn btn-ghost">Retounen sou Akèy</a>
+        <a href="#" class="btn btn-ghost" id="successBackLink">Tounen sou Konekte</a>
       </div>
 
       <p class="reg-foot-links">
@@ -471,6 +528,41 @@
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpc2puc2RueHF2Z3FqdXp3b2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0MTI2OTQsImV4cCI6MjA5Nzk4ODY5NH0.rWwbLUOs8TjZpHD19fDYX4B9mOIyn-eAFpcwGcdav_E';
   const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+  // ============ SI ITILIZATÈ A DEJA KONEKTE, VOYE L DIREK SOU AKÈY ============
+  (async function redirectIfAlreadyAuthenticated() {
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session) window.location.replace('index.html');
+    } catch (e) {}
+  })();
+
+  // ============ ONGLÈ: KONEKTE / ENSKRI ============
+  const tabLoginEl = document.getElementById('tabLogin');
+  const tabRegisterEl = document.getElementById('tabRegister');
+  const loginStepEl = document.getElementById('loginStep');
+  const regStepEl = document.getElementById('regStep');
+  const regSuccessEl = document.getElementById('regSuccess');
+
+  function showLoginTab() {
+    tabLoginEl.classList.add('active'); tabRegisterEl.classList.remove('active');
+    loginStepEl.style.display = ''; regStepEl.style.display = 'none'; regSuccessEl.style.display = 'none';
+    document.title = 'Konekte — Ayiti Market';
+  }
+  function showRegisterTab() {
+    tabRegisterEl.classList.add('active'); tabLoginEl.classList.remove('active');
+    regStepEl.style.display = ''; loginStepEl.style.display = 'none'; regSuccessEl.style.display = 'none';
+    document.title = 'Kreye Kont — Ayiti Market';
+  }
+  tabLoginEl.addEventListener('click', showLoginTab);
+  tabRegisterEl.addEventListener('click', showRegisterTab);
+  document.getElementById('switchToLoginLink').addEventListener('click', (e) => { e.preventDefault(); showLoginTab(); });
+  document.getElementById('switchToRegisterLink').addEventListener('click', (e) => { e.preventDefault(); showRegisterTab(); });
+  document.getElementById('successBackLink').addEventListener('click', (e) => { e.preventDefault(); showLoginTab(); });
+
+  if (new URLSearchParams(window.location.search).get('mode') === 'login') {
+    showLoginTab();
+  }
+
   // ============ ESTATI VIVAN (pa kraze paj la si li echwe) ============
   async function loadBrandStats() {
     try {
@@ -492,6 +584,18 @@
     pwIconShow.style.display = isHidden ? 'none' : '';
     pwIconHide.style.display = isHidden ? '' : 'none';
     pwToggle.setAttribute('aria-label', isHidden ? 'Kache modpas' : 'Montre modpas');
+  });
+
+  const loginPwInput = document.getElementById('loginPassword');
+  const loginPwToggle = document.getElementById('loginPwToggle');
+  const loginPwIconShow = document.getElementById('loginPwIconShow');
+  const loginPwIconHide = document.getElementById('loginPwIconHide');
+  loginPwToggle.addEventListener('click', () => {
+    const isHidden = loginPwInput.type === 'password';
+    loginPwInput.type = isHidden ? 'text' : 'password';
+    loginPwIconShow.style.display = isHidden ? 'none' : '';
+    loginPwIconHide.style.display = isHidden ? '' : 'none';
+    loginPwToggle.setAttribute('aria-label', isHidden ? 'Kache modpas' : 'Montre modpas');
   });
 
   // ============ MÈT FÒS MODPAS ============
@@ -598,7 +702,7 @@
     }
   });
 
-  // ============ GOOGLE OAUTH ============
+  // ============ GOOGLE OAUTH (Enskri) ============
   document.getElementById('googleBtn').addEventListener('click', async () => {
     showError('');
     const { error } = await supabaseClient.auth.signInWithOAuth({
@@ -606,6 +710,63 @@
       options: { redirectTo: window.location.origin + '/index.html' }
     });
     if (error) showError('Pa kapab konekte ak Google. Tanpri eseye ankò.');
+  });
+
+  // ============ FÒM KONEKTE ============
+  const loginForm = document.getElementById('loginForm');
+  const loginErrorBox = document.getElementById('loginError');
+  const loginSubmitBtn = document.getElementById('loginSubmitBtn');
+
+  function showLoginError(msg) {
+    loginErrorBox.textContent = msg || '';
+    loginErrorBox.style.display = msg ? 'block' : 'none';
+  }
+
+  loginForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    showLoginError('');
+
+    const email = document.getElementById('loginEmail').value.trim();
+    const password = loginPwInput.value;
+
+    if (!email || !password) {
+      showLoginError('Tanpri ranpli imèl ak modpas.');
+      return;
+    }
+
+    loginSubmitBtn.disabled = true;
+    loginSubmitBtn.textContent = 'Ap konekte...';
+
+    try {
+      const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        loginSubmitBtn.disabled = false;
+        loginSubmitBtn.textContent = 'Konekte →';
+        showLoginError('Imèl oswa modpas pa kòrèk.');
+        return;
+      }
+
+      try { if (typeof gtag === 'function') gtag('event', 'login', { method: 'email' }); } catch (_) {}
+
+      loginSubmitBtn.textContent = 'Byenveni! Ap antre...';
+      setTimeout(() => { window.location.href = 'index.html'; }, 500);
+
+    } catch (err) {
+      loginSubmitBtn.disabled = false;
+      loginSubmitBtn.textContent = 'Konekte →';
+      showLoginError('Pa kapab konekte ak sèvè a. Tcheke koneksyon entènèt ou epi eseye ankò.');
+    }
+  });
+
+  // ============ GOOGLE OAUTH (Konekte) ============
+  document.getElementById('googleLoginBtn').addEventListener('click', async () => {
+    showLoginError('');
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + '/index.html' }
+    });
+    if (error) showLoginError('Pa kapab konekte ak Google. Tanpri eseye ankò.');
   });
 </script>
 </body>
