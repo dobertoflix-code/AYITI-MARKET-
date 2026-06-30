@@ -2000,6 +2000,7 @@
       </a>
       <a href="account.html" class="btn btn-ghost" data-role="account-link" style="display:none">Mon Kont</a>
       <a href="#" class="btn btn-ghost" data-role="auth-btn">Konekte</a>
+      <a href="enskripsyon.html" class="btn btn-primary" data-role="register-link">Kreye Kont</a>
       <div class="user-menu" id="userMenu" style="display:none">
         <button class="user-menu-btn" id="userMenuBtn" aria-haspopup="true" aria-expanded="false">
           <span id="userMenuName">Kont</span>
@@ -2077,6 +2078,7 @@
     </button>
   </div>
   <a class="btn btn-primary" href="#">+ Pibliye Anons</a>
+  <a href="enskripsyon.html" class="btn btn-primary" data-role="register-link-mobile" style="margin-top:10px;background:var(--lank)">Kreye Kont</a>
   <a href="account.html" class="btn btn-ghost" data-role="account-link-mobile" style="display:none;margin-top:10px">Mon Kont</a>
   <a href="messages.html" class="btn btn-ghost" data-role="messages-link-mobile" style="display:none;margin-top:10px;position:relative">
     Mesaj
@@ -2120,7 +2122,7 @@
           </svg>
           Konekte ak Google
         </button>
-        <div class="form-note">Pa gen kont? <a href="#" onclick="switchToRegister(event)">Enskri gratis</a></div>
+        <div class="form-note">Pa gen kont? <a href="enskripsyon.html">Enskri gratis</a></div>
       </div>
 
       <!-- REGISTER FORM -->
@@ -4421,6 +4423,8 @@
     const userMenu = document.getElementById('userMenu');
     const logoutMobile = document.querySelector('[data-role="logout-mobile"]');
     if (authBtnEl) authBtnEl.style.display = visible ? 'none' : '';
+    document.querySelectorAll('[data-role="register-link"], [data-role="register-link-mobile"]')
+      .forEach(el => { el.style.display = visible ? 'none' : ''; });
     if (userMenu) userMenu.style.display = visible ? '' : 'none';
     if (logoutMobile) logoutMobile.style.display = visible ? '' : 'none';
     if (visible) checkUnreadMessages();
