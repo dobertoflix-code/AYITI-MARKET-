@@ -203,8 +203,12 @@ async function sendShopProConfirmedEmail({ to, days, priceHtg, method, expiresAt
 // ════════════════════════════════════════════════════
 // 6) IMÈL ANONS — broadcast admin (mizajou, nouvèl, elatriye)
 // ════════════════════════════════════════════════════
-async function sendBroadcastEmail({ to, subject, bodyHtml }) {
+async function sendBroadcastEmail({ to, subject, bodyHtml, imageUrl }) {
+  const imageBlock = imageUrl
+    ? `<img src="${imageUrl}" alt="" style="width:100%;max-width:432px;border-radius:8px;display:block;margin:0 0 18px;">`
+    : '';
   const html = wrapEmail(`
+    ${imageBlock}
     <h2 style="color:#ffffff;font-size:20px;margin:0 0 16px;">${subject}</h2>
     <div style="font-size:15px;line-height:1.6;color:#C9D1D9;">${bodyHtml}</div>
     ${button('Vizite Ayiti Market', `${FRONTEND_URL}/index.html`)}
