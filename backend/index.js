@@ -10,6 +10,7 @@ import {
   sendBoostConfirmedEmail,
   sendShopProConfirmedEmail,
   sendNewMessageEmail,
+  sendBroadcastEmail,
 } from './mailer.js';
 
 const app = express();
@@ -818,6 +819,79 @@ async function applyShopPro({ sellerId, days, priceHtg, notes, method }) {
 function isShopProActive(profile) {
   return !!(profile?.pro_seller_until && new Date(profile.pro_seller_until) > new Date());
 }
+
+// ════════════════════════════════════════════════════
+// ADMIN: ANONS BAY TOUT ITILIZATÈ (broadcast email)
+// ════════════════════════════════════════════════════
+
+// Voye imèl bay yon lis adrès, an chenn (yonn aprè lòt) ak yon ti delè ant chak
+// pou respekte limit Resend (evite rate-limit/echèk anmas). Pa janm throw —
+// nou kontinye menm si yon imèl echwe, epi nou jis konte siksè/echèk yo.
+async function sendBroadcastInBatches(emails, { subject, bodyHtml }) {
+  let sent = 0, failed = 0;
+  for (const to of emails) {
+    try {
+      await sendBroadcastEmail({ to, subject, bodyHtml });
+      sent++;
+    } catch (err) {
+      failed++;
+      console.warn('Erè anons pou', to, ':', err.message);
+    }
+    await new Promise(r => setTimeout(r, 550)); // ~1.8 imèl/segond
+  }
+  console.log(`Broadcast fini: ${sent} voye, ${failed} echwe sou ${emails.length}`);
+}
+
+// ── POST /api/admin/broadcast ───────────────────────
+// Body: { subject, message, test_only: boolean }
+// Si test_only=true, imèl la voye sèlman bay admin k ap konekte a (pou previzyon).
+// Otreman, imèl la voye an background bay TOUT itilizatè ki gen yon imèl valid.
+// Repons lan retounen IMEDYATMAN (pa tann tout imèl yo fini voye).
+app.post('/api/admin/broadcast', async (req, res) => {
+  const user = await requireAdmin(req, res);
+  if (!user) return;
+
+  const { subject, message, test_only } = req.body;
+  if (!subject || !subject.trim()) return res.status(400).json({ error: 'Antre yon objè (sijè) pou imèl la' });
+  if (!message || !message.trim()) return res.status(400).json({ error: 'Antre yon mesaj' });
+
+  // Konvèti newlines an <br> pou HTML lan, San touche tèks orijinal la twòp.
+  const bodyHtml = message.trim()
+    .split(/\n{2,}/)
+    .map(p => `<p style="margin:0 0 14px;">${p.replace(/\n/g, '<br>')}</p>`)
+    .join('');
+
+  if (test_only) {
+    try {
+      await sendBroadcastEmail({ to: user.email, subject: `[TEST] ${subject}`, bodyHtml });
+      return res.json({ success: true, message: `Imèl tès voye bay ${user.email}` });
+    } catch (err) {
+      return res.status(500).json({ error: 'Erè pandan voye imèl tès la: ' + err.message });
+    }
+  }
+
+  // Rale tout itilizatè yo (paginasyon, Supabase retounen 50 pa paj pa default)
+  let allEmails = [];
+  let page = 1;
+  while (true) {
+    const { data, error } = await supabase.auth.admin.listUsers({ page, perPage: 1000 });
+    if (error) return res.status(500).json({ error: 'Erè pandan rale lis itilizatè: ' + error.message });
+    const emails = (data?.users || []).map(u => u.email).filter(Boolean);
+    allEmails = allEmails.concat(emails);
+    if (!data?.users || data.users.length < 1000) break;
+    page++;
+  }
+  allEmails = [...new Set(allEmails)];
+
+  if (allEmails.length === 0) return res.status(400).json({ error: 'Pa gen okenn itilizatè ak imèl' });
+
+  // Reponn imedyatman, epi voye imèl yo an background (sa ka pran plizyè minit).
+  res.json({ success: true, message: `Ap voye anons bay ${allEmails.length} itilizatè an background.`, recipient_count: allEmails.length });
+
+  sendBroadcastInBatches(allEmails, { subject, bodyHtml }).catch(err => {
+    console.error('Erè jeneral broadcast:', err.message);
+  });
+});
 
 // Aktive vedèt la sou yon anons + anrejistre nan istwa promotions.
 // Itilize pa: admin manyèl, ak konfimasyon peman MonCash/NatCash otomatik.
