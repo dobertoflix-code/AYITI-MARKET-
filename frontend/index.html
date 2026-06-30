@@ -29,6 +29,31 @@
   })();
 </script>
 
+<!-- ============ MIY OBLIGATWA: fòk itilizatè a konekte anvan l wè akèy la ============ -->
+<script>
+  (function () {
+    try {
+      // Pa entwonpi yon retou Google OAuth k ap fèk rive (gen access_token/code nan URL la)
+      var hash = window.location.hash || '';
+      var search = window.location.search || '';
+      var isOAuthCallback = hash.indexOf('access_token=') !== -1 || /[?&]code=/.test(search);
+      if (isOAuthCallback) return;
+
+      var tokenKey = 'sb-cisjnsdnxqvgqjuzwobk-auth-token';
+      var raw = localStorage.getItem(tokenKey);
+      var hasSession = false;
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        var token = (parsed && parsed.access_token) || (parsed && parsed.currentSession && parsed.currentSession.access_token);
+        if (token) hasSession = true;
+      }
+      if (!hasSession) {
+        window.location.replace('enskripsyon.html');
+      }
+    } catch (e) {}
+  })();
+</script>
+
 <!-- ============ OPEN GRAPH (Facebook, WhatsApp, LinkedIn) ============ -->
 <meta property="og:type"        content="website">
 <meta property="og:url"         content="https://ayiti-market.com/">
@@ -4520,11 +4545,7 @@
   async function handleLogout() {
     await supabaseClient.auth.signOut();
     currentUser = null;
-    // Kenbe favori localStorage — itilizatè ka toujou wè yo san kont
-    const authBtnEl = document.querySelector('[data-role="auth-btn"]');
-    if (authBtnEl) authBtnEl.textContent = 'Konekte';
-    setAccountLinkVisible(false);
-    showToast('Ou dekonekte.');
+    window.location.href = 'enskripsyon.html';
   }
 
   // Retabli sesyon si itilizatè a te deja konekte (rafrechi paj)
@@ -4558,6 +4579,9 @@
         ga('sign_up', { method: 'google' });
       }
       onAuthSuccess(session.user);
+    } else {
+      // Sesyon an ekspire oswa pa valab — voye itilizatè a sou paj Konekte/Enskri a
+      window.location.replace('enskripsyon.html');
     }
   }
   Promise.all([loadAllListings(), restoreSession()]).then(() => {
