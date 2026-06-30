@@ -21,6 +21,30 @@
   })();
 </script>
 
+<!-- ============ MIY OBLIGATWA: fòk itilizatè a konekte anvan l wè paj sa a ============ -->
+<script>
+  (function () {
+    try {
+      var hash = window.location.hash || '';
+      var search = window.location.search || '';
+      var isOAuthCallback = hash.indexOf('access_token=') !== -1 || /[?&]code=/.test(search);
+      if (isOAuthCallback) return;
+
+      var tokenKey = 'sb-cisjnsdnxqvgqjuzwobk-auth-token';
+      var raw = localStorage.getItem(tokenKey);
+      var hasSession = false;
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        var token = (parsed && parsed.access_token) || (parsed && parsed.currentSession && parsed.currentSession.access_token);
+        if (token) hasSession = true;
+      }
+      if (!hasSession) {
+        window.location.replace('enskripsyon.html');
+      }
+    } catch (e) {}
+  })();
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
@@ -214,7 +238,7 @@
 <main>
   <div id="guardedOut" style="display:none" class="empty-box">
     <p>Ou dwe konekte pou wè mesaj ou yo.</p>
-    <a href="index.html" class="btn btn-primary">Tounen nan Akèy →</a>
+    <a href="enskripsyon.html" class="btn btn-primary">Konekte →</a>
   </div>
 
   <div id="chatLayout" class="chat-layout" style="display:none">
@@ -294,7 +318,7 @@
   async function init() {
     const { data } = await supabaseClient.auth.getSession();
     if (!data.session?.user) {
-      document.getElementById('guardedOut').style.display = 'flex';
+      window.location.replace('enskripsyon.html');
       return;
     }
     currentUser = data.session.user;
