@@ -1339,27 +1339,73 @@
   }
   window.previewAvatar = previewAvatar;
 
-  // ── Konvèti yon fichye an base64 epi upload li bay backend lan ──
-  // Retounen lyen piblik la (string), oswa jete yon erè si l echwe.
-  async function uploadImageFile(file, folder) {
-    if (!file) throw new Error('Pa gen fichye chwazi');
-    if (!file.type.startsWith('image/')) throw new Error('Chwazi yon fichye imaj (PNG, JPG, WEBP, GIF)');
-    if (file.size > 5 * 1024 * 1024) throw new Error('Imaj la twò gwo (maksimòm 5MB)');
-
-    const base64 = await new Promise((resolve, reject) => {
+  // ── Konprese yon imaj nan navigatè a (redimansyone + JPEG kalite redui) ──
+  // Sa anpeche foto telefòn modèn (8-15MB) bloke akoz limit sèvè a.
+  async function compressImageFile(file, maxDim = 1600, quality = 0.82) {
+    const dataUrl = await new Promise((resolve, reject) => {
       const r = new FileReader();
       r.onload = () => resolve(r.result);
       r.onerror = () => reject(new Error('Erè pandan li fichye a'));
       r.readAsDataURL(file);
     });
 
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    const res = await fetch(`${API_BASE}/api/upload-image`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session?.access_token}` },
-      body: JSON.stringify({ image_base64: base64, folder })
+    // GIF: pa konprese (ta kraze animasyon an) — voye l jan li ye si l rete anba 5MB.
+    if (file.type === 'image/gif') return dataUrl;
+
+    const img = await new Promise((resolve, reject) => {
+      const im = new Image();
+      im.onload = () => resolve(im);
+      im.onerror = () => reject(new Error('Imaj la domaje oswa pa sipòte'));
+      im.src = dataUrl;
     });
-    const data = await res.json();
+
+    let { width, height } = img;
+    if (width > maxDim || height > maxDim) {
+      const scale = maxDim / Math.max(width, height);
+      width = Math.round(width * scale);
+      height = Math.round(height * scale);
+    }
+
+    const canvas = document.createElement('canvas');
+    canvas.width = width; canvas.height = height;
+    canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+    return canvas.toDataURL('image/jpeg', quality);
+  }
+
+  // ── Konvèti yon fichye an base64 epi upload li bay backend lan ──
+  // Retounen lyen piblik la (string), oswa jete yon erè si l echwe.
+  async function uploadImageFile(file, folder) {
+    if (!file) throw new Error('Pa gen fichye chwazi');
+    if (!file.type.startsWith('image/')) throw new Error('Chwazi yon fichye imaj (PNG, JPG, WEBP, GIF)');
+    if (file.size > 20 * 1024 * 1024) throw new Error('Imaj la twò gwo menm pou konprese (maksimòm 20MB)');
+
+    let base64;
+    try {
+      base64 = await compressImageFile(file);
+    } catch (err) {
+      throw new Error('Pa kapab trete imaj la: ' + err.message);
+    }
+
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    let res;
+    try {
+      res = await fetch(`${API_BASE}/api/upload-image`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session?.access_token}` },
+        body: JSON.stringify({ image_base64: base64, folder })
+      });
+    } catch (err) {
+      throw new Error('Pa kapab kontakte sèvè a — verifye koneksyon ou epi eseye ankò.');
+    }
+
+    let data;
+    try {
+      data = await res.json();
+    } catch {
+      throw new Error(res.status === 413
+        ? 'Imaj la twò gwo pou sèvè a aksepte.'
+        : `Sèvè a pa reponn kòrèkteman (kòd ${res.status}) — eseye ankò nan kèk segond.`);
+    }
     if (!res.ok) throw new Error(data.error || 'Erè pandan upload imaj la');
     return data.url;
   }
