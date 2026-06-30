@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kreye Kont — Ayiti Market</title>
+<meta name="description" content="Kreye yon kont gratis sou Ayiti Market epi kòmanse vann oswa achte nan mache lib ayisyen an. Enskripsyon pran mwens pase yon minit.">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23B91C3C'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='26' fill='%23FBF6EC'>AM</text></svg>">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0B0D12">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://ayiti-market.com/enskripsyon.html">
+<meta property="og:title" content="Kreye Kont — Ayiti Market">
+<meta property="og:description" content="Kreye yon kont gratis epi kòmanse vann oswa achte nan mache lib ayisyen an.">
+<meta property="og:image" content="https://ayiti-market.com/og-image.jpg">
+<meta property="og:locale" content="ht_HT">
+
+<!-- Mòd nwa: chwazi teym anvan paj la rann pou evite "flash" -->
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('am-theme');
+      var theme = saved || 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --krem:        #FBF6EC;
+    --krem-dim:     #F3ECDC;
+    --lank:        #14181F;
+    --lank-soft:    #4A4F5A;
+    --wouj:        #B91C3C;
+    --wouj-dark:    #8C1530;
+    --ble:         #16335E;
+    --ble-soft:     #2A4D80;
+    --lo:          #E1962F;
+    --lo-soft:      #F2C26B;
+    --liy:         #E4DCC8;
+    --blan:        #FFFFFF;
+    --lank-light:  #2A3040;
+    --lo-text:     #8A5D12;
+    --grin:        #1C8A4D;
+
+    --display: 'DM Serif Display', Georgia, serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'Space Mono', monospace;
+    --radius: 14px;
+  }
+  :root[data-theme="dark"]{
+    --krem:        #0B0D12;
+    --krem-dim:     #11141B;
+    --lank:        #EDE8DA;
+    --lank-soft:    #9CA3AF;
+    --wouj:        #E14D63;
+    --wouj-dark:    #F2718A;
+    --ble:         #5C8AD6;
+    --ble-soft:     #3D6BB0;
+    --lo:          #F2C26B;
+    --lo-soft:      #E1962F;
+    --liy:         #232A36;
+    --blan:        #161A22;
+    --lank-light:  #1E2430;
+    --lo-text:     #F2C26B;
+    --grin:        #34D17C;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:var(--body);
+    background:var(--krem); color:var(--lank);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; cursor:pointer; }
+  input{ font-family:inherit; }
+
+  /* ============ LAYOUT ============ */
+  .reg-wrap{ min-height:100vh; display:grid; grid-template-columns: minmax(360px, 42%) 1fr; }
+  @media (max-width:880px){ .reg-wrap{ display:block; } }
+
+  /* ============ BRAND PANEL (goch) ============ */
+  .reg-brand{
+    position:relative; overflow:hidden;
+    background:
+      radial-gradient(640px 420px at 18% 8%, rgba(225,77,99,0.20), transparent 60%),
+      linear-gradient(165deg, #181D27 0%, #11141B 55%, #0B0D12 100%);
+    color:#EDE8DA;
+    padding:32px 36px 40px;
+    display:flex; flex-direction:column;
+    min-height:100vh;
+  }
+  @media (max-width:880px){ .reg-brand{ min-height:auto; padding:24px 24px 28px; } }
+
+  .reg-brand-top{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
+  .reg-logo{ display:flex; align-items:center; gap:9px; font-family:var(--display); font-size:1.25rem; color:#EDE8DA; flex-shrink:0; }
+  .reg-logo svg{ flex-shrink:0; border-radius:8px; }
+
+  .reg-toggle{
+    width:36px; height:36px; border-radius:50%; flex-shrink:0;
+    border:1px solid rgba(237,232,218,0.22); background:rgba(237,232,218,0.04);
+    display:flex; align-items:center; justify-content:center; color:#EDE8DA;
+  }
+  .reg-toggle:hover{ background:rgba(237,232,218,0.1); }
+  .reg-toggle svg{ width:17px; height:17px; }
+  .reg-toggle .ic-sun{ display:none; }
+  :root[data-theme="dark"] .reg-toggle .ic-moon{ display:none; }
+  :root[data-theme="dark"] .reg-toggle .ic-sun{ display:block; }
+
+  .reg-brand-mid{ margin-top:48px; max-width:420px; }
+  @media (max-width:880px){ .reg-brand-mid{ margin-top:26px; } }
+  .reg-eyebrow{
+    font-family:var(--mono); font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:#F2718A; background:rgba(225,77,99,0.15); display:inline-block;
+    padding:5px 13px; border-radius:20px; margin-bottom:18px;
+  }
+  .reg-brand-mid h1{
+    font-family:var(--display); font-weight:400; font-size:clamp(1.7rem,3.4vw,2.4rem);
+    line-height:1.18; margin-bottom:14px;
+  }
+  .reg-brand-mid h1 em{ font-style:italic; color:#F2718A; }
+  .reg-brand-mid p{ font-size:0.96rem; line-height:1.65; color:rgba(237,232,218,0.68); }
+
+  .reg-ref-banner{
+    display:none; align-items:flex-start; gap:10px; margin-top:18px;
+    background:rgba(242,194,107,0.12); border:1px solid rgba(242,194,107,0.3);
+    border-radius:10px; padding:12px 14px; font-size:0.85rem; line-height:1.5; color:#F2C26B;
+  }
+  .reg-ref-banner.show{ display:flex; }
+  .reg-ref-banner svg{ flex-shrink:0; margin-top:1px; }
+
+  /* ---- TICKETS (floating listing cards — pa imaj reyèl, ekivalan eskèch) ---- */
+  .reg-visual{ position:relative; flex:1; min-height:230px; margin-top:32px; }
+  @media (max-width:880px){ .reg-visual{ display:none; } }
+  .rticket{
+    position:absolute; width:208px; background:#1A1F2A; border:1px solid rgba(237,232,218,0.1);
+    border-radius:12px; padding:13px; box-shadow:0 18px 36px -12px rgba(0,0,0,0.5);
+  }
+  .rticket .rt-ic{
+    width:34px; height:34px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+    margin-bottom:10px; color:#fff;
+  }
+  .rticket .rt-ic svg{ width:17px; height:17px; }
+  .rticket .rt-name{ font-weight:700; font-size:0.85rem; color:#EDE8DA; margin-bottom:3px; }
+  .rticket .rt-loc{ font-size:0.72rem; color:rgba(237,232,218,0.55); margin-bottom:9px; display:flex; align-items:center; gap:4px; }
+  .rticket .rt-price{
+    font-family:var(--mono); font-weight:700; color:#F2718A; font-size:0.92rem;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .rticket .rt-badge{
+    font-family:var(--body); font-size:0.64rem; background:rgba(52,209,124,0.16);
+    color:#34D17C; padding:2px 7px; border-radius:6px; font-weight:700;
+  }
+  .rt1{ top:0; left:0; transform:rotate(-3deg); z-index:2; animation:rtfloat1 7s ease-in-out infinite; }
+  .rt2{ top:78px; left:130px; transform:rotate(4deg); z-index:3; animation:rtfloat2 8s ease-in-out infinite; }
+  .rt3{ top:172px; left:14px; transform:rotate(-2deg); z-index:1; animation:rtfloat1 9s ease-in-out infinite reverse; }
+  @keyframes rtfloat1{ 0%,100%{ transform:rotate(-3deg) translateY(0); } 50%{ transform:rotate(-3deg) translateY(-9px); } }
+  @keyframes rtfloat2{ 0%,100%{ transform:rotate(4deg) translateY(0); } 50%{ transform:rotate(4deg) translateY(-11px); } }
+  @media (prefers-reduced-motion: reduce){ .rt1,.rt2,.rt3{ animation:none; } }
+
+  .reg-stats{ display:flex; gap:28px; margin-top:28px; padding-top:24px; border-top:1px solid rgba(237,232,218,0.12); }
+  @media (max-width:880px){ .reg-stats{ margin-top:22px; padding-top:18px; gap:22px; } }
+  .rstat b{ display:block; font-family:var(--display); font-size:1.5rem; color:#EDE8DA; line-height:1; margin-bottom:4px; }
+  .rstat span{ font-family:var(--mono); font-size:0.68rem; color:rgba(237,232,218,0.55); text-transform:uppercase; letter-spacing:0.03em; }
+
+  /* ============ FORM PANEL (dwat) ============ */
+  .reg-form-side{
+    display:flex; align-items:center; justify-content:center;
+    padding:56px 24px; background:var(--krem);
+  }
+  .reg-card{ width:100%; max-width:420px; }
+  .reg-card h2{ font-family:var(--display); font-weight:400; font-size:1.7rem; margin-bottom:6px; }
+  .reg-sub{ font-size:0.92rem; color:var(--lank-soft); margin-bottom:26px; }
+
+  .field{ margin-bottom:15px; }
+  .field label{ display:block; font-weight:700; font-size:0.78rem; margin-bottom:6px; color:var(--lank-soft); text-transform:uppercase; letter-spacing:0.04em; }
+  .field input{
+    width:100%; padding:12px 14px; border-radius:10px;
+    border:1.5px solid var(--liy); background:var(--blan);
+    font-family:var(--body); font-size:0.93rem; color:var(--lank);
+    transition:border-color .2s; outline:none;
+  }
+  .field input:focus{ border-color:var(--wouj); }
+  .field input:focus-visible{ outline:2px solid var(--wouj); outline-offset:1px; }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  @media (max-width:380px){ .field-row{ grid-template-columns:1fr; } }
+
+  .pw-wrap{ position:relative; }
+  .pw-wrap input{ padding-right:42px; }
+  .pw-toggle{
+    position:absolute; right:4px; top:50%; transform:translateY(-50%);
+    width:34px; height:34px; border:none; background:none; border-radius:8px;
+    display:flex; align-items:center; justify-content:center; color:var(--lank-soft);
+  }
+  .pw-toggle:hover{ background:var(--krem-dim); color:var(--lank); }
+  .pw-toggle svg{ width:18px; height:18px; }
+
+  .pw-meter{ display:flex; gap:5px; margin-top:8px; }
+  .pw-meter span{ flex:1; height:4px; border-radius:3px; background:var(--liy); transition:background .2s; }
+  .pw-meter.weak span:nth-child(1){ background:var(--wouj); }
+  .pw-meter.medium span:nth-child(1),
+  .pw-meter.medium span:nth-child(2){ background:var(--lo); }
+  .pw-meter.strong span{ background:var(--grin); }
+  .pw-hint{ font-size:0.76rem; color:var(--lank-soft); margin-top:6px; }
+
+  .reg-check{
+    display:flex; align-items:flex-start; gap:9px; font-size:0.83rem;
+    line-height:1.5; color:var(--lank-soft); margin:18px 0 16px; cursor:pointer;
+  }
+  .reg-check input{ accent-color:var(--wouj); width:16px; height:16px; margin-top:1px; flex-shrink:0; }
+  .reg-check a{ color:var(--wouj); font-weight:700; }
+  .reg-check a:hover{ text-decoration:underline; }
+
+  .form-error{
+    display:none; color:var(--wouj); font-size:0.84rem; margin-bottom:14px;
+    background:rgba(185,28,60,0.08); border-radius:8px; padding:9px 12px;
+  }
+  :root[data-theme="dark"] .form-error{ background:rgba(225,77,99,0.12); }
+
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    padding:13px 22px; border-radius:100px; font-weight:700; font-size:0.93rem;
+    border:none; transition:transform .18s ease, box-shadow .18s ease, background .18s ease;
+  }
+  .btn-primary{ background:var(--wouj); color:#fff; box-shadow:0 2px 0 var(--wouj-dark); width:100%; padding:14px; border-radius:12px; font-size:0.95rem; }
+  .btn-primary:hover:not(:disabled){ background:var(--wouj-dark); transform:translateY(-1px); }
+  .btn-primary:disabled{ opacity:0.7; cursor:default; transform:none; }
+  .btn-ghost{ color:var(--lank); border:1.5px solid var(--liy); background:transparent; width:100%; padding:13px; border-radius:12px; }
+  .btn-ghost:hover{ border-color:var(--lank); }
+  .btn:focus-visible{ outline:2px solid var(--wouj); outline-offset:2px; }
+
+  .btn-google{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    width:100%; padding:13px 16px; border-radius:12px; font-size:0.92rem; font-weight:600;
+    background:var(--blan); color:#3C4043; border:1.5px solid #DADCE0;
+    transition:box-shadow .2s, background .2s;
+  }
+  .btn-google:hover{ box-shadow:0 2px 8px rgba(0,0,0,0.15); background:#F8F9FA; }
+  :root[data-theme="dark"] .btn-google{ background:#232A36; color:var(--lank); border-color:#3A4254; }
+  :root[data-theme="dark"] .btn-google:hover{ background:#333C50; }
+  .btn-google svg{ flex-shrink:0; }
+
+  .reg-divider{
+    display:flex; align-items:center; gap:12px; margin:18px 0; color:var(--lank-soft); font-size:0.82rem;
+  }
+  .reg-divider::before,.reg-divider::after{ content:''; flex:1; height:1px; background:var(--krem-dim); }
+  :root[data-theme="dark"] .reg-divider::before,
+  :root[data-theme="dark"] .reg-divider::after{ background:#232A36; }
+
+  .reg-note{ font-size:0.78rem; color:var(--lank-soft); text-align:center; margin-top:16px; }
+  .reg-login-note{ font-size:0.88rem; color:var(--lank-soft); text-align:center; margin-top:10px; }
+  .reg-login-note a{ color:var(--wouj); font-weight:700; }
+  .reg-login-note a:hover{ text-decoration:underline; }
+
+  .reg-foot-links{ font-size:0.78rem; color:var(--lank-soft); text-align:center; margin-top:32px; }
+  .reg-foot-links a:hover{ color:var(--wouj); }
+
+  /* ---- SUCCESS STATE ---- */
+  #regSuccess{ display:none; text-align:center; }
+  .reg-success-ic{
+    width:56px; height:56px; border-radius:50%; background:rgba(28,138,77,0.12);
+    color:var(--grin); display:flex; align-items:center; justify-content:center;
+    margin:0 auto 18px;
+  }
+  :root[data-theme="dark"] .reg-success-ic{ background:rgba(52,209,124,0.15); }
+  #regSuccess h2{ margin-bottom:10px; }
+  #regSuccess p{ font-size:0.92rem; color:var(--lank-soft); line-height:1.6; margin-bottom:24px; }
+
+  .reg-noscript{
+    background:var(--wouj); color:#fff; text-align:center; padding:10px; font-size:0.85rem;
+  }
+</style>
+</head>
+<body>
+
+<noscript><div class="reg-noscript">Tanpri aktive JavaScript pou ou ka kreye yon kont.</div></noscript>
+
+<div class="reg-wrap">
+
+  <!-- ============ BRAND PANEL ============ -->
+  <aside class="reg-brand">
+    <div class="reg-brand-top">
+      <a href="/" class="reg-logo" aria-label="Ayiti Market — Akèy">
+        <svg width="26" height="26" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect width="64" height="64" rx="14" fill="#B91C3C"/>
+          <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="26" fill="#FBF6EC">AM</text>
+        </svg>
+        Ayiti Market
+      </a>
+      <button class="reg-toggle" id="themeToggle" aria-label="Chanje tèm">
+        <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+    </div>
+
+    <div class="reg-brand-mid">
+      <span class="reg-eyebrow">Mache Lib Ayisyen An</span>
+      <h1>Louvri yon boutik nan mwens pase yon <em>minit</em>.</h1>
+      <p id="regBrandSub">Pibliye premye anons ou gratis epi kòmanse vann toupatou nan peyi a — san pèdi tan, san konfizyon.</p>
+
+      <div class="reg-ref-banner" id="refBanner">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 22V7M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        <span>Yon zanmi envite w! Konplete enskripsyon ou pou resevwa <b>3 jou Boutik Pro gratis</b> kòm byenveni.</span>
+      </div>
+    </div>
+
+    <div class="reg-visual" aria-hidden="true">
+      <div class="rticket rt1">
+        <div class="rt-ic" style="background:var(--wouj)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+        </div>
+        <div class="rt-name">iPhone 13 Pro</div>
+        <div class="rt-loc">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Pòtoprens
+        </div>
+        <div class="rt-price">28,500 G <span class="rt-badge">✓ Verifye</span></div>
+      </div>
+      <div class="rticket rt2">
+        <div class="rt-ic" style="background:var(--ble)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        <div class="rt-name">Apatman 2 chanm</div>
+        <div class="rt-loc">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Petyonvil
+        </div>
+        <div class="rt-price">45,000 G<span class="rt-badge">/mwa</span></div>
+      </div>
+      <div class="rticket rt3">
+        <div class="rt-ic" style="background:var(--lo)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 17h14M5 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM15 17a2 2 0 1 0 4 0 2 2 0 0 0-4 0zM5 17V9l2-5h9l3 5h2v8"/></svg>
+        </div>
+        <div class="rt-name">Toyota Corolla 2019</div>
+        <div class="rt-loc">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Okap
+        </div>
+        <div class="rt-price">850,000 G <span class="rt-badge">✓ Verifye</span></div>
+      </div>
+    </div>
+
+    <div class="reg-stats">
+      <div class="rstat"><b id="statListings">—</b><span>Anons Aktif</span></div>
+      <div class="rstat"><b>100%</b><span>Gratis Pou Pibliye</span></div>
+      <div class="rstat"><b>0</b><span>Kòmisyon Sou Lavant</span></div>
+    </div>
+  </aside>
+
+  <!-- ============ FORM PANEL ============ -->
+  <main class="reg-form-side">
+    <div class="reg-card">
+
+      <div id="regStep">
+        <h2>Kreye kont ou</h2>
+        <p class="reg-sub">Li gratis, e pran mwens pase yon minit.</p>
+
+        <form id="registerForm" novalidate>
+          <div class="field-row">
+            <div class="field">
+              <label for="regFirstName">Non</label>
+              <input type="text" id="regFirstName" placeholder="Jean" autocomplete="given-name">
+            </div>
+            <div class="field">
+              <label for="regLastName">Siyati</label>
+              <input type="text" id="regLastName" placeholder="Louis" autocomplete="family-name">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="regEmail">Imèl</label>
+            <input type="email" id="regEmail" placeholder="ou@egzanp.com" autocomplete="email">
+          </div>
+
+          <div class="field">
+            <label for="regPassword">Modpas</label>
+            <div class="pw-wrap">
+              <input type="password" id="regPassword" placeholder="Omwen 8 karaktè" autocomplete="new-password">
+              <button type="button" class="pw-toggle" id="pwToggle" aria-label="Montre modpas">
+                <svg id="pwIconShow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                <svg id="pwIconHide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-7 0-11-8-11-8a18.7 18.7 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19M14.12 14.12a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+              </button>
+            </div>
+            <div class="pw-meter" id="pwMeter"><span></span><span></span><span></span></div>
+            <div class="pw-hint" id="pwHint">Omwen 8 karaktè</div>
+          </div>
+
+          <label class="reg-check">
+            <input type="checkbox" id="regTerms">
+            <span>Mwen aksepte <a href="cgu.html" target="_blank" rel="noopener">Kondisyon Itilizasyon</a> ak <a href="confidentialite.html" target="_blank" rel="noopener">Politik Konfidansyalite</a> a.</span>
+          </label>
+
+          <div class="form-error" id="registerError" role="alert"></div>
+
+          <button type="submit" class="btn btn-primary" id="registerSubmitBtn">Kreye Kont Mwen →</button>
+        </form>
+
+        <div class="reg-divider">oswa</div>
+
+        <button class="btn-google" id="googleBtn" type="button">
+          <svg width="20" height="20" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+          </svg>
+          Enskri ak Google
+        </button>
+
+        <p class="reg-note">Gratis pou tout tan. San kòmisyon sou premye anons ou.</p>
+        <p class="reg-login-note">Deja gen kont? <a href="index.html">Konekte</a></p>
+      </div>
+
+      <div id="regSuccess">
+        <div class="reg-success-ic">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <h2>Tcheke imèl ou</h2>
+        <p>Nou voye yon lyen konfimasyon bay <strong id="successEmail"></strong>. Klike sou li pou aktive kont ou epi kòmanse itilize Ayiti Market.</p>
+        <a href="index.html" class="btn btn-ghost">Retounen sou Akèy</a>
+      </div>
+
+      <p class="reg-foot-links">
+        <a href="cgu.html">Kondisyon</a> · <a href="confidentialite.html">Konfidansyalite</a> · <a href="apropos.html">À Propos</a>
+      </p>
+    </div>
+  </main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  // ============ TÈM (mòd nwa / klè) ============
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('am-theme', theme); } catch (e) {}
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  }
+  document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+  // ============ SISTÈM REFERANS: kaptire ?ref=CODE ============
+  let _hasReferral = false;
+  (function captureReferralCode() {
+    const ref = new URLSearchParams(window.location.search).get('ref');
+    if (ref && ref.trim()) {
+      localStorage.setItem('pendingReferralCode', ref.trim().toUpperCase());
+      _hasReferral = true;
+      const banner = document.getElementById('refBanner');
+      if (banner) banner.classList.add('show');
+      const sub = document.getElementById('regBrandSub');
+      if (sub) sub.textContent = 'Yon zanmi envite w sou Ayiti Market. Kreye kont ou pou jwenn avantaj ou.';
+    }
+  })();
+
+  // ============ SUPABASE ============
+  const SUPABASE_URL = 'https://cisjnsdnxqvgqjuzwobk.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpc2puc2RueHF2Z3FqdXp3b2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0MTI2OTQsImV4cCI6MjA5Nzk4ODY5NH0.rWwbLUOs8TjZpHD19fDYX4B9mOIyn-eAFpcwGcdav_E';
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // ============ ESTATI VIVAN (pa kraze paj la si li echwe) ============
+  async function loadBrandStats() {
+    try {
+      const { data, error } = await supabaseClient.from('listings').select('id').eq('status', 'active');
+      if (error || !data) return;
+      document.getElementById('statListings').textContent = data.length + '+';
+    } catch (e) { /* kite tirè a */ }
+  }
+  loadBrandStats();
+
+  // ============ MONTRE / KACHE MODPAS ============
+  const pwInput = document.getElementById('regPassword');
+  const pwToggle = document.getElementById('pwToggle');
+  const pwIconShow = document.getElementById('pwIconShow');
+  const pwIconHide = document.getElementById('pwIconHide');
+  pwToggle.addEventListener('click', () => {
+    const isHidden = pwInput.type === 'password';
+    pwInput.type = isHidden ? 'text' : 'password';
+    pwIconShow.style.display = isHidden ? 'none' : '';
+    pwIconHide.style.display = isHidden ? '' : 'none';
+    pwToggle.setAttribute('aria-label', isHidden ? 'Kache modpas' : 'Montre modpas');
+  });
+
+  // ============ MÈT FÒS MODPAS ============
+  const pwMeter = document.getElementById('pwMeter');
+  const pwHint = document.getElementById('pwHint');
+  function scorePassword(pw) {
+    let score = 0;
+    if (pw.length >= 8) score++;
+    if (pw.length >= 12) score++;
+    if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) score++;
+    if (/\d/.test(pw)) score++;
+    if (/[^A-Za-z0-9]/.test(pw)) score++;
+    return score;
+  }
+  pwInput.addEventListener('input', () => {
+    const pw = pwInput.value;
+    pwMeter.classList.remove('weak', 'medium', 'strong');
+    if (!pw) { pwHint.textContent = 'Omwen 8 karaktè'; return; }
+    const score = scorePassword(pw);
+    if (pw.length < 8 || score <= 1) {
+      pwMeter.classList.add('weak'); pwHint.textContent = 'Fèb — ajoute plis karaktè';
+    } else if (score <= 3) {
+      pwMeter.classList.add('medium'); pwHint.textContent = 'Mwayen — ka pi fò';
+    } else {
+      pwMeter.classList.add('strong'); pwHint.textContent = 'Fò ✓';
+    }
+  });
+
+  // ============ FÒM ENSKRIPSYON ============
+  const form = document.getElementById('registerForm');
+  const errorBox = document.getElementById('registerError');
+  const submitBtn = document.getElementById('registerSubmitBtn');
+
+  function showError(msg) {
+    errorBox.textContent = msg || '';
+    errorBox.style.display = msg ? 'block' : 'none';
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    showError('');
+
+    const firstName = document.getElementById('regFirstName').value.trim();
+    const lastName = document.getElementById('regLastName').value.trim();
+    const email = document.getElementById('regEmail').value.trim();
+    const password = pwInput.value;
+    const termsOk = document.getElementById('regTerms').checked;
+
+    if (!firstName || !email || !password) {
+      showError('Tanpri ranpli omwen non, imèl ak modpas.');
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showError('Antre yon imèl ki valid.');
+      return;
+    }
+    if (password.length < 8) {
+      showError('Modpas dwe gen omwen 8 karaktè.');
+      return;
+    }
+    if (!termsOk) {
+      showError('Tanpri aksepte Kondisyon Itilizasyon yo pou kontinye.');
+      return;
+    }
+
+    const fullName = [firstName, lastName].filter(Boolean).join(' ');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Ap kreye kont...';
+
+    try {
+      const { data, error } = await supabaseClient.auth.signUp({
+        email, password,
+        options: { data: { full_name: fullName } }
+      });
+
+      if (error) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Kreye Kont Mwen →';
+        showError(error.message.includes('already registered')
+          ? 'Yon kont deja egziste ak imèl sa a.'
+          : 'Pa kapab kreye kont. Tanpri eseye ankò.');
+        return;
+      }
+
+      try { if (typeof gtag === 'function') gtag('event', 'sign_up', { method: 'email' }); } catch (_) {}
+
+      if (!data.session) {
+        // Konfimasyon imèl aktive — itilizatè dwe konfime anvan l konekte.
+        // Lyen referans lan rete nan localStorage pou l aplike lè yo konekte pita.
+        document.getElementById('successEmail').textContent = email;
+        document.getElementById('regStep').style.display = 'none';
+        document.getElementById('regSuccess').style.display = 'block';
+        return;
+      }
+
+      // Sesyon ouvri otomatikman — voye l sou akèy la, index.html ap rekipere sesyon an.
+      submitBtn.textContent = 'Byenveni! Ap antre...';
+      setTimeout(() => { window.location.href = 'index.html'; }, 700);
+
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Kreye Kont Mwen →';
+      showError('Pa kapab konekte ak sèvè a. Tcheke koneksyon entènèt ou epi eseye ankò.');
+    }
+  });
+
+  // ============ GOOGLE OAUTH ============
+  document.getElementById('googleBtn').addEventListener('click', async () => {
+    showError('');
+    const { error } = await supabaseClient.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin + '/index.html' }
+    });
+    if (error) showError('Pa kapab konekte ak Google. Tanpri eseye ankò.');
+  });
+</script>
+</body>
+</html>
