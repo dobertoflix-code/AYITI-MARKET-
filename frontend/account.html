@@ -931,6 +931,7 @@
         <button class="admin-subtab" data-admin-subtab="sellers">Vandè</button>
         <button class="admin-subtab" data-admin-subtab="natcash">Peman NatCash</button>
         <button class="admin-subtab" data-admin-subtab="pro-natcash">Peman Boutik Pro</button>
+        <button class="admin-subtab" data-admin-subtab="broadcast">Anons</button>
         <button class="admin-subtab" data-admin-subtab="reviews-admin">Nòt</button>
       </div>
 
@@ -962,6 +963,25 @@
         </p>
         <div id="adminProNatcashLoading" class="loading-spin">Ap chaje peman an atant...</div>
         <div id="adminProNatcashList"></div>
+      </div>
+
+      <div class="admin-subpanel" id="admin-broadcast">
+        <p style="color:var(--lank-soft);font-size:0.88rem;margin-bottom:14px;">
+          Voye yon imèl bay TOUT itilizatè ki gen yon kont (egzanp: anonse nouvo mizajou). Tcheke byen anvan ou voye — sa pa ka anile.
+        </p>
+        <div class="form-group">
+          <label>Objè (sijè imèl la)</label>
+          <input type="text" id="bcSubject" placeholder="Egzanp: Nouvo fonksyon Kont Boutik Pro disponib! 👑" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label>Mesaj</label>
+          <textarea id="bcMessage" placeholder="Ekri mesaj ou a isit la..." style="width:100%;padding:12px 14px;border:1.5px solid var(--liy);border-radius:10px;font-family:var(--body);font-size:0.92rem;background:var(--blan);color:var(--lank);outline:none;resize:vertical;min-height:160px;box-sizing:border-box;"></textarea>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:10px;">
+          <button class="btn btn-ghost btn-sm" onclick="sendTestBroadcast()" style="flex:1">Voye yon tès ban mwen dabò</button>
+          <button class="btn btn-boost btn-sm" onclick="sendRealBroadcast()" style="flex:1">📣 Voye bay tout moun</button>
+        </div>
+        <p id="bcStatus" style="font-size:0.85rem;color:var(--lank-soft);margin-top:12px;"></p>
       </div>
 
       <div class="admin-subpanel" id="admin-reviews-admin">
@@ -1856,6 +1876,37 @@
     } catch (err) { showToast('Erè: ' + err.message); }
   }
   window.adminRejectProNatcash = adminRejectProNatcash;
+
+  // ══════════════════════════════════════════
+  // ADMIN: anons (broadcast email)
+  // ══════════════════════════════════════════
+  async function postBroadcast(testOnly) {
+    const subject = document.getElementById('bcSubject').value.trim();
+    const message = document.getElementById('bcMessage').value.trim();
+    const statusEl = document.getElementById('bcStatus');
+    if (!subject || !message) { showToast('Ranpli objè a ak mesaj la dabò.'); return; }
+
+    if (!testOnly && !confirm('Ou prèt pou voye imèl sa a bay TOUT itilizatè yo? Sa pa ka anile.')) return;
+
+    statusEl.textContent = 'Ap voye...';
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/admin/broadcast`, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${session?.access_token}` },
+        body: JSON.stringify({ subject, message, test_only: testOnly })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erè');
+      statusEl.textContent = data.message;
+      showToast(data.message);
+    } catch (err) {
+      statusEl.textContent = '';
+      showToast('Erè: ' + err.message);
+    }
+  }
+  window.sendTestBroadcast = () => postBroadcast(true);
+  window.sendRealBroadcast = () => postBroadcast(false);
 
   // ══════════════════════════════════════════
   // ADMIN: aktive / dezaktive vedèt
