@@ -8,6 +8,7 @@ import {
   sendSoldEmail,
   sendListingSoldNoticeToBuyer,
   sendBoostConfirmedEmail,
+  sendShopProConfirmedEmail,
   sendNewMessageEmail,
 } from './mailer.js';
 
@@ -688,6 +689,38 @@ app.put('/api/admin/profiles/:id/verify', async (req, res) => {
   res.json(data);
 });
 
+// ── ADMIN: PUT /api/admin/profiles/:id/pro ─────────
+// Aktive/dezaktive Kont Boutik Pro manyèlman pou yon vandè (peman kach, fidelite, elatriye).
+// Body: { days: 30, notes: "Peye kach" }  → ajoute 'days' sou dat ekspirasyon aktyèl la.
+// Body: { deactivate: true } → retire estati Pro a imedyatman.
+app.put('/api/admin/profiles/:id/pro', async (req, res) => {
+  const user = await requireAdmin(req, res);
+  if (!user) return;
+
+  if (req.body?.deactivate) {
+    const { data, error } = await supabase
+      .from('profiles')
+      .update({ pro_seller_until: null })
+      .eq('id', req.params.id)
+      .select()
+      .single();
+    if (error) return res.status(500).json({ error: error.message });
+    if (!data) return res.status(404).json({ error: 'Pwofil pa jwenn' });
+    return res.json(data);
+  }
+
+  const days = Number(req.body?.days) || BOUTIK_PRO_DAYS;
+  try {
+    const data = await applyShopPro({
+      sellerId: req.params.id, days, priceHtg: 0,
+      notes: req.body?.notes || `Aktive manyèlman pa ${user.email}`, method: 'admin'
+    });
+    res.json({ success: true, profile: data });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── ADMIN: PUT /api/admin/listings/:id/feature ─────
 // Aktive oswa dezaktive vedèt pou yon anons
 // Body: { tier: 0|1|2, days: 7|14|30, notes: "MonCash #xxx", price_htg: 500 }
@@ -722,6 +755,68 @@ const BOOST_TIERS = [
 function findBoostPrice(tier, days) {
   const opt = BOOST_TIERS.find(o => o.tier === Number(tier) && o.days === Number(days));
   return opt ? opt.price : null;
+}
+
+// ════════════════════════════════════════════════════
+// KONT BOUTIK PRO — abònman mansyèl pou vandè
+// ════════════════════════════════════════════════════
+// Tarif ofisyèl — sèl VERITE a se backend lan, pa janm fè konfyans nan pri
+// ki soti nan kliyan an (moun ka modifye li nan navigatè a).
+const BOUTIK_PRO_PRICE_HTG = 2000;
+const BOUTIK_PRO_DAYS = 30;
+
+// Aktive Kont Boutik Pro sou yon pwofil vandè + anrejistre nan istwa pro_subscriptions.
+// Si vandè a deja gen yon abònman aktif ki poko ekspire, nouvo jou yo AJOUTE sou
+// tan ki rete a (pa rekòmanse soti nan jodi a) — vandè a pa pèdi tan li te peye.
+async function applyShopPro({ sellerId, days, priceHtg, notes, method }) {
+  const { data: current } = await supabase
+    .from('profiles').select('pro_seller_until, full_name').eq('id', sellerId).single();
+
+  const now = new Date();
+  const currentExpiry = current?.pro_seller_until ? new Date(current.pro_seller_until) : null;
+  const base = (currentExpiry && currentExpiry > now) ? currentExpiry : now;
+
+  const expires = new Date(base);
+  expires.setDate(expires.getDate() + Number(days));
+
+  const { data, error } = await supabase
+    .from('profiles')
+    .update({ pro_seller_until: expires.toISOString() })
+    .eq('id', sellerId)
+    .select('id, full_name, pro_seller_until')
+    .single();
+
+  if (error || !data) throw new Error(error?.message || 'Pwofil pa jwenn');
+
+  await supabase.from('pro_subscriptions').insert({
+    seller_id:  sellerId,
+    price_htg:  Number(priceHtg) || 0,
+    days:       Number(days),
+    expires_at: expires.toISOString(),
+    notes:      notes || null
+  });
+
+  // Imèl konfimasyon peman Boutik Pro (pa janm bloke flux la si echwe)
+  (async () => {
+    try {
+      const { data: sellerUser } = await supabase.auth.admin.getUserById(sellerId);
+      if (sellerUser?.user?.email) {
+        await sendShopProConfirmedEmail({
+          to: sellerUser.user.email,
+          days, priceHtg, method: method || 'admin',
+          expiresAt: expires.toISOString()
+        });
+      }
+    } catch (err) {
+      console.warn('Erè imèl konfimasyon Boutik Pro:', err.message);
+    }
+  })();
+
+  return data;
+}
+
+function isShopProActive(profile) {
+  return !!(profile?.pro_seller_until && new Date(profile.pro_seller_until) > new Date());
 }
 
 // Aktive vedèt la sou yon anons + anrejistre nan istwa promotions.
@@ -809,6 +904,24 @@ app.post('/api/admin/expire-stale-boost-payments', async (req, res) => {
   const cutoff = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
   const { data, error } = await supabase
     .from('boost_payments')
+    .update({ status: 'expired' })
+    .eq('status', 'pending')
+    .lt('created_at', cutoff)
+    .select('id');
+
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ success: true, expired_count: data?.length || 0 });
+});
+
+// ── ADMIN: POST /api/admin/expire-stale-shop-pro-payments ──────
+// Netwayaj: mache kòm 'expired' tout dosye shop_pro_payments ki rete 'pending' plis pase 48h.
+app.post('/api/admin/expire-stale-shop-pro-payments', async (req, res) => {
+  const user = await requireAdmin(req, res);
+  if (!user) return;
+
+  const cutoff = new Date(Date.now() - 48 * 60 * 60 * 1000).toISOString();
+  const { data, error } = await supabase
+    .from('shop_pro_payments')
     .update({ status: 'expired' })
     .eq('status', 'pending')
     .lt('created_at', cutoff)
@@ -1070,9 +1183,199 @@ app.get('/api/promotions/my', async (req, res) => {
 });
 
 
-// ══════════════════════════════════════════════════════
-// REVIEWS & RATINGS
-// ══════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════
+// PEMAN KONT BOUTIK PRO — MonCash + NatCash
+// ════════════════════════════════════════════════════
+
+// ── POST /api/shop-pro/initiate ────────────────────
+// Body: { method: 'moncash'|'natcash' }  — pri/dire fiks: 2000 HTG / 30 jou
+app.post('/api/shop-pro/initiate', async (req, res) => {
+  const user = await requireAuthUser(req, res);
+  if (!user) return;
+
+  const { method } = req.body;
+  if (!['moncash', 'natcash'].includes(method)) return res.status(400).json({ error: 'Metòd peman envalid' });
+
+  const price = BOUTIK_PRO_PRICE_HTG;
+  const days = BOUTIK_PRO_DAYS;
+
+  const { data: payment, error: payErr } = await supabase
+    .from('shop_pro_payments')
+    .insert({ seller_id: user.id, days, price_htg: price, method, status: 'pending' })
+    .select().single();
+  if (payErr) return res.status(500).json({ error: payErr.message });
+
+  if (method === 'moncash') {
+    try {
+      const accessToken = await getMoncashToken();
+      const orderId = `pro-${payment.id}`;
+      const createRes = await fetch(`${MONCASH_BASE}/Api/v1/CreatePayment`, {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ amount: price, orderId })
+      });
+      const createData = await createRes.json();
+      const payToken = createData?.payment_token?.token;
+      if (!payToken) throw new Error('MonCash pa retounen yon token peman');
+
+      await supabase.from('shop_pro_payments').update({ moncash_order_id: orderId }).eq('id', payment.id);
+
+      return res.json({
+        payment_id: payment.id,
+        method: 'moncash',
+        redirect_url: `${MONCASH_BASE}/Api/v1/Redirect?token=${payToken}`
+      });
+    } catch (err) {
+      await supabase.from('shop_pro_payments').update({ status: 'failed' }).eq('id', payment.id);
+      return res.status(502).json({ error: 'Erè MonCash: ' + err.message });
+    }
+  }
+
+  // NatCash pa gen API piblik pou peman otomatik — itilizatè a peye manyèlman
+  // nan nimewo machann lan, epi soumèt referans tranzaksyon an pou verifikasyon.
+  return res.json({
+    payment_id: payment.id,
+    method: 'natcash',
+    instructions: {
+      phone: process.env.NATCASH_MERCHANT_PHONE || '509-XXXX-XXXX',
+      amount: price,
+      note: `Peye ${price} HTG sou NatCash nan nimewo a, epi antre referans tranzaksyon an pou nou konfime.`
+    }
+  });
+});
+
+// ── GET /api/shop-pro/moncash/return ───────────────
+app.get('/api/shop-pro/moncash/return', async (req, res) => {
+  const frontendUrl = (process.env.FRONTEND_URL || '').replace(/\/$/, '');
+  const { transactionId, orderId } = req.query;
+
+  try {
+    const accessToken = await getMoncashToken();
+    const verifyRes = await fetch(`${MONCASH_BASE}/Api/v1/RetrieveTransactionPayment`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({ transactionId })
+    });
+    const verifyData = await verifyRes.json();
+    const tx = verifyData?.payment;
+    if (!tx || tx.message !== 'successful') throw new Error('Tranzaksyon pa konfime');
+
+    // Sekirite: pa janm fè konfyans nan 'orderId' ki soti nan URL la sèlman — sous
+    // verite a se referans ke MONCASH LIMENM voye tounen nan tranzaksyon konfime a.
+    const verifiedOrderId = tx.reference || tx.order_id || tx.orderId || null;
+    if (!verifiedOrderId) throw new Error('MonCash pa retounen referans tranzaksyon an');
+    if (orderId && orderId !== verifiedOrderId) {
+      throw new Error('Referans peman pa matche — posib tantativ fwod');
+    }
+
+    const paymentId = String(verifiedOrderId).replace('pro-', '');
+    const { data: payment } = await supabase.from('shop_pro_payments').select('*').eq('id', paymentId).single();
+    if (!payment) throw new Error('Dosye peman pa jwenn');
+
+    // Sekirite: konfime montan peye a egal ak pri Boutik Pro a.
+    const paidAmount = Number(tx.amount ?? tx.cost ?? tx.total ?? 0);
+    if (!paidAmount || Math.abs(paidAmount - Number(payment.price_htg)) > 0.01) {
+      throw new Error('Montan peye a pa egal ak pri Boutik Pro la');
+    }
+    if (payment.moncash_order_id && payment.moncash_order_id !== verifiedOrderId) {
+      throw new Error('Dosye peman pa koresponn ak referans MonCash la');
+    }
+
+    if (payment.status !== 'paid') {
+      await applyShopPro({
+        sellerId: payment.seller_id, days: payment.days, priceHtg: payment.price_htg,
+        notes: `MonCash #${transactionId}`, method: 'moncash'
+      });
+      await supabase.from('shop_pro_payments').update({
+        status: 'paid', moncash_transaction_id: transactionId, paid_at: new Date().toISOString()
+      }).eq('id', paymentId);
+    }
+    return res.redirect(302, `${frontendUrl}/account.html?pro=success`);
+  } catch (err) {
+    return res.redirect(302, `${frontendUrl}/account.html?pro=failed`);
+  }
+});
+
+// ── POST /api/shop-pro/natcash/confirm ─────────────
+// Vandè a soumèt referans tranzaksyon NatCash li aprè li fin peye manyèlman.
+app.post('/api/shop-pro/natcash/confirm', async (req, res) => {
+  const user = await requireAuthUser(req, res);
+  if (!user) return;
+
+  const { payment_id, reference } = req.body;
+  if (!reference || !reference.trim()) return res.status(400).json({ error: 'Antre referans tranzaksyon an dabò' });
+
+  const { data: payment, error } = await supabase
+    .from('shop_pro_payments').select('*').eq('id', payment_id).eq('seller_id', user.id).single();
+  if (error || !payment) return res.status(404).json({ error: 'Dosye peman pa jwenn' });
+
+  await supabase.from('shop_pro_payments').update({
+    status: 'pending_review', natcash_reference: reference.trim()
+  }).eq('id', payment_id);
+
+  res.json({ success: true, message: 'Referans ou anrejistre. Admin ap verifye l nan kèk èdtan.' });
+});
+
+// ── GET /api/shop-pro/my ────────────────────────────
+app.get('/api/shop-pro/my', async (req, res) => {
+  const user = await requireAuthUser(req, res);
+  if (!user) return;
+
+  const { data: profile, error: profErr } = await supabase
+    .from('profiles').select('pro_seller_until').eq('id', user.id).single();
+  if (profErr) return res.status(500).json({ error: profErr.message });
+
+  const { data: payments, error } = await supabase
+    .from('shop_pro_payments').select('*').eq('seller_id', user.id)
+    .order('created_at', { ascending: false }).limit(50);
+  if (error) return res.status(500).json({ error: error.message });
+
+  res.json({
+    pro_seller_until: profile?.pro_seller_until || null,
+    is_pro_active: isShopProActive(profile),
+    payments
+  });
+});
+
+// ── ADMIN: GET /api/admin/shop-pro-payments?status=pending_review
+app.get('/api/admin/shop-pro-payments', async (req, res) => {
+  const user = await requireAdmin(req, res);
+  if (!user) return;
+  const { status } = req.query;
+  let q = supabase.from('shop_pro_payments').select('*, profiles(full_name)').order('created_at', { ascending: false });
+  if (status) q = q.eq('status', status);
+  const { data, error } = await q.limit(100);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json(data);
+});
+
+// ── ADMIN: PUT /api/admin/shop-pro-payments/:id/approve (NatCash manyèl)
+app.put('/api/admin/shop-pro-payments/:id/approve', async (req, res) => {
+  const user = await requireAdmin(req, res);
+  if (!user) return;
+
+  const { data: payment, error } = await supabase
+    .from('shop_pro_payments').select('*').eq('id', req.params.id).single();
+  if (error || !payment) return res.status(404).json({ error: 'Dosye pa jwenn' });
+  if (payment.status === 'paid') return res.status(400).json({ error: 'Peman sa a deja konfime' });
+
+  await applyShopPro({
+    sellerId: payment.seller_id, days: payment.days, priceHtg: payment.price_htg,
+    notes: `NatCash #${payment.natcash_reference} (verifye pa ${user.email})`, method: 'natcash'
+  });
+  await supabase.from('shop_pro_payments').update({ status: 'paid', paid_at: new Date().toISOString() }).eq('id', req.params.id);
+
+  res.json({ success: true });
+});
+
+// ── ADMIN: PUT /api/admin/shop-pro-payments/:id/reject
+app.put('/api/admin/shop-pro-payments/:id/reject', async (req, res) => {
+  const user = await requireAdmin(req, res);
+  if (!user) return;
+  const { error } = await supabase.from('shop_pro_payments').update({ status: 'rejected' }).eq('id', req.params.id);
+  if (error) return res.status(500).json({ error: error.message });
+  res.json({ success: true });
+});
 
 
 // ── GET /api/reviews/:sellerId ─────────────────────
