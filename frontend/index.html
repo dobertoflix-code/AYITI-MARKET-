@@ -1767,7 +1767,34 @@
     .sec-head h2{ font-size: 1.7rem; }
     .faq-q{ font-size: 0.95rem; }
     section[id], div[id]{ scroll-margin-top: 70px; }
+    body{ padding-bottom: calc(58px + env(safe-area-inset-bottom)); }
+    .bottom-nav{ display: flex; }
   }
+
+  /* ============ BOTTOM NAV (mobil) ============ */
+  .bottom-nav{
+    display: none;
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 950;
+    background: var(--blan); border-top: 1px solid var(--liy);
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+    box-shadow: 0 -4px 18px rgba(0,0,0,0.06);
+  }
+  .bn-item{
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    gap: 3px; background: none; border: none; cursor: pointer;
+    color: var(--lank-soft); font-family: var(--body); font-size: 0.66rem;
+    font-weight: 600; text-decoration: none; padding: 4px 0; position: relative;
+    transition: color .15s;
+  }
+  .bn-item svg{ width: 22px; height: 22px; stroke: currentColor; transition: transform .15s; }
+  .bn-item.active{ color: var(--wouj); }
+  .bn-item.active svg{ transform: translateY(-1px); }
+  .bn-item .bn-badge{
+    position: absolute; top: 0; right: calc(50% - 16px);
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--wouj); display: none; border: 1.5px solid var(--blan);
+  }
+  :root[data-theme="dark"] .bottom-nav{ background: var(--blan); border-top-color: var(--liy); }
 
   /* ══ DÈNYE WÈ ══ */
   .recent-section{
@@ -1834,6 +1861,31 @@
 <body>
 
 <div class="grain"></div>
+
+<!-- ============ BOTTOM NAV (mobil) ============ -->
+<nav class="bottom-nav" id="bottomNav" aria-label="Navigasyon mobil">
+  <a href="index.html" class="bn-item active" id="bnAkey">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Akey
+  </a>
+  <button type="button" class="bn-item" id="bnCheche" onclick="bottomNavSearch()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    Chèche
+  </button>
+  <button type="button" class="bn-item" id="bnPibliye" onclick="bottomNavPublish()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+    Pibliye
+  </button>
+  <button type="button" class="bn-item" id="bnMesaj" onclick="bottomNavMessages()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    <span class="bn-badge" id="bnMesajBadge"></span>
+    Mesaj
+  </button>
+  <button type="button" class="bn-item" id="bnPwofil" onclick="bottomNavProfile()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    Pwofil
+  </button>
+</nav>
 
 <!-- ============ HEADER ============ -->
 <header>
@@ -4316,8 +4368,10 @@
 
       const badge1 = document.getElementById('unreadBadge');
       const badge2 = document.getElementById('unreadBadgeMobile');
+      const badge3 = document.getElementById('bnMesajBadge');
       if (badge1) badge1.style.display = hasUnread ? '' : 'none';
       if (badge2) badge2.style.display = hasUnread ? '' : 'none';
+      if (badge3) badge3.style.display = hasUnread ? 'block' : 'none';
     } catch (err) {
       console.warn('Pa kapab tcheke mesaj ki pa lu:', err.message);
     }
@@ -4332,6 +4386,12 @@
 
   function stopUnreadSubscription() {
     if (_unreadChannel) { supabaseClient.removeChannel(_unreadChannel); _unreadChannel = null; }
+    const badge1 = document.getElementById('unreadBadge');
+    const badge2 = document.getElementById('unreadBadgeMobile');
+    const badge3 = document.getElementById('bnMesajBadge');
+    if (badge1) badge1.style.display = 'none';
+    if (badge2) badge2.style.display = 'none';
+    if (badge3) badge3.style.display = 'none';
   }
 
   async function handleGoogleAuth() {
@@ -5788,6 +5848,25 @@ document.getElementById('imageSearchModal').addEventListener('click', function(e
   function openRecentItem(id) {
     const item = ALL_LISTINGS.find(l => l.id === id);
     if (item) openDetailPanel(item);
+  }
+
+  // ============ BOTTOM NAV (mobil) ============
+  function bottomNavSearch() {
+    const input = document.getElementById('mobSearchInput') || document.querySelector('.nav-search input');
+    const bar = document.querySelector('.mob-search-bar');
+    if (bar) bar.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    setTimeout(() => input && input.focus(), 250);
+  }
+  function bottomNavPublish() {
+    if (typeof openPublish === 'function') openPublish();
+  }
+  function bottomNavMessages() {
+    if (currentUser) window.location.href = 'messages.html';
+    else openModal('authModal');
+  }
+  function bottomNavProfile() {
+    if (currentUser) window.location.href = 'account.html';
+    else openModal('authModal');
   }
 
   // Init on page load
