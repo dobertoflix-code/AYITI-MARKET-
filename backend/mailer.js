@@ -181,7 +181,7 @@ async function sendNewMessageEmail({ to, senderName, messagePreview, conversatio
 // 5) IMÈL KONFIMASYON PEMAN KONT BOUTIK PRO
 // ════════════════════════════════════════════════════
 async function sendShopProConfirmedEmail({ to, days, priceHtg, method, expiresAt }) {
-  const methodLabel = method === 'moncash' ? 'MonCash' : (method === 'natcash' ? 'NatCash' : (method || 'Admin'));
+  const methodLabel = method === 'moncash' ? 'MonCash' : (method === 'natcash' ? 'NatCash' : (method === 'referral' ? 'Rekonpans referans 🎁' : (method || 'Admin')));
   const expiresStr = expiresAt ? new Date(expiresAt).toLocaleDateString('fr-FR') : '';
   const html = wrapEmail(`
     <h2 style="color:#ffffff;font-size:20px;margin:0 0 16px;">Kont Boutik Pro aktive 👑</h2>
