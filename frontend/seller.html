@@ -502,6 +502,7 @@
           <div class="seller-name-row">
             <span class="seller-name" id="sName">—</span>
             <span class="v-badge" id="sVerified" style="display:none"><svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:3px"><polyline points="20 6 9 17 4 12"/></svg>Verifye</span>
+            <span class="v-badge" id="sProBadge" style="display:none;background:linear-gradient(135deg,#f5a623,#e0901a);">👑 Boutik Pro</span>
           </div>
           <!-- Star rating summary -->
           <div class="star-display" id="heroRating" style="display:none">
@@ -931,7 +932,7 @@
       // Pwofil vandè a (bio + avatar_url jwenn si kolòn yo egziste)
       const { data: profile } = await supabaseClient
         .from('profiles')
-        .select('full_name, location, created_at, is_verified_seller, bio, avatar_url')
+        .select('full_name, location, created_at, is_verified_seller, pro_seller_until, bio, avatar_url')
         .eq('id', sellerId).single();
 
       // Anons aktif vandè a (endpoint dedye — egzak, pa limite a 200 kòm /api/listings jeneral)
@@ -978,6 +979,8 @@
         lEl.style.display = '';
       }
       if (verified) document.getElementById('sVerified').style.display = '';
+      const isPro = profile?.pro_seller_until && new Date(profile.pro_seller_until) > new Date();
+      if (isPro) document.getElementById('sProBadge').style.display = '';
 
       // ── Kategori vandè a spesyalize ladan ──
       const catMap = {};
