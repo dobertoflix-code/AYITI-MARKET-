@@ -750,6 +750,17 @@
       <div class="profile-section">
         <div id="profileError" class="form-error" style="display:none"></div>
 
+        <!-- ── KONT BOUTIK PRO ── -->
+        <div class="acc-card" id="proStatusCard" style="flex-direction:column;align-items:stretch;gap:8px;padding:16px;margin-bottom:20px;border:1.5px solid #f5a623;border-radius:12px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;">
+            <div>
+              <div style="font-weight:800;font-size:1rem;display:flex;align-items:center;gap:6px;">👑 Kont Boutik Pro</div>
+              <div id="proStatusText" style="font-size:0.85rem;color:var(--lank-soft);margin-top:2px;">Chajman...</div>
+            </div>
+            <button class="btn btn-boost btn-sm" id="proSubscribeBtn" onclick="openProModal()">Vin Boutik Pro — 2000 HTG/mwa</button>
+          </div>
+        </div>
+
         <!-- ── AVATAR SECTION ── -->
         <div class="form-group">
           <label>Foto Pwofil</label>
@@ -919,6 +930,7 @@
         <button class="admin-subtab active" data-admin-subtab="moderation">Modere Anons</button>
         <button class="admin-subtab" data-admin-subtab="sellers">Vandè</button>
         <button class="admin-subtab" data-admin-subtab="natcash">Peman NatCash</button>
+        <button class="admin-subtab" data-admin-subtab="pro-natcash">Peman Boutik Pro</button>
         <button class="admin-subtab" data-admin-subtab="reviews-admin">Nòt</button>
       </div>
 
@@ -942,6 +954,14 @@
         </p>
         <div id="adminNatcashLoading" class="loading-spin">Ap chaje peman an atant...</div>
         <div id="adminNatcashList"></div>
+      </div>
+
+      <div class="admin-subpanel" id="admin-pro-natcash">
+        <p style="color:var(--lank-soft);font-size:0.88rem;margin-bottom:14px;">
+          Verifye chak referans tranzaksyon NatCash pou Kont Boutik Pro anvan ou konfime.
+        </p>
+        <div id="adminProNatcashLoading" class="loading-spin">Ap chaje peman an atant...</div>
+        <div id="adminProNatcashList"></div>
       </div>
 
       <div class="admin-subpanel" id="admin-reviews-admin">
@@ -1132,6 +1152,7 @@
       const target = document.getElementById('admin-' + tab.dataset.adminSubtab);
       target.classList.add('active'); target.style.display = 'block';
       if (tab.dataset.adminSubtab === 'natcash') loadAdminNatcash();
+      if (tab.dataset.adminSubtab === 'pro-natcash') loadAdminProNatcash();
       if (tab.dataset.adminSubtab === 'reviews-admin') loadAdminReviews();
     });
   });
@@ -1597,6 +1618,126 @@
   })();
 
   // ══════════════════════════════════════════
+  // KONT BOUTIK PRO (pou vandè)
+  // ══════════════════════════════════════════
+  let _proPendingPaymentId = null;
+
+  async function loadProStatus() {
+    const textEl = document.getElementById('proStatusText');
+    const btnEl  = document.getElementById('proSubscribeBtn');
+    if (!textEl) return;
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (!session) { textEl.textContent = ''; return; }
+      const res = await fetch(`${API_BASE}/api/shop-pro/my`, {
+        headers: { 'Authorization': `Bearer ${session.access_token}` }
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erè');
+
+      if (data.is_pro_active) {
+        const until = new Date(data.pro_seller_until).toLocaleDateString('fr-FR');
+        textEl.innerHTML = `<span style="color:#e0901a;font-weight:700;">Aktif ✓</span> — valab jiska ${until}`;
+        btnEl.textContent = 'Renouvle Boutik Pro';
+      } else {
+        textEl.textContent = 'Boutik ou pa Pro kounye a. Vin Pro pou plis vizibilite ak konfyans achtè.';
+        btnEl.textContent = 'Vin Boutik Pro — 2000 HTG/mwa';
+      }
+    } catch (err) {
+      textEl.textContent = '';
+    }
+  }
+
+  function openProModal() {
+    document.getElementById('proModal').classList.add('open');
+    document.getElementById('proPayMethods').style.display = 'flex';
+    document.getElementById('proNatcashForm').style.display = 'none';
+  }
+  window.openProModal = openProModal;
+
+  function closeProModal() {
+    document.getElementById('proModal').classList.remove('open');
+    _proPendingPaymentId = null;
+  }
+  window.closeProModal = closeProModal;
+
+  async function payProWithMoncash() {
+    await submitProPayment('moncash');
+  }
+  window.payProWithMoncash = payProWithMoncash;
+
+  function showProNatcashForm() {
+    document.getElementById('proPayMethods').style.display = 'none';
+    document.getElementById('proNatcashForm').style.display = 'block';
+    submitProPayment('natcash');
+  }
+  window.showProNatcashForm = showProNatcashForm;
+
+  async function submitProPayment(method) {
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/shop-pro/initiate`, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${session?.access_token}` },
+        body: JSON.stringify({ method })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erè pandan inisye peman');
+
+      if (method === 'moncash') {
+        window.location.href = data.redirect_url;
+        return;
+      }
+
+      _proPendingPaymentId = data.payment_id;
+      document.getElementById('proNatcashInstructions').textContent =
+        `Peye ${data.instructions.amount.toLocaleString('fr-FR')} HTG sou NatCash nan nimewo: ${data.instructions.phone}. Aprè sa, antre referans tranzaksyon w jwenn lan anba a.`;
+    } catch (err) {
+      showToast('Erè: ' + err.message);
+      closeProModal();
+    }
+  }
+
+  async function confirmProNatcashPayment() {
+    const ref = document.getElementById('proNatcashRefInput').value.trim();
+    if (!ref) { showToast('Antre referans tranzaksyon an dabò.'); return; }
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/shop-pro/natcash/confirm`, {
+        method: 'POST',
+        headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${session?.access_token}` },
+        body: JSON.stringify({ payment_id: _proPendingPaymentId, reference: ref })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erè');
+      showToast(data.message || 'Referans anrejistre — n ap verifye l.');
+      closeProModal();
+    } catch (err) {
+      showToast('Erè: ' + err.message);
+    }
+  }
+  window.confirmProNatcashPayment = confirmProNatcashPayment;
+
+  // Lè moun retounen sou paj la aprè peman MonCash (?pro=success|failed)
+  (function checkProReturn() {
+    const params = new URLSearchParams(window.location.search);
+    const proStatus = params.get('pro');
+    if (proStatus === 'success') {
+      showToast('Peman konfime! Boutik ou kounye a Pro. 👑');
+      loadProStatus();
+    } else if (proStatus === 'failed') {
+      showToast('Peman pa konfime. Eseye ankò oswa kontakte sipò.', false);
+    }
+    if (proStatus) {
+      params.delete('pro');
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  })();
+
+  document.addEventListener('DOMContentLoaded', loadProStatus);
+  if (document.readyState !== 'loading') loadProStatus();
+
+  // ══════════════════════════════════════════
   // ADMIN: konfime/rejte peman NatCash
   // ══════════════════════════════════════════
   async function loadAdminNatcash() {
@@ -1655,6 +1796,66 @@
     } catch (err) { showToast('Erè: ' + err.message); }
   }
   window.adminRejectBoost = adminRejectBoost;
+
+  // ══════════════════════════════════════════
+  // ADMIN: konfime/rejte peman NatCash — Kont Boutik Pro
+  // ══════════════════════════════════════════
+  async function loadAdminProNatcash() {
+    const listEl = document.getElementById('adminProNatcashList');
+    const loadEl = document.getElementById('adminProNatcashLoading');
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/admin/shop-pro-payments?status=pending_review`, {
+        headers: { 'Authorization': `Bearer ${session?.access_token}` }
+      });
+      const rows = await res.json();
+      loadEl.style.display = 'none';
+      if (!rows.length) { listEl.innerHTML = '<p style="color:var(--lank-soft);">Pa gen peman an atant.</p>'; return; }
+      listEl.innerHTML = rows.map(r => `
+        <div class="acc-card" style="flex-direction:column;align-items:stretch;gap:8px;padding:14px;">
+          <div><b>${r.profiles?.full_name || r.seller_id}</b></div>
+          <div style="font-size:0.85rem;color:var(--lank-soft);">
+            Kont Boutik Pro · ${r.days}j · ${Number(r.price_htg).toLocaleString('fr-FR')} HTG<br>
+            Referans NatCash: <b>${r.natcash_reference || '—'}</b>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <button class="btn btn-boost btn-sm" onclick="adminApproveProNatcash('${r.id}')" style="flex:1">✓ Konfime</button>
+            <button class="btn btn-ghost btn-sm btn-danger" onclick="adminRejectProNatcash('${r.id}')" style="flex:1">✕ Rejte</button>
+          </div>
+        </div>`).join('');
+    } catch (err) {
+      loadEl.textContent = 'Erè pandan chajman: ' + err.message;
+    }
+  }
+
+  async function adminApproveProNatcash(id) {
+    if (!confirm('Konfime peman sa a epi aktive Kont Boutik Pro?')) return;
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/admin/shop-pro-payments/${id}/approve`, {
+        method: 'PUT', headers: { 'Authorization': `Bearer ${session?.access_token}` }
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error);
+      showToast('Kont Boutik Pro aktive!');
+      loadAdminProNatcash();
+    } catch (err) { showToast('Erè: ' + err.message); }
+  }
+  window.adminApproveProNatcash = adminApproveProNatcash;
+
+  async function adminRejectProNatcash(id) {
+    if (!confirm('Rejte peman sa a?')) return;
+    try {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      const res = await fetch(`${API_BASE}/api/admin/shop-pro-payments/${id}/reject`, {
+        method: 'PUT', headers: { 'Authorization': `Bearer ${session?.access_token}` }
+      });
+      if (!res.ok) throw new Error('Erè sèvè');
+      showToast('Peman rejte.');
+      loadAdminProNatcash();
+    } catch (err) { showToast('Erè: ' + err.message); }
+  }
+  window.adminRejectProNatcash = adminRejectProNatcash;
 
   // ══════════════════════════════════════════
   // ADMIN: aktive / dezaktive vedèt
@@ -1733,6 +1934,29 @@
       <div style="display:flex;gap:10px;">
         <button class="btn btn-ghost btn-sm" onclick="closeBoostModal()" style="flex:1">Anile</button>
         <button class="btn btn-boost btn-sm" onclick="confirmNatcashPayment()" style="flex:2">Soumèt referans →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── Modal Kont Boutik Pro (pou vandè) ── -->
+<div class="boost-modal-overlay" id="proModal">
+  <div class="boost-modal">
+    <h3>👑 Kont Boutik Pro</h3>
+    <p>Vin Boutik Pro pou 2000 HTG/mwa (30 jou) — peye dirèkteman ak MonCash oswa NatCash.</p>
+
+    <div id="proPayMethods" style="display:flex;gap:10px;">
+      <button class="btn btn-ghost btn-sm" onclick="closeProModal()" style="flex:1">Anile</button>
+      <button class="btn btn-boost btn-sm" onclick="payProWithMoncash()" style="flex:1">Peye ak MonCash</button>
+      <button class="btn btn-boost btn-sm" onclick="showProNatcashForm()" style="flex:1">Peye ak NatCash</button>
+    </div>
+
+    <div id="proNatcashForm" style="display:none;margin-top:10px;">
+      <p id="proNatcashInstructions" style="font-size:0.86rem;color:var(--lank-soft);margin-bottom:10px;"></p>
+      <input type="text" id="proNatcashRefInput" class="search-input" placeholder="Referans tranzaksyon NatCash" style="width:100%;margin-bottom:10px;">
+      <div style="display:flex;gap:10px;">
+        <button class="btn btn-ghost btn-sm" onclick="closeProModal()" style="flex:1">Anile</button>
+        <button class="btn btn-boost btn-sm" onclick="confirmProNatcashPayment()" style="flex:2">Soumèt referans →</button>
       </div>
     </div>
   </div>
