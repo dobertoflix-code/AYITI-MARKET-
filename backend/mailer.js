@@ -200,6 +200,19 @@ async function sendShopProConfirmedEmail({ to, days, priceHtg, method, expiresAt
   return sendEmail({ to, subject: 'Kont Boutik Pro ou aktive 👑', html });
 }
 
+// ════════════════════════════════════════════════════
+// 6) IMÈL ANONS — broadcast admin (mizajou, nouvèl, elatriye)
+// ════════════════════════════════════════════════════
+async function sendBroadcastEmail({ to, subject, bodyHtml }) {
+  const html = wrapEmail(`
+    <h2 style="color:#ffffff;font-size:20px;margin:0 0 16px;">${subject}</h2>
+    <div style="font-size:15px;line-height:1.6;color:#C9D1D9;">${bodyHtml}</div>
+    ${button('Vizite Ayiti Market', `${FRONTEND_URL}/index.html`)}
+  `, subject);
+
+  return sendEmail({ to, subject, html });
+}
+
 export {
   sendEmail,
   sendWelcomeEmail,
@@ -208,4 +221,5 @@ export {
   sendBoostConfirmedEmail,
   sendShopProConfirmedEmail,
   sendNewMessageEmail,
+  sendBroadcastEmail,
 };
