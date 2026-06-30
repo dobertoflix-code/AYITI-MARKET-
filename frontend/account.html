@@ -2064,6 +2064,154 @@
   function escHtmlAlert(str) {
     return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
   }
+
+  // ══════════════════════════════════════════════════
+  // ADMIN DASHBOARD — KPI + GRAFIK
+  // ══════════════════════════════════════════════════
+  let adminChartInstance = null;
+  let adminKpiLoaded = false;
+
+  async function loadAdminKpi() {
+    if (adminKpiLoaded) return;
+    try {
+      const { count: listCount } = await supabaseClient
+        .from('listings').select('*', { count: 'exact', head: true })
+        .eq('status', 'active');
+      document.getElementById('kpiTotalListings').textContent = listCount?.toLocaleString() || '0';
+
+      const { count: pendingCount } = await supabaseClient
+        .from('listings').select('*', { count: 'exact', head: true })
+        .eq('status', 'pending');
+      document.getElementById('kpiPending').textContent = pendingCount?.toLocaleString() || '0';
+
+      const { count: userCount } = await supabaseClient
+        .from('profiles').select('*', { count: 'exact', head: true });
+      document.getElementById('kpiTotalUsers').textContent = userCount?.toLocaleString() || '0';
+
+      const { count: verCount } = await supabaseClient
+        .from('profiles').select('*', { count: 'exact', head: true })
+        .eq('is_verified_seller', true);
+      document.getElementById('kpiVerified').textContent = verCount?.toLocaleString() || '0';
+
+      const since7 = new Date(Date.now() - 7 * 864e5).toISOString();
+      const { count: viewCount } = await supabaseClient
+        .from('listing_views').select('*', { count: 'exact', head: true })
+        .gte('viewed_at', since7);
+      document.getElementById('kpiTotalViews').textContent = viewCount?.toLocaleString() || '0';
+
+      const { count: featCount } = await supabaseClient
+        .from('listings').select('*', { count: 'exact', head: true })
+        .eq('is_featured', true);
+      const revEst = (featCount || 0) * 500;
+      document.getElementById('kpiRevenue').textContent = revEst.toLocaleString('fr-FR') + ' HTG';
+
+      await loadAdminChart();
+      adminKpiLoaded = true;
+    } catch(e) {
+      console.error('Admin KPI error:', e);
+    }
+  }
+
+  async function loadAdminChart() {
+    const since30 = new Date(Date.now() - 30 * 864e5).toISOString();
+    const { data } = await supabaseClient
+      .from('listings')
+      .select('created_at')
+      .gte('created_at', since30)
+      .order('created_at');
+
+    if (!data) return;
+
+    const counts = {};
+    for (let i = 29; i >= 0; i--) {
+      const d = new Date(Date.now() - i * 864e5);
+      const key = d.toISOString().slice(0, 10);
+      counts[key] = 0;
+    }
+    data.forEach(r => {
+      const key = r.created_at.slice(0, 10);
+      if (counts[key] !== undefined) counts[key]++;
+    });
+
+    const labels = Object.keys(counts).map((d, i) => {
+      if (i % 7 === 0 || i === 29) {
+        const dt = new Date(d + 'T12:00:00');
+        return dt.toLocaleDateString('fr-FR', { month: 'short', day: 'numeric' });
+      }
+      return '';
+    });
+    const values = Object.values(counts);
+    const total = values.reduce((a, b) => a + b, 0);
+
+    const subEl = document.getElementById('adminChartSub');
+    if (subEl) subEl.textContent = `${total} anons total`;
+
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    const gridColor = isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.06)';
+    const textColor = isDark ? '#aaa' : '#666';
+
+    const canvasEl = document.getElementById('adminChartListings');
+    if (!canvasEl || typeof Chart === 'undefined') return;
+
+    if (adminChartInstance) adminChartInstance.destroy();
+    const ctx = canvasEl.getContext('2d');
+    adminChartInstance = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Anons',
+          data: values,
+          backgroundColor: 'rgba(185,28,60,0.75)',
+          borderRadius: 5,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 10 } } },
+          y: { beginAtZero: true, grid: { color: gridColor }, ticks: { color: textColor, precision: 0 } }
+        }
+      }
+    });
+  }
+
+  async function loadAdminReviews() {
+    const listEl = document.getElementById('adminReviewsList');
+    const loadEl = document.getElementById('adminReviewsLoading');
+    if (!listEl) return;
+    loadEl.style.display = 'block';
+
+    const { data } = await supabaseClient
+      .from('reviews')
+      .select('id, rating, comment, reviewer_name, created_at, seller_id')
+      .order('created_at', { ascending: false })
+      .limit(50);
+
+    loadEl.style.display = 'none';
+    if (!data || !data.length) {
+      listEl.innerHTML = '<p style="color:var(--lank-soft);font-size:0.88rem;">Pa gen nòt ankò.</p>';
+      return;
+    }
+
+    listEl.innerHTML = data.map(r => `
+      <div style="background:var(--krem);border:1px solid var(--liy);border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+        <div>
+          <div style="font-weight:700;font-size:0.85rem;color:var(--lank);">${r.reviewer_name || 'Anonim'} <span style="color:#F59E0B;">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</span></div>
+          ${r.comment ? `<div style="font-size:0.85rem;color:var(--lank);margin-top:4px;">${r.comment}</div>` : ''}
+          <div style="font-size:0.75rem;color:var(--lank-soft);margin-top:6px;">${new Date(r.created_at).toLocaleDateString('fr-FR')}</div>
+        </div>
+        <button onclick="deleteAdminReview('${r.id}')" style="background:none;border:none;color:var(--wouj);cursor:pointer;font-size:0.8rem;white-space:nowrap;padding:4px 8px;border:1px solid var(--wouj);border-radius:8px;">Efase</button>
+      </div>`).join('');
+  }
+
+  window.deleteAdminReview = async function(id) {
+    if (!confirm('Efase nòt sa a?')) return;
+    await supabaseClient.from('reviews').delete().eq('id', id);
+    loadAdminReviews();
+  };
 })();
 </script>
 
