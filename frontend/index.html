@@ -12,8 +12,7 @@
 
 <!-- ============ PWA: MANIFEST & TEYM ============ -->
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#B91C3C" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#14181F" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0B0D12">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -24,7 +23,7 @@
   (function () {
     try {
       var saved = localStorage.getItem('am-theme');
-      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      var theme = saved || 'dark';
       document.documentElement.setAttribute('data-theme', theme);
     } catch (e) {}
   })();
@@ -90,19 +89,19 @@
 
   /* ============ MÒD NWA (DARK MODE) ============ */
   :root[data-theme="dark"]{
-    --krem:        #14181F;
-    --krem-dim:     #1B202A;
+    --krem:        #0B0D12;
+    --krem-dim:     #11141B;
     --lank:        #EDE8DA;
-    --lank-soft:    #A7AAB3;
+    --lank-soft:    #9CA3AF;
     --wouj:        #E14D63;
     --wouj-dark:    #F2718A;
     --ble:         #5C8AD6;
     --ble-soft:     #3D6BB0;
-    --lo:          #F2B259;
+    --lo:          #F2C26B;
     --lo-soft:      #E1962F;
-    --liy:         #2A3040;
-    --blan:        #1E2430;
-    --lank-light:  #343B4C;
+    --liy:         #232A36;
+    --blan:        #161A22;
+    --lank-light:  #1E2430;
     --lo-text:     #F2C26B;
   }
   :root[data-theme="dark"] body{ background: var(--krem); color: var(--lank); }
@@ -132,26 +131,26 @@
   :root[data-theme="dark"] .foot-bottom{ color: rgba(237,232,218,0.45); }
   :root[data-theme="dark"] .marquee-wrap{ background: #0D1017; border-color: rgba(237,232,218,0.08); }
   :root[data-theme="dark"] .marquee span{ color: rgba(237,232,218,0.7); }
-  :root[data-theme="dark"] .btn-dark{ background: #2A3040; color: #EDE8DA; }
+  :root[data-theme="dark"] .btn-dark{ background: #232A36; color: #EDE8DA; }
   :root[data-theme="dark"] .btn-dark:hover{ background: #343B4C; }
-  :root[data-theme="dark"] .chip.active{ background: #2A3040; color: #EDE8DA; border-color: #2A3040; }
-  :root[data-theme="dark"] .share-tooltip{ background: #2A3040; color: #EDE8DA; }
+  :root[data-theme="dark"] .chip.active{ background: #232A36; color: #EDE8DA; border-color: #232A36; }
+  :root[data-theme="dark"] .share-tooltip{ background: #232A36; color: #EDE8DA; }
   :root[data-theme="dark"] .seller .av{ background: var(--ble-soft); color: #EDE8DA; }
   :root[data-theme="dark"] .quote-who .av,
   :root[data-theme="dark"] .detail-seller .av-lg{ background: var(--ble); color: #EDE8DA; }
 
   /* ===== DARK MODE: DRAWER MOBIL ===== */
   :root[data-theme="dark"] .mobile-drawer{ background: #14181F; }
-  :root[data-theme="dark"] .mobile-drawer a{ color: #EDE8DA; border-bottom-color: #2A3040; }
+  :root[data-theme="dark"] .mobile-drawer a{ color: #EDE8DA; border-bottom-color: #232A36; }
   :root[data-theme="dark"] .mobile-drawer .close-x{ color: #EDE8DA; }
-  :root[data-theme="dark"] .mobile-drawer .btn-ghost{ color: #EDE8DA; border-color: #2A3040; }
+  :root[data-theme="dark"] .mobile-drawer .btn-ghost{ color: #EDE8DA; border-color: #232A36; }
   :root[data-theme="dark"] .mobile-drawer .btn-primary{ color: #fff; }
 
   /* ===== DARK MODE: CHIP + FILTRE ===== */
-  :root[data-theme="dark"] .chip{ color: #EDE8DA; border-color: #2A3040; background: #1E2430; }
+  :root[data-theme="dark"] .chip{ color: #EDE8DA; border-color: #232A36; background: #1E2430; }
   :root[data-theme="dark"] .chip.active{ background: #E14D63; color: #fff; border-color: #E14D63; }
-  :root[data-theme="dark"] .btn-ghost{ color: #EDE8DA; border-color: #2A3040; }
-  :root[data-theme="dark"] .btn-filtre-avanse{ color: #EDE8DA; border-color: #2A3040; background: #1E2430; }
+  :root[data-theme="dark"] .btn-ghost{ color: #EDE8DA; border-color: #232A36; }
+  :root[data-theme="dark"] .btn-filtre-avanse{ color: #EDE8DA; border-color: #232A36; background: #1E2430; }
 
   /* ===== DARK MODE: KONTRAST TÈKS VIZIB ===== */
   :root[data-theme="dark"] h1,
@@ -160,7 +159,7 @@
   :root[data-theme="dark"] h4{ color: #EDE8DA; }
   :root[data-theme="dark"] .faq-q{ color: #EDE8DA; }
   :root[data-theme="dark"] .faq-a{ color: #A7AAB3; }
-  :root[data-theme="dark"] .faq-item{ border-bottom-color: #2A3040; }
+  :root[data-theme="dark"] .faq-item{ border-bottom-color: #232A36; }
   :root[data-theme="dark"] .sec-label{ color: var(--wouj); }
   :root[data-theme="dark"] .logo{ color: #EDE8DA; }
   :root[data-theme="dark"] .eyebrow{ background: rgba(225,77,99,0.15); color: #F2718A; }
@@ -1348,7 +1347,7 @@
     font-family: inherit;
   }
   .btn-google:hover{ box-shadow: 0 2px 8px rgba(0,0,0,0.15); background:#F8F9FA; }
-  :root[data-theme="dark"] .btn-google{ background:#2A3040; color:var(--lank); border-color:#3A4254; }
+  :root[data-theme="dark"] .btn-google{ background:#232A36; color:var(--lank); border-color:#3A4254; }
   :root[data-theme="dark"] .btn-google:hover{ background:#333C50; }
   .btn-google svg{ flex-shrink:0; }
   .auth-divider{
@@ -1359,7 +1358,7 @@
     content:''; flex:1; height:1px; background:var(--krem-dim);
   }
   :root[data-theme="dark"] .auth-divider::before,
-  :root[data-theme="dark"] .auth-divider::after{ background:#2A3040; }
+  :root[data-theme="dark"] .auth-divider::after{ background:#232A36; }
 
   .form-note{ font-size:0.78rem; color:var(--lank-soft); text-align:center; margin-top:14px; }
   .form-note a{ color:var(--wouj); font-weight:700; }
@@ -1594,8 +1593,8 @@
   .share-sheet-cancel:hover{ background:var(--liy); }
   :root[data-theme="dark"] .share-sheet{ background:#1A1F2B; }
   :root[data-theme="dark"] .share-option.copy .share-option-icon,
-  :root[data-theme="dark"] .share-option.more .share-option-icon{ background:#2A3040; color:#EDE8DA; }
-  :root[data-theme="dark"] .share-sheet-cancel{ background:#2A3040; border-color:rgba(237,232,218,0.1); color:#A7AAB3; }
+  :root[data-theme="dark"] .share-option.more .share-option-icon{ background:#232A36; color:#EDE8DA; }
+  :root[data-theme="dark"] .share-sheet-cancel{ background:#232A36; border-color:rgba(237,232,218,0.1); color:#A7AAB3; }
   :root[data-theme="dark"] .share-sheet-handle{ background:rgba(237,232,218,0.15); }
 
   /* ── Istorik Pri ── */
