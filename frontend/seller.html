@@ -8,14 +8,13 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23B91C3C'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='26' fill='%23FBF6EC'>AM</text></svg>">
 <link rel="apple-touch-icon" href="/icons/icon-180.png">
 <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#B91C3C" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#14181F" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#0B0D12">
 
 <script>
   (function () {
     try {
       var saved = localStorage.getItem('am-theme');
-      var theme = saved || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      var theme = saved || 'dark';
       document.documentElement.setAttribute('data-theme', theme);
     } catch (e) {}
   })();
@@ -48,19 +47,19 @@
     --container:  1180px;
   }
   :root[data-theme="dark"] {
-    --krem:       #14181F;
-    --krem-dim:   #1B202A;
+    --krem:       #0B0D12;
+    --krem-dim:   #11141B;
     --lank:       #EDE8DA;
-    --lank-soft:  #A7AAB3;
+    --lank-soft:  #9CA3AF;
     --wouj:       #E14D63;
     --wouj-dark:  #F2718A;
     --ble:        #5C8AD6;
     --ble-soft:   #3D6BB0;
-    --lo:         #F2B259;
+    --lo:         #F2C26B;
     --lo-soft:    #E1962F;
-    --liy:        #2A3040;
-    --blan:       #1E2430;
-    --lank-light: #343B4C;
+    --liy:        #232A36;
+    --blan:       #161A22;
+    --lank-light: #1E2430;
     --lo-text:    #F2C26B;
   }
   :root[data-theme="dark"] body   { background: var(--krem); color: var(--lank); }
