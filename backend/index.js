@@ -1150,6 +1150,17 @@ app.post('/api/reviews', async (req, res) => {
   }
 
   if (error) return res.status(500).json({ error: error.message });
+
+  // ── Notifye vandè a (sèlman pou nòt nèf, pa update) ──
+  if (!existing && data) {
+    sendPushToUser(seller_id, {
+      title: '⭐ Nouvo Nòt sou Ayiti Market',
+      body: `${reviewer_name} ba ou ${rating} ★${comment ? ' — "' + comment.slice(0, 60) + (comment.length > 60 ? '...' : '') + '"' : ''}`,
+      icon: '/icons/icon-192.png',
+      url: '/account.html#reviews'
+    }).catch(err => console.warn('Erè push nòt:', err.message));
+  }
+
   res.json(data);
 });
 
