@@ -1726,6 +1726,59 @@
     .faq-q{ font-size: 0.95rem; }
     section[id], div[id]{ scroll-margin-top: 70px; }
   }
+
+  /* ══ DÈNYE WÈ ══ */
+  .recent-section{
+    padding: 32px 0 0;
+  }
+  .recent-header{
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .recent-title{
+    font-family: var(--display); font-weight: 700; font-size: 1.25rem;
+    color: var(--lank);
+  }
+  .recent-clear{
+    font-size: 0.8rem; color: var(--lank-soft); background: none;
+    border: 1px solid var(--liy); border-radius: 20px; padding: 4px 12px;
+    cursor: pointer; font-family: var(--body); transition: all .15s;
+  }
+  .recent-clear:hover{ border-color: var(--wouj); color: var(--wouj); }
+  .recent-grid{
+    display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .recent-grid::-webkit-scrollbar{ display: none; }
+  .recent-card{
+    flex: 0 0 160px; background: var(--blan); border: 1px solid var(--liy);
+    border-radius: 14px; overflow: hidden; cursor: pointer;
+    transition: box-shadow .2s, transform .15s;
+  }
+  .recent-card:hover{ box-shadow: 0 4px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }
+  .recent-card-img{
+    height: 100px; overflow: hidden; background: var(--liy);
+  }
+  .recent-card-img img{
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .3s;
+  }
+  .recent-card:hover .recent-card-img img{ transform: scale(1.06); }
+  .recent-card-body{ padding: 8px 10px 10px; }
+  .recent-card-title{
+    font-weight: 700; font-size: 0.82rem; color: var(--lank);
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden; line-height: 1.35; margin-bottom: 4px;
+  }
+  .recent-card-price{
+    font-size: 0.8rem; font-weight: 700; color: var(--wouj);
+    font-family: var(--mono);
+  }
+  :root[data-theme="dark"] .recent-card{ background: rgba(255,255,255,0.05); }
+  @media(max-width:600px){
+    .recent-card{ flex: 0 0 140px; }
+    .recent-card-img{ height: 85px; }
+  }
 </style>
 <!-- ============ SUPABASE SDK ============ -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
@@ -5601,55 +5654,3 @@ document.getElementById('imageSearchModal').addEventListener('click', function(e
 </script>
 </body>
 </html>
-  /* ══ DÈNYE WÈ ══ */
-  .recent-section{
-    padding: 32px 0 0;
-  }
-  .recent-header{
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 16px;
-  }
-  .recent-title{
-    font-family: var(--display); font-weight: 700; font-size: 1.25rem;
-    color: var(--lank);
-  }
-  .recent-clear{
-    font-size: 0.8rem; color: var(--lank-soft); background: none;
-    border: 1px solid var(--liy); border-radius: 20px; padding: 4px 12px;
-    cursor: pointer; font-family: var(--body); transition: all .15s;
-  }
-  .recent-clear:hover{ border-color: var(--wouj); color: var(--wouj); }
-  .recent-grid{
-    display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px;
-    scrollbar-width: none; -webkit-overflow-scrolling: touch;
-  }
-  .recent-grid::-webkit-scrollbar{ display: none; }
-  .recent-card{
-    flex: 0 0 160px; background: var(--blan); border: 1px solid var(--liy);
-    border-radius: 14px; overflow: hidden; cursor: pointer;
-    transition: box-shadow .2s, transform .15s;
-  }
-  .recent-card:hover{ box-shadow: 0 4px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }
-  .recent-card-img{
-    height: 100px; overflow: hidden; background: var(--liy);
-  }
-  .recent-card-img img{
-    width: 100%; height: 100%; object-fit: cover;
-    transition: transform .3s;
-  }
-  .recent-card:hover .recent-card-img img{ transform: scale(1.06); }
-  .recent-card-body{ padding: 8px 10px 10px; }
-  .recent-card-title{
-    font-weight: 700; font-size: 0.82rem; color: var(--lank);
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    overflow: hidden; line-height: 1.35; margin-bottom: 4px;
-  }
-  .recent-card-price{
-    font-size: 0.8rem; font-weight: 700; color: var(--wouj);
-    font-family: var(--mono);
-  }
-  :root[data-theme="dark"] .recent-card{ background: rgba(255,255,255,0.05); }
-  @media(max-width:600px){
-    .recent-card{ flex: 0 0 140px; }
-    .recent-card-img{ height: 85px; }
-  }
