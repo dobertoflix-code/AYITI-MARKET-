@@ -563,6 +563,47 @@
     font-size: 0.9rem;
   }
   .social-input-wrap input:focus{ outline: none; box-shadow: none; }
+
+  /* ══ ADMIN DASHBOARD ══ */
+  .admin-kpi-grid{
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 12px; margin-bottom: 20px; padding-top: 4px;
+  }
+  @media(max-width:600px){ .admin-kpi-grid{ grid-template-columns: repeat(2,1fr); } }
+
+  .admin-kpi{
+    background: var(--blan); border: 1px solid var(--liy);
+    border-radius: 14px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+    transition: box-shadow .2s;
+  }
+  .admin-kpi:hover{ box-shadow: 0 2px 16px rgba(0,0,0,0.07); }
+  .admin-kpi-icon{
+    width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .admin-kpi-val{
+    font-family: var(--display); font-weight: 800;
+    font-size: 1.5rem; color: var(--lank); line-height: 1;
+  }
+  .admin-kpi-label{
+    font-size: 0.75rem; color: var(--lank-soft);
+    font-weight: 600; margin-top: 3px;
+  }
+
+  .admin-chart-card{
+    background: var(--blan); border: 1px solid var(--liy);
+    border-radius: 14px; padding: 16px; margin-bottom: 20px;
+  }
+  .admin-chart-header{
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .admin-chart-title{ font-weight: 700; font-size: 0.9rem; color: var(--lank); }
+  .admin-chart-sub{ font-size: 0.78rem; color: var(--lank-soft); }
+
+  :root[data-theme="dark"] .admin-kpi{ background: rgba(255,255,255,0.05); }
+  :root[data-theme="dark"] .admin-chart-card{ background: rgba(255,255,255,0.05); }
 </style>
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3671082075819991"
      crossorigin="anonymous"></script>
@@ -803,10 +844,82 @@
 
     <!-- PANEL: Admin -->
     <section class="acc-panel" id="panel-admin" role="tabpanel">
+
+      <!-- ── KAT STATISTIK GLOBAL ── -->
+      <div class="admin-kpi-grid" id="adminKpiGrid">
+        <div class="admin-kpi" id="kpi-listings">
+          <div class="admin-kpi-icon" style="background:#EFF6FF;color:#2563EB;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>
+          </div>
+          <div class="admin-kpi-body">
+            <div class="admin-kpi-val" id="kpiTotalListings">—</div>
+            <div class="admin-kpi-label">Anons Aktif</div>
+          </div>
+        </div>
+        <div class="admin-kpi" id="kpi-users">
+          <div class="admin-kpi-icon" style="background:#F5F3FF;color:#7C3AED;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <div class="admin-kpi-body">
+            <div class="admin-kpi-val" id="kpiTotalUsers">—</div>
+            <div class="admin-kpi-label">Itilizatè Rejis</div>
+          </div>
+        </div>
+        <div class="admin-kpi" id="kpi-views">
+          <div class="admin-kpi-icon" style="background:#FFF7ED;color:#EA580C;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div class="admin-kpi-body">
+            <div class="admin-kpi-val" id="kpiTotalViews">—</div>
+            <div class="admin-kpi-label">Total Vue (7j)</div>
+          </div>
+        </div>
+        <div class="admin-kpi" id="kpi-pending">
+          <div class="admin-kpi-icon" style="background:#FEF2F2;color:#DC2626;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <div class="admin-kpi-body">
+            <div class="admin-kpi-val" id="kpiPending">—</div>
+            <div class="admin-kpi-label">Anons Pending</div>
+          </div>
+        </div>
+        <div class="admin-kpi" id="kpi-verified">
+          <div class="admin-kpi-icon" style="background:#ECFDF5;color:#059669;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+          <div class="admin-kpi-body">
+            <div class="admin-kpi-val" id="kpiVerified">—</div>
+            <div class="admin-kpi-label">Vandè Verifye</div>
+          </div>
+        </div>
+        <div class="admin-kpi" id="kpi-revenue">
+          <div class="admin-kpi-icon" style="background:#FFFBEB;color:#D97706;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+          </div>
+          <div class="admin-kpi-body">
+            <div class="admin-kpi-val" id="kpiRevenue">—</div>
+            <div class="admin-kpi-label">Revni (HTG)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── GRAFIK ANONS PA JOU ── -->
+      <div class="admin-chart-card">
+        <div class="admin-chart-header">
+          <span class="admin-chart-title">Anons Kreye — 30 Dènye Jou</span>
+          <span class="admin-chart-sub" id="adminChartSub"></span>
+        </div>
+        <div style="height:200px;position:relative;">
+          <canvas id="adminChartListings"></canvas>
+        </div>
+      </div>
+
+      <!-- ── SUBTABS ── -->
       <div class="admin-subtabs">
         <button class="admin-subtab active" data-admin-subtab="moderation">Modere Anons</button>
         <button class="admin-subtab" data-admin-subtab="sellers">Vandè</button>
         <button class="admin-subtab" data-admin-subtab="natcash">Peman NatCash</button>
+        <button class="admin-subtab" data-admin-subtab="reviews-admin">Nòt</button>
       </div>
 
       <div class="admin-subpanel active" id="admin-moderation">
@@ -830,6 +943,12 @@
         <div id="adminNatcashLoading" class="loading-spin">Ap chaje peman an atant...</div>
         <div id="adminNatcashList"></div>
       </div>
+
+      <div class="admin-subpanel" id="admin-reviews-admin">
+        <div id="adminReviewsLoading" class="loading-spin">Ap chaje nòt yo...</div>
+        <div id="adminReviewsList"></div>
+      </div>
+
     </section>
 
   </div><!-- end #accountContent -->
@@ -998,6 +1117,7 @@
       if (tab.dataset.tab === 'admin' && isAdmin) {
         loadAdminListings();
         loadAdminSellers();
+        loadAdminKpi();
       }
     });
   });
@@ -1012,6 +1132,7 @@
       const target = document.getElementById('admin-' + tab.dataset.adminSubtab);
       target.classList.add('active'); target.style.display = 'block';
       if (tab.dataset.adminSubtab === 'natcash') loadAdminNatcash();
+      if (tab.dataset.adminSubtab === 'reviews-admin') loadAdminReviews();
     });
   });
 
