@@ -2344,6 +2344,17 @@
   </div>
 </section>
 
+<!-- ══ DÈNYE WÈ ══ -->
+<div class="wrap" id="recent-wrap" style="display:none">
+  <div class="recent-section">
+    <div class="recent-header">
+      <span class="recent-title">Dènye Wè</span>
+      <button class="recent-clear" onclick="clearRecentlyViewed()">Efase istwa</button>
+    </div>
+    <div class="recent-grid" id="recentGrid"></div>
+  </div>
+</div>
+
 <!-- ============ ANONS / LISTINGS ============ -->
 <!-- ============ ANONS VEDÈT ============ -->
 <section class="featured-section" id="featured-section" style="display:none;">
@@ -4716,6 +4727,8 @@
 
   function openDetailPanel(item) {
     ga('view_item', { item_id: item.id, item_name: item.title, item_category: item.cat, price: item.priceVal || undefined });
+    // ── Anrejistre nan "Dènye Wè" ──
+    addToRecentlyViewed(item);
     renderGallery(item);
     document.getElementById('d-price').textContent = item.price;
     document.getElementById('d-title').textContent = item.title;
@@ -5488,6 +5501,130 @@ document.getElementById('imageSearchModal').addEventListener('click', function(e
       btn.textContent = 'Voye Nòt';
     }
   }
+
+  // ══════════════════════════════════════════════════
+  // DÈNYE WÈ — Recently Viewed
+  // ══════════════════════════════════════════════════
+  const RECENT_KEY = 'am-recently-viewed';
+  const RECENT_MAX = 10;
+
+  function getRecentlyViewed() {
+    try { return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]'); }
+    catch { return []; }
+  }
+
+  function saveRecentlyViewed(items) {
+    try { localStorage.setItem(RECENT_KEY, JSON.stringify(items)); } catch {}
+  }
+
+  function addToRecentlyViewed(item) {
+    const recent = getRecentlyViewed().filter(r => r.id !== item.id);
+    recent.unshift({
+      id: item.id,
+      title: item.title,
+      price: item.price,
+      img: item.img || '',
+      cat: item.cat || '',
+      ts: Date.now()
+    });
+    saveRecentlyViewed(recent.slice(0, RECENT_MAX));
+    renderRecentlyViewed();
+  }
+
+  function clearRecentlyViewed() {
+    localStorage.removeItem(RECENT_KEY);
+    renderRecentlyViewed();
+  }
+
+  function renderRecentlyViewed() {
+    const recent = getRecentlyViewed();
+    const wrap = document.getElementById('recent-wrap');
+    const grid = document.getElementById('recentGrid');
+    if (!wrap || !grid) return;
+
+    if (!recent.length) {
+      wrap.style.display = 'none';
+      return;
+    }
+
+    wrap.style.display = '';
+    grid.innerHTML = recent.map(r => `
+      <div class="recent-card" onclick="openRecentItem('${r.id}')">
+        <div class="recent-card-img">
+          ${r.img
+            ? `<img src="${r.img}" alt="${r.title}" loading="lazy" decoding="async">`
+            : `<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;color:var(--lank-soft);">📦</div>`
+          }
+        </div>
+        <div class="recent-card-body">
+          <div class="recent-card-title">${r.title}</div>
+          <div class="recent-card-price">${r.price}</div>
+        </div>
+      </div>`).join('');
+  }
+
+  function openRecentItem(id) {
+    const item = ALL_LISTINGS.find(l => l.id === id);
+    if (item) openDetailPanel(item);
+  }
+
+  // Init on page load
+  document.addEventListener('DOMContentLoaded', () => {
+    renderRecentlyViewed();
+  });
+
 </script>
 </body>
 </html>
+  /* ══ DÈNYE WÈ ══ */
+  .recent-section{
+    padding: 32px 0 0;
+  }
+  .recent-header{
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .recent-title{
+    font-family: var(--display); font-weight: 700; font-size: 1.25rem;
+    color: var(--lank);
+  }
+  .recent-clear{
+    font-size: 0.8rem; color: var(--lank-soft); background: none;
+    border: 1px solid var(--liy); border-radius: 20px; padding: 4px 12px;
+    cursor: pointer; font-family: var(--body); transition: all .15s;
+  }
+  .recent-clear:hover{ border-color: var(--wouj); color: var(--wouj); }
+  .recent-grid{
+    display: flex; gap: 12px; overflow-x: auto; padding-bottom: 8px;
+    scrollbar-width: none; -webkit-overflow-scrolling: touch;
+  }
+  .recent-grid::-webkit-scrollbar{ display: none; }
+  .recent-card{
+    flex: 0 0 160px; background: var(--blan); border: 1px solid var(--liy);
+    border-radius: 14px; overflow: hidden; cursor: pointer;
+    transition: box-shadow .2s, transform .15s;
+  }
+  .recent-card:hover{ box-shadow: 0 4px 20px rgba(0,0,0,0.1); transform: translateY(-2px); }
+  .recent-card-img{
+    height: 100px; overflow: hidden; background: var(--liy);
+  }
+  .recent-card-img img{
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform .3s;
+  }
+  .recent-card:hover .recent-card-img img{ transform: scale(1.06); }
+  .recent-card-body{ padding: 8px 10px 10px; }
+  .recent-card-title{
+    font-weight: 700; font-size: 0.82rem; color: var(--lank);
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden; line-height: 1.35; margin-bottom: 4px;
+  }
+  .recent-card-price{
+    font-size: 0.8rem; font-weight: 700; color: var(--wouj);
+    font-family: var(--mono);
+  }
+  :root[data-theme="dark"] .recent-card{ background: rgba(255,255,255,0.05); }
+  @media(max-width:600px){
+    .recent-card{ flex: 0 0 140px; }
+    .recent-card-img{ height: 85px; }
+  }
