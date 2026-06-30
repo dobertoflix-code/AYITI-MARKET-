@@ -767,8 +767,9 @@
           <div style="display:flex;align-items:center;gap:16px;margin-bottom:12px;">
             <div id="avatarPreview" style="width:80px;height:80px;border-radius:50%;background:var(--ble-soft);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.5rem;overflow:hidden;flex-shrink:0;border:3px solid var(--liy);position:relative;">??</div>
             <div style="flex:1;">
-              <input type="url" id="profAvatarUrl" placeholder="https://... (lyen foto ou)" autocomplete="off" oninput="previewAvatar(this.value)">
-              <p class="form-note-sm">Kole lyen yon foto soti nan entènèt (imgur, Google Drive, etc.)</p>
+              <input type="file" id="profAvatarFile" accept="image/png,image/jpeg,image/webp,image/gif" onchange="handleAvatarFile(this.files[0])" style="margin-bottom:8px;">
+              <input type="url" id="profAvatarUrl" placeholder="https://... (oswa kole lyen yon foto)" autocomplete="off" oninput="previewAvatar(this.value)">
+              <p class="form-note-sm" id="avatarUploadStatus">Chwazi yon foto sou telefòn/òdinatè ou, oswa kole yon lyen.</p>
             </div>
           </div>
         </div>
@@ -972,6 +973,12 @@
         <div class="form-group">
           <label>Objè (sijè imèl la)</label>
           <input type="text" id="bcSubject" placeholder="Egzanp: Nouvo fonksyon Kont Boutik Pro disponib! 👑" autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label>Imaj (opsyonèl)</label>
+          <input type="file" id="bcImageFile" accept="image/png,image/jpeg,image/webp,image/gif" onchange="handleBcImageFile(this.files[0])" style="margin-bottom:8px;">
+          <input type="url" id="bcImageUrl" placeholder="https://... (oswa kole yon lyen imaj)" autocomplete="off" oninput="previewBcImage(this.value)">
+          <img id="bcImagePreview" src="" alt="" style="display:none;max-width:240px;border-radius:8px;margin-top:8px;">
         </div>
         <div class="form-group">
           <label>Mesaj</label>
@@ -1316,6 +1323,47 @@
     }
   }
   window.previewAvatar = previewAvatar;
+
+  // ── Konvèti yon fichye an base64 epi upload li bay backend lan ──
+  // Retounen lyen piblik la (string), oswa jete yon erè si l echwe.
+  async function uploadImageFile(file, folder) {
+    if (!file) throw new Error('Pa gen fichye chwazi');
+    if (!file.type.startsWith('image/')) throw new Error('Chwazi yon fichye imaj (PNG, JPG, WEBP, GIF)');
+    if (file.size > 5 * 1024 * 1024) throw new Error('Imaj la twò gwo (maksimòm 5MB)');
+
+    const base64 = await new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload = () => resolve(r.result);
+      r.onerror = () => reject(new Error('Erè pandan li fichye a'));
+      r.readAsDataURL(file);
+    });
+
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    const res = await fetch(`${API_BASE}/api/upload-image`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${session?.access_token}` },
+      body: JSON.stringify({ image_base64: base64, folder })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Erè pandan upload imaj la');
+    return data.url;
+  }
+  window.uploadImageFile = uploadImageFile;
+
+  async function handleAvatarFile(file) {
+    if (!file) return;
+    const statusEl = document.getElementById('avatarUploadStatus');
+    statusEl.textContent = 'Ap voye foto a...';
+    try {
+      const url = await uploadImageFile(file, 'avatars');
+      document.getElementById('profAvatarUrl').value = url;
+      previewAvatar(url);
+      statusEl.textContent = 'Foto voye! Klike "Sove Chanjman" pou konfime.';
+    } catch (err) {
+      statusEl.textContent = 'Erè: ' + err.message;
+    }
+  }
+  window.handleAvatarFile = handleAvatarFile;
 
   function updateBioCount() {
     const bio = document.getElementById('profBio');
@@ -1880,9 +1928,36 @@
   // ══════════════════════════════════════════
   // ADMIN: anons (broadcast email)
   // ══════════════════════════════════════════
+  function previewBcImage(url) {
+    const img = document.getElementById('bcImagePreview');
+    if (url && url.trim()) {
+      img.src = url.trim();
+      img.style.display = 'block';
+    } else {
+      img.style.display = 'none';
+    }
+  }
+  window.previewBcImage = previewBcImage;
+
+  async function handleBcImageFile(file) {
+    if (!file) return;
+    const statusEl = document.getElementById('bcStatus');
+    statusEl.textContent = 'Ap voye imaj la...';
+    try {
+      const url = await uploadImageFile(file, 'broadcast');
+      document.getElementById('bcImageUrl').value = url;
+      previewBcImage(url);
+      statusEl.textContent = 'Imaj voye!';
+    } catch (err) {
+      statusEl.textContent = 'Erè: ' + err.message;
+    }
+  }
+  window.handleBcImageFile = handleBcImageFile;
+
   async function postBroadcast(testOnly) {
     const subject = document.getElementById('bcSubject').value.trim();
     const message = document.getElementById('bcMessage').value.trim();
+    const imageUrl = document.getElementById('bcImageUrl').value.trim();
     const statusEl = document.getElementById('bcStatus');
     if (!subject || !message) { showToast('Ranpli objè a ak mesaj la dabò.'); return; }
 
@@ -1894,7 +1969,7 @@
       const res = await fetch(`${API_BASE}/api/admin/broadcast`, {
         method: 'POST',
         headers: { 'Content-Type':'application/json', 'Authorization':`Bearer ${session?.access_token}` },
-        body: JSON.stringify({ subject, message, test_only: testOnly })
+        body: JSON.stringify({ subject, message, image_url: imageUrl, test_only: testOnly })
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Erè');
