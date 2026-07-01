@@ -2238,7 +2238,7 @@ app.get('/kategori/:slug', async (req, res) => {
   const description = `Jwenn ${category.toLowerCase()} pou vann oswa achte toupatou nan peyi a. ${total} anons disponib kounye a sou Ayiti Market — gratis pou pibliye.`;
   const canonicalUrl = `${frontendUrl}/kategori/${slug}`;
   const appUrl = `${frontendUrl}/?cat=${encodeURIComponent(category)}`;
-  const image = `${frontendUrl}/og-image.jpg`;
+  const image = `${frontendUrl}/og-image.png`;
 
   const jsonLd = {
     '@context': 'https://schema.org/',
@@ -2335,7 +2335,7 @@ app.get('/anons/:id/:slug?', async (req, res) => {
   const priceText = item.price_label || (item.price_val ? `${Number(item.price_val).toLocaleString('fr-FR')} HTG` : 'Sou demann');
   const title = `${item.title} — ${priceText} | Ayiti Market`;
   const description = (item.description || `${item.title} disponib sou Ayiti Market nan ${item.location || 'Ayiti'}.`).slice(0, 160);
-  const image = (item.images && item.images.length) ? item.images[0] : `${frontendUrl}/og-image.jpg`;
+  const image = (item.images && item.images.length) ? item.images[0] : `${frontendUrl}/og-image.png`;
   const canonicalUrl = `${frontendUrl}/anons/${id}/${correctSlug}`;
   const appUrl = `${frontendUrl}/?anons=${id}`;
 
@@ -2427,7 +2427,7 @@ app.get('/boutik/:id/:slug?', async (req, res) => {
   const title = `${sellerName} — Boutik sou Ayiti Market`;
   const description = (profile.bio && profile.bio.trim())
     || `${sellerName} gen ${listingCount || 0} anons aktif sou Ayiti Market${profile.location ? ` nan ${profile.location}` : ''}.${badges ? ' ' + badges : ''}`;
-  const image = profile.avatar_url || `${frontendUrl}/og-image.jpg`;
+  const image = profile.avatar_url || `${frontendUrl}/og-image.png`;
   const canonicalUrl = `${frontendUrl}/boutik/${id}/${correctSlug}`;
   const appUrl = `${frontendUrl}/seller.html?id=${id}`;
 
