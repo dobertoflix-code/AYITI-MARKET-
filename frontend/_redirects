@@ -8,4 +8,11 @@
 /messages.html   /messages.html   200
 /sitemap.xml     https://api.ayiti-market.com/sitemap.xml   301
 
+# ============ PAJ SEO/OG DINAMIK (bay Google, WhatsApp, Facebook bèl apèsi) ============
+# San règ sa yo, chemen sa yo t ap tonbe nan règ jokè anba a (/index.html), ki
+# ta anpeche Google endèkse anons/kategori/boutik yo ak bon title/description/JSON-LD.
+/anons/*         https://api.ayiti-market.com/anons/:splat     200
+/kategori/*      https://api.ayiti-market.com/kategori/:splat  200
+/boutik/*        https://api.ayiti-market.com/boutik/:splat    200
+
 /*               /index.html      200
