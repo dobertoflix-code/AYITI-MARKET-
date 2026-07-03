@@ -24,8 +24,29 @@ if (allowedOrigin === '*') {
   console.warn('⚠️  FRONTEND_URL pa konfigire — CORS louvri pou tout domèn. Mete FRONTEND_URL nan Render.');
 }
 app.use(cors({ origin: allowedOrigin }));
-app.use(express.json());
-const uploadJsonParser = express.json({ limit: '8mb' });
+// NÒT: limit default Express la se 100kb — sa te twò piti pou imaj (base64
+// fè yon foto ~5MB vin ~6.7MB an tèks), e li te lakòz erè "Unexpected token
+// '<'" (paj erè HTML olye JSON) chak fwa yon moun eseye telechaje yon banner
+// piblisite oswa yon gwo foto. Nou monte limit global la pou tout wout yo.
+app.use(express.json({ limit: '10mb' }));
+const uploadJsonParser = express.json({ limit: '10mb' });
+
+// Filè sekirite: si yon erè rive pandan Express ap li body a (egzanp: imaj
+// twò gwo, oswa JSON malfòme), retounen JSON olye yon paj erè HTML —
+// san sa, frontend lan resevwa "<!DOCTYPE..." e li kraze sou JSON.parse().
+app.use((err, req, res, next) => {
+  if (err && err.type === 'entity.too.large') {
+    return res.status(413).json({ error: 'Fichye a twò gwo (maksimòm 10MB).' });
+  }
+  if (err && err.type === 'entity.parse.failed') {
+    return res.status(400).json({ error: 'Done yo pa nan bon fòma (JSON envalid).' });
+  }
+  if (err) {
+    console.error('Erè middleware:', err.message);
+    return res.status(500).json({ error: 'Erè sèvè enatandi.' });
+  }
+  next();
+});
 
 // Verifye kle Supabase yo egziste anvan sèvè a demare
 if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_KEY) {
