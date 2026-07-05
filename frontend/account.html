@@ -1815,6 +1815,11 @@
   }
   window.payWithMoncash = payWithMoncash;
 
+  async function payWithPaypal() {
+    await submitBoostPayment('paypal');
+  }
+  window.payWithPaypal = payWithPaypal;
+
   function showNatcashForm() {
     document.getElementById('boostPayMethods').style.display = 'none';
     document.getElementById('boostNatcashForm').style.display = 'block';
@@ -1834,8 +1839,8 @@
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Erè pandan inisye peman');
 
-      if (method === 'moncash') {
-        window.location.href = data.redirect_url; // ale sou paj peman MonCash la
+      if (method === 'moncash' || method === 'paypal') {
+        window.location.href = data.redirect_url; // ale sou paj peman an (MonCash oswa PayPal)
         return;
       }
 
@@ -1869,18 +1874,21 @@
   }
   window.confirmNatcashPayment = confirmNatcashPayment;
 
-  // Lè moun retounen sou paj la aprè peman MonCash (?boost=success|failed)
+  // Lè moun retounen sou paj la aprè peman (MonCash/PayPal) (?boost=success|failed|cancelled)
   (function checkBoostReturn() {
     const params = new URLSearchParams(window.location.search);
     const boostStatus = params.get('boost');
+    const paypalStatus = params.get('paypal');
     if (boostStatus === 'success') {
       showToast('Peman konfime! Anons ou kounye a an vedèt. 🎉');
       loadMyListings();
     } else if (boostStatus === 'failed') {
       showToast('Peman pa konfime. Eseye ankò oswa kontakte sipò.', false);
+    } else if (paypalStatus === 'cancelled') {
+      showToast('Ou anile peman PayPal la. Ou ka eseye ankò nenpòt lè.', false);
     }
-    if (boostStatus) {
-      params.delete('boost');
+    if (boostStatus || paypalStatus) {
+      params.delete('boost'); params.delete('paypal');
       window.history.replaceState({}, '', window.location.pathname);
     }
   })();
@@ -1934,6 +1942,11 @@
   }
   window.payProWithMoncash = payProWithMoncash;
 
+  async function payProWithPaypal() {
+    await submitProPayment('paypal');
+  }
+  window.payProWithPaypal = payProWithPaypal;
+
   function showProNatcashForm() {
     document.getElementById('proPayMethods').style.display = 'none';
     document.getElementById('proNatcashForm').style.display = 'block';
@@ -1952,7 +1965,7 @@
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Erè pandan inisye peman');
 
-      if (method === 'moncash') {
+      if (method === 'moncash' || method === 'paypal') {
         window.location.href = data.redirect_url;
         return;
       }
@@ -2279,13 +2292,14 @@
 <div class="boost-modal-overlay" id="boostModal">
   <div class="boost-modal">
     <h3 id="boostModalTitle">Booster Anons</h3>
-    <p>Chwazi yon nivo pwomosyon, epi peye dirèkteman ak MonCash oswa NatCash.</p>
+    <p>Chwazi yon nivo pwomosyon, epi peye an sekirite ak MonCash, NatCash, oswa PayPal.</p>
     <div class="boost-options" id="boostOptionsList"></div>
 
-    <div id="boostPayMethods" style="display:flex;gap:10px;">
-      <button class="btn btn-ghost btn-sm" onclick="closeBoostModal()" style="flex:1">Anile</button>
-      <button class="btn btn-boost btn-sm" onclick="payWithMoncash()" style="flex:1">Peye ak MonCash</button>
-      <button class="btn btn-boost btn-sm" onclick="showNatcashForm()" style="flex:1">Peye ak NatCash</button>
+    <div id="boostPayMethods" style="display:flex;flex-direction:column;gap:8px;">
+      <button class="btn btn-boost btn-sm" onclick="payWithMoncash()" style="width:100%">Peye ak MonCash</button>
+      <button class="btn btn-boost btn-sm" onclick="payWithPaypal()" style="width:100%">Peye ak PayPal</button>
+      <button class="btn btn-boost btn-sm" onclick="showNatcashForm()" style="width:100%">Peye ak NatCash</button>
+      <button class="btn btn-ghost btn-sm" onclick="closeBoostModal()" style="width:100%">Anile</button>
     </div>
 
     <div id="boostNatcashForm" style="display:none;margin-top:10px;">
@@ -2303,12 +2317,13 @@
 <div class="boost-modal-overlay" id="proModal">
   <div class="boost-modal">
     <h3>👑 Kont Boutik Pro</h3>
-    <p>Vin Boutik Pro pou 2000 HTG/mwa (30 jou) — peye dirèkteman ak MonCash oswa NatCash.</p>
+    <p>Vin Boutik Pro pou 2000 HTG/mwa (30 jou) — peye an sekirite ak MonCash, NatCash, oswa PayPal.</p>
 
-    <div id="proPayMethods" style="display:flex;gap:10px;">
-      <button class="btn btn-ghost btn-sm" onclick="closeProModal()" style="flex:1">Anile</button>
-      <button class="btn btn-boost btn-sm" onclick="payProWithMoncash()" style="flex:1">Peye ak MonCash</button>
-      <button class="btn btn-boost btn-sm" onclick="showProNatcashForm()" style="flex:1">Peye ak NatCash</button>
+    <div id="proPayMethods" style="display:flex;flex-direction:column;gap:8px;">
+      <button class="btn btn-boost btn-sm" onclick="payProWithMoncash()" style="width:100%">Peye ak MonCash</button>
+      <button class="btn btn-boost btn-sm" onclick="payProWithPaypal()" style="width:100%">Peye ak PayPal</button>
+      <button class="btn btn-boost btn-sm" onclick="showProNatcashForm()" style="width:100%">Peye ak NatCash</button>
+      <button class="btn btn-ghost btn-sm" onclick="closeProModal()" style="width:100%">Anile</button>
     </div>
 
     <div id="proNatcashForm" style="display:none;margin-top:10px;">
