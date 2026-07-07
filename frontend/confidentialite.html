@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+  <meta name="monetag" content="20884ae79fc67fd221a19134e65a81cd" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Politik Konfidansyalite — Ayiti Market</title>
+<meta name="description" content="Politik Konfidansyalite konplè pou platfòm Ayiti Market — kijan nou kolekte, itilize, e pwoteje done ou yo.">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23B91C3C'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='26' fill='%23FBF6EC'>AM</text></svg>">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0B0D12">
+
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('am-theme');
+      var theme = saved || 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --krem:        #FBF6EC;
+    --krem-dim:     #F3ECDC;
+    --lank:        #14181F;
+    --lank-soft:    #4A4F5A;
+    --wouj:        #B91C3C;
+    --wouj-dark:    #8C1530;
+    --ble:         #16335E;
+    --ble-soft:     #2A4D80;
+    --lo:          #E1962F;
+    --lo-soft:      #F2C26B;
+    --liy:         #E4DCC8;
+    --blan:        #FFFFFF;
+    --lank-light:  #2A3040;
+    --lo-text:     #8A5D12;
+
+    --display: 'DM Serif Display', Georgia, serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'Space Mono', monospace;
+
+    --radius: 14px;
+    --container: 860px;
+  }
+
+  :root[data-theme="dark"]{
+    --krem:        #0B0D12;
+    --krem-dim:     #11141B;
+    --lank:        #EDE8DA;
+    --lank-soft:    #9CA3AF;
+    --wouj:        #E14D63;
+    --wouj-dark:    #F2718A;
+    --ble:         #5C8AD6;
+    --ble-soft:     #3D6BB0;
+    --lo:          #F2C26B;
+    --lo-soft:      #E1962F;
+    --liy:         #232A36;
+    --blan:        #161A22;
+    --lank-light:  #1E2430;
+    --lo-text:     #F2C26B;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:var(--body);
+    background:var(--krem); color:var(--lank);
+    -webkit-font-smoothing:antialiased;
+    transition: background .25s ease, color .25s ease;
+  }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:var(--container); margin:0 auto; padding:0 24px; }
+
+  /* ============ HEADER ============ */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(251,246,236,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--liy);
+  }
+  :root[data-theme="dark"] header{ background:rgba(20,24,31,0.92); }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; max-width:var(--container); margin:0 auto;
+  }
+  .logo{
+    font-family:var(--display); font-size:1.35rem; color:var(--lank);
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo .dot{ color:var(--wouj); }
+  .nav-actions{ display:flex; align-items:center; gap:14px; }
+  .back-link{
+    font-family:var(--body); font-weight:600; font-size:0.88rem;
+    color:var(--lank-soft); display:flex; align-items:center; gap:6px;
+  }
+  .back-link:hover{ color:var(--wouj); }
+  .theme-toggle{
+    width:38px; height:38px; border-radius:50%;
+    border:1px solid var(--liy); background:transparent;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--lank);
+  }
+  .theme-toggle svg{ width:18px; height:18px; }
+  .theme-toggle .ic-sun{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .ic-moon{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .ic-sun{ display:block; }
+
+  /* ============ HERO ============ */
+  .legal-hero{ padding:56px 0 28px; border-bottom:1px solid var(--liy); }
+  .legal-eyebrow{
+    font-family:var(--mono); font-size:0.72rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--wouj); margin-bottom:14px;
+    display:inline-block; background:rgba(185,28,60,0.08);
+    padding:5px 12px; border-radius:20px;
+  }
+  :root[data-theme="dark"] .legal-eyebrow{ background:rgba(225,77,99,0.15); }
+  .legal-hero h1{
+    font-family:var(--display); font-size:clamp(1.9rem,4vw,2.6rem);
+    line-height:1.15; margin-bottom:14px;
+  }
+  .legal-meta{
+    font-family:var(--mono); font-size:0.82rem; color:var(--lank-soft);
+    display:flex; flex-wrap:wrap; gap:16px;
+  }
+  .legal-meta span, .contact-box p, .foot-bottom span{ display:flex; align-items:center; gap:7px; }
+  .meta-ic{ flex-shrink:0; display:inline-flex; }
+  .meta-ic svg{ width:14px; height:14px; stroke:currentColor; }
+
+  /* ============ LAYOUT ============ */
+  .legal-body{ padding:40px 0 80px; display:grid; grid-template-columns:220px 1fr; gap:48px; align-items:start; }
+  @media (max-width:760px){ .legal-body{ grid-template-columns:1fr; } }
+
+  /* ---- TOC (table of contents) ---- */
+  .toc{ position:sticky; top:90px; }
+  .toc-title{ font-family:var(--mono); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--lank-soft); margin-bottom:12px; }
+  .toc ol{ list-style:none; counter-reset:toc; display:flex; flex-direction:column; gap:9px; }
+  .toc li{ counter-increment:toc; }
+  .toc a{
+    font-size:0.86rem; color:var(--lank-soft); display:flex; gap:8px;
+    padding:4px 0; border-left:2px solid transparent;
+  }
+  .toc a::before{ content:counter(toc) "."; font-family:var(--mono); color:var(--lo-text); flex-shrink:0; }
+  .toc a:hover, .toc a.active{ color:var(--wouj); }
+  @media (max-width:760px){ .toc{ display:none; } }
+
+  /* ---- ARTICLE CONTENT ---- */
+  .legal-content section{ margin-bottom:38px; padding-top:6px; }
+  .legal-content h2{
+    font-family:var(--display); font-size:1.35rem; margin-bottom:14px;
+    display:flex; align-items:baseline; gap:10px;
+  }
+  .legal-content h2 .num{ font-family:var(--mono); color:var(--wouj); font-size:1rem; }
+  .legal-content h3{ font-family:var(--body); font-weight:700; font-size:1rem; margin:18px 0 8px; }
+  .legal-content p{ font-size:0.96rem; line-height:1.75; color:var(--lank-soft); margin-bottom:14px; }
+  .legal-content ul{ margin:0 0 16px 0; padding-left:0; list-style:none; }
+  .legal-content ul li{
+    font-size:0.96rem; line-height:1.7; color:var(--lank-soft);
+    padding-left:22px; position:relative; margin-bottom:8px;
+  }
+  .legal-content ul li::before{
+    content:"—"; position:absolute; left:0; color:var(--lo-text); font-family:var(--mono);
+  }
+  .legal-content strong{ color:var(--lank); font-weight:700; }
+  .callout{
+    background:var(--krem-dim); border:1px solid var(--liy); border-left:3px solid var(--wouj);
+    border-radius:var(--radius); padding:16px 18px; margin:16px 0;
+  }
+  .callout p{ margin-bottom:0; color:var(--lank); font-size:0.9rem; }
+  .contact-box{
+    background:var(--krem-dim); border:1px solid var(--liy); border-radius:var(--radius);
+    padding:22px; margin-top:8px;
+  }
+  .contact-box p{ margin-bottom:6px; }
+  .contact-box a{ color:var(--ble); font-weight:600; }
+  :root[data-theme="dark"] .contact-box a{ color:var(--ble-soft); }
+  hr.sep{ border:none; border-top:1px solid var(--liy); margin:36px 0; }
+
+  /* ---- TABLE: done yo kolekte ---- */
+  .data-table{ width:100%; border-collapse:collapse; margin-bottom:18px; font-size:0.88rem; }
+  .data-table th, .data-table td{
+    text-align:left; padding:10px 12px; border-bottom:1px solid var(--liy);
+    vertical-align:top;
+  }
+  .data-table th{
+    font-family:var(--mono); font-size:0.72rem; text-transform:uppercase;
+    letter-spacing:0.04em; color:var(--lank-soft); font-weight:600;
+  }
+  .data-table td{ color:var(--lank-soft); }
+  .data-table td strong{ color:var(--lank); }
+  @media (max-width:560px){
+    .data-table{ font-size:0.82rem; }
+    .data-table th, .data-table td{ padding:8px 6px; }
+  }
+
+  /* ============ FOOTER ============ */
+  footer{ background:var(--lank); color:rgba(251,246,236,0.7); padding:48px 0 24px; }
+  :root[data-theme="dark"] footer{ background:#0D1017; color:rgba(237,232,218,0.65); }
+  .foot-bottom{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-size:0.8rem; max-width:var(--container); margin:0 auto; padding:0 24px;
+  }
+  .foot-links{ display:flex; gap:18px; margin-bottom:18px; max-width:var(--container); margin-left:auto; margin-right:auto; padding:0 24px; flex-wrap:wrap; }
+  .foot-links a{ font-size:0.84rem; color:rgba(251,246,236,0.7); }
+  :root[data-theme="dark"] .foot-links a{ color:rgba(237,232,218,0.65); }
+  .foot-links a:hover{ color:var(--lo); }
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3671082075819991"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="/" class="logo">Ayiti Market<span class="dot">.</span></a>
+    <div class="nav-actions">
+      <a href="/" class="back-link">← Retounen sou sit la</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Chanje tèm">
+        <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="legal-hero">
+  <div class="wrap">
+    <span class="legal-eyebrow">Dokiman Legal</span>
+    <h1>Politik Konfidansyalite</h1>
+    <div class="legal-meta">
+      <span><span class="meta-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>Dènye mizajou: 27 Jen 2026</span>
+      <span><span class="meta-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 010 20a15 15 0 010-20z"/></svg></span>ayiti-market.com</span>
+      <span><span class="meta-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Done ou yo nan men nou ak respè</span>
+    </div>
+  </div>
+</section>
+
+<div class="wrap legal-body">
+
+  <nav class="toc" aria-label="Tab kontni">
+    <div class="toc-title">Nan paj sa a</div>
+    <ol>
+      <li><a href="#art1">Entwodiksyon</a></li>
+      <li><a href="#art2">Done Nou Kolekte</a></li>
+      <li><a href="#art3">Kijan Nou Itilize Yo</a></li>
+      <li><a href="#art4">Baz Legal</a></li>
+      <li><a href="#art5">Pataj Done</a></li>
+      <li><a href="#art6">Estokaj & Sekirite</a></li>
+      <li><a href="#art7">Konsèvasyon Done</a></li>
+      <li><a href="#art8">Dwa Ou</a></li>
+      <li><a href="#art9">Cookies & localStorage</a></li>
+      <li><a href="#art10">Done Minè</a></li>
+      <li><a href="#art11">Transfè Entènasyonal</a></li>
+      <li><a href="#art12">Modifikasyon</a></li>
+      <li><a href="#art13">Kontak</a></li>
+    </ol>
+  </nav>
+
+  <article class="legal-content">
+
+    <section id="art1">
+      <h2><span class="num">01</span> Entwodiksyon</h2>
+      <p>Politik Konfidansyalite sa a esplike kijan <strong>Ayiti Market</strong> (« nou », « Platfòm nan ») kolekte, itilize, pwoteje, e pataje enfòmasyon pèsonèl ou yo lè ou itilize sit entènèt nou an oswa aplikasyon mobil ki asosye avè l.</p>
+      <p>Dokiman sa a travay ansanm ak <strong>Kondisyon Jeneral Itilizasyon (CGU)</strong> nou yo. Lè ou kreye yon kont oswa ou navige sou Platfòm nan, ou aksepte pratik ki dekri nan paj sa a.</p>
+    </section>
+
+    <section id="art2">
+      <h2><span class="num">02</span> Done Nou Kolekte</h2>
+      <p>Selon kijan ou itilize Platfòm nan, nou ka kolekte kategori done sa yo:</p>
+      <table class="data-table">
+        <tr><th>Kategori</th><th>Egzanp</th></tr>
+        <tr><td><strong>Done kont</strong></td><td>Non, adrès imèl, nimewo telefòn, modpas (chifre)</td></tr>
+        <tr><td><strong>Done anons</strong></td><td>Tit, deskripsyon, prix, kategori, foto pwodui, vil/katye</td></tr>
+        <tr><td><strong>Done kontak</strong></td><td>Nimewo WhatsApp oswa imèl ou chwazi afiche sou anons ou</td></tr>
+        <tr><td><strong>Done itilizasyon</strong></td><td>Paj ou vizite, rechèch ou fè, anons ou mete an favori</td></tr>
+        <tr><td><strong>Done teknik</strong></td><td>Tip aparèy, navigatè, adrès IP apwoksimatif, tèm (klè/nwa)</td></tr>
+      </table>
+      <p>Nou pa kolekte done sansib (sante, opinyon politik, kwayans relijye) sof si ou volontèman mete yo nan deskripsyon yon anons — sa nou pa rekòmande.</p>
+    </section>
+
+    <section id="art3">
+      <h2><span class="num">03</span> Kijan Nou Itilize Done Ou</h2>
+      <p>Nou itilize done ou yo sèlman pou rezon sa yo:</p>
+      <ul>
+        <li>Kreye e jere kont ou, e konfime idantite ou pandan koneksyon.</li>
+        <li>Afiche anons ou yo piblikman sou Platfòm nan pou achtè ka jwenn yo.</li>
+        <li>Pèmèt achtè kontakte vandè dirèkteman atravè enfòmasyon kontak ou chwazi pataje.</li>
+        <li>Voye notifikasyon enpòtan (konfimasyon kont, mesaj, aktivite sou anons ou).</li>
+        <li>Detekte e anpeche fwod, abi, oswa vyolasyon CGU nou yo.</li>
+        <li>Amelyore eksperyans ak pèfòmans Platfòm nan (analiz anonim, estatistik).</li>
+      </ul>
+      <div class="callout">
+        <p>Nou pa janm vann, lwe, oswa echanje done pèsonèl ou bay twazyèm pati pou rezon piblisite.</p>
+      </div>
+    </section>
+
+    <section id="art4">
+      <h2><span class="num">04</span> Baz Legal pou Tretman Done</h2>
+      <p>Nou trete done ou yo sou baz sa yo:</p>
+      <ul>
+        <li><strong>Egzekisyon kontra :</strong> pou bay sèvis ou mande lè ou kreye yon kont oswa ou pibliye yon anons.</li>
+        <li><strong>Konsantman :</strong> pou kominikasyon opsyonèl tankou notifikasyon pwomosyonèl, si ou aksepte yo.</li>
+        <li><strong>Enterè lejitim :</strong> pou sekirite Platfòm nan, prevansyon fwod, ak amelyorasyon sèvis nou yo.</li>
+        <li><strong>Obligasyon legal :</strong> lè lwa egzije nou konsève oswa pataje sèten enfòmasyon ak otorite konpetan.</li>
+      </ul>
+    </section>
+
+    <section id="art5">
+      <h2><span class="num">05</span> Pataj Done</h2>
+      <h3>5.1 Ant Itilizatè</h3>
+      <p>Enfòmasyon kontak ou (nimewo WhatsApp oswa imèl) afiche sou anons ou yo pou achtè potansyèl ka kontakte ou dirèkteman. Ou gen dwa chwazi ki enfòmasyon ou vle montre piblikman.</p>
+      <h3>5.2 Founisè Sèvis Teknik</h3>
+      <p>Nou travay ak founisè tès tankou <strong>Supabase</strong> (baz done ak otantifikasyon) ak founisè ebèjman/analitik (pa egzanp Google Analytics) ki ka trete done teknik pou nou. Yo gen aksè sèlman a done ki nesesè pou fonksyon yo, e yo soumèt anba pwòp angajman konfidansyalite yo.</p>
+      <h3>5.3 Obligasyon Legal</h3>
+      <p>Nou ka pataje done ou si lwa egzije sa, oswa si yon otorite jidisyè konpetan fè yon demand ofisyèl nan kad yon ankèt legal.</p>
+    </section>
+
+    <section id="art6">
+      <h2><span class="num">06</span> Estokaj ak Sekirite</h2>
+      <p>Done ou yo estoke sou sèvè <strong>Supabase</strong>, ki itilize chifraj SSL/TLS pou tout tranzaksyon done. Modpas yo pa janm sove an klè — yo chifre (hash) anvan yo estoke.</p>
+      <p>Nou aplike mezi tankou règ sekirite nivo-roul (RLS) pou limite aksè a done a sèlman moun ki gen otorizasyon. Sepandan, okenn sistèm pa 100% san risk; nou ankouraje ou itilize yon modpas solid e inik pou kont ou.</p>
+    </section>
+
+    <section id="art7">
+      <h2><span class="num">07</span> Konsèvasyon Done</h2>
+      <p>Nou konsève done ou yo pandan tout tan kont ou rete aktif. Si ou efase kont ou, nou efase oswa nou anonimize done pèsonèl ou yo nan yon delè rezonab, sof si lwa egzije nou kenbe sèten enfòmasyon pou yon peryòd siplemantè (pa egzanp pou rezon kontablite oswa rezolisyon yon konfli annik).</p>
+    </section>
+
+    <section id="art8">
+      <h2><span class="num">08</span> Dwa Ou</h2>
+      <p>Konsènan done pèsonèl ou yo, ou gen dwa:</p>
+      <ul>
+        <li><strong>Aksè :</strong> mande yon kopi done nou genyen sou ou.</li>
+        <li><strong>Korijman :</strong> mande nou korije enfòmasyon ki pa egzak.</li>
+        <li><strong>Sipresyon :</strong> mande efase kont ou ak done ki asosye avè l.</li>
+        <li><strong>Opozisyon :</strong> refize sèten itilizasyon done ou (pa egzanp kominikasyon pwomosyonèl).</li>
+        <li><strong>Pòtabilite :</strong> mande done ou yo nan yon fòma ki ka itilize pa yon lòt sèvis.</li>
+      </ul>
+      <p>Pou egzèse nenpòt dwa sa yo, voye yon imèl bay adrès ki nan Atik 13 anba a. Nou ap reponn nan yon delè rezonab.</p>
+    </section>
+
+    <section id="art9">
+      <h2><span class="num">09</span> Cookies ak localStorage</h2>
+      <p>Ayiti Market itilize <strong>localStorage</strong> nan navigatè ou — pa cookies tradisyonèl — pou kenbe:</p>
+      <ul>
+        <li>Sesyon koneksyon ou (pou ou pa oblije konekte chak fwa).</li>
+        <li>Preferans afichaj ou (mòd klè/nwa).</li>
+        <li>Lis anons ou mete an favori.</li>
+      </ul>
+      <p>Done sa yo rete sou aparèy ou e yo pa transmèt bay twazyèm pati pou rezon swiv (« tracking »). Nou ka itilize Google Analytics pou estatistik jeneral itilizasyon sit la, selon kondisyon pwòp politik konfidansyalite Google.</p>
+    </section>
+
+    <section id="art10">
+      <h2><span class="num">10</span> Done Minè (Timoun)</h2>
+      <p>Ayiti Market pa fèt pou itilizatè ki gen mwens pase 18 an san sipèvizyon paran oswa gadyen legal. Nou pa kolekte konsyamman done pèsonèl yon timoun mwens pase 18 an san konsantman paran. Si ou kwè yon timoun te kreye yon kont san otorizasyon, tanpri kontakte nou pou nou ka efase done sa yo.</p>
+    </section>
+
+    <section id="art11">
+      <h2><span class="num">11</span> Transfè Entènasyonal</h2>
+      <p>Paske founisè teknik nou yo (tankou Supabase) ka estoke done sou sèvè ki sitiye andeyò Ayiti, done ou yo ka transfere oswa trete nan lòt peyi. Nou pran mezi rezonab pou asire founisè sa yo respekte estanda sekirite ak konfidansyalite ki konparab ak sa nou egzije.</p>
+    </section>
+
+    <section id="art12">
+      <h2><span class="num">12</span> Modifikasyon Politik Sa A</h2>
+      <p>Nou ka mete ajou Politik Konfidansyalite sa a nenpòt ki lè pou reflete chanjman nan pratik nou yo oswa egzijans legal. Nenpòt chanjman enpòtan ap notifye sou Platfòm nan ak yon nouvo dat « dènye mizajou ». Kontinyasyon itilizasyon Platfòm nan apre yon modifikasyon vle di ou aksepte nouvo vèsyon an.</p>
+    </section>
+
+    <section id="art13">
+      <h2><span class="num">13</span> Kontak</h2>
+      <p>Pou nenpòt kesyon konsènan done pèsonèl ou oswa Politik Konfidansyalite sa a, ou ka kontakte nou:</p>
+      <div class="contact-box">
+        <p><span class="meta-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg></span>Imèl: <a href="mailto:dobertojean35@gmail.com">dobertojean35@gmail.com</a></p>
+        <p><span class="meta-ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15 15 0 010 20a15 15 0 010-20z"/></svg></span>Sit: <a href="https://ayiti-market.com">ayiti-market.com</a></p>
+      </div>
+    </section>
+
+    <hr class="sep">
+    <p style="font-size:0.8rem;color:var(--lank-soft);">Dokiman sa a se yon dokiman jeneral pou itilizasyon yon platfòm anons. Li pa ranplase konsèy yon avoka pou sitiyasyon legal espesifik.</p>
+
+  </article>
+</div>
+
+<footer>
+  <div class="foot-links">
+    <a href="/cgu.html">Kondisyon Itilizasyon</a>
+    <a href="/confidentialite.html">Politik Konfidansyalite</a>
+    <a href="/">Akèy</a>
+  </div>
+  <div class="foot-bottom">
+    <span>Fèt ak <svg viewBox="0 0 24 24" width="13" height="13" fill="var(--wouj)" stroke="none" style="display:inline;vertical-align:-2px;"><path d="M12 21s-7.5-4.6-10.2-9.3C0.2 8.6 1.6 5 5.1 4.1c2.1-0.5 4.1 0.4 5 2.1c0.9-1.7 2.9-2.6 5-2.1c3.5 0.9 4.9 4.5 3.3 7.6C19.5 16.4 12 21 12 21z"/></svg> pou Ayiti — pa Doberto Mr Lit</span>
+    <span>© 2026 Ayiti Market. Tout dwa rezève.</span>
+  </div>
+</footer>
+
+<script>
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('am-theme', theme); } catch (e) {}
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  }
+  document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+  // Active TOC link on scroll
+  const sections = document.querySelectorAll('.legal-content section');
+  const tocLinks = document.querySelectorAll('.toc a');
+  function onScroll(){
+    let current = '';
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= 120) current = sec.id;
+    });
+    tocLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+    });
+  }
+  window.addEventListener('scroll', onScroll);
+  onScroll();
+</script>
+</body>
+</html>

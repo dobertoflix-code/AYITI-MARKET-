@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+  <meta name="monetag" content="20884ae79fc67fd221a19134e65a81cd" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Paj pa jwenn — Ayiti Market</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23B91C3C'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='26' fill='%23FBF6EC'>AM</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Space+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --krem:#0B0D12; --krem-dim:#11141B;
+    --lank:#EDE8DA; --lank-soft:#9CA3AF; --lank-light:#1E2430;
+    --wouj:#E14D63; --wouj-dark:#F2718A;
+    --ble:#5C8AD6;
+    --lo:#F2C26B; --lo-soft:#E1962F;
+    --liy:#232A36; --blan:#161A22;
+    --radius:14px;
+  }
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:'Manrope',sans-serif;
+    background:var(--krem); color:var(--lank);
+    min-height:100vh; padding-top:64px;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* grid texture */
+  body::before{
+    content:''; position:fixed; inset:0; pointer-events:none;
+    background-image:
+      linear-gradient(var(--liy) 1px,transparent 1px),
+      linear-gradient(90deg,var(--liy) 1px,transparent 1px);
+    background-size:40px 40px; opacity:0.28; z-index:0;
+  }
+
+  /* ── NAV ── */
+  header{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    background:rgba(251,246,236,0.94);
+    backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
+    border-bottom:1px solid var(--liy);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 20px; max-width:1180px; margin:0 auto;
+  }
+  .logo{
+    display:flex; align-items:center; gap:8px;
+    font-family:'Manrope',sans-serif; font-weight:700; font-size:1.2rem;
+    color:var(--lank); text-decoration:none;
+  }
+  .logo .dot{
+    width:9px; height:9px; border-radius:50%;
+    background:linear-gradient(135deg,var(--wouj),var(--lo)); flex-shrink:0;
+  }
+  .btn{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:9px 20px; border-radius:100px; font-weight:700; font-size:0.86rem;
+    border:none; cursor:pointer; font-family:inherit; text-decoration:none;
+    transition:background .18s, transform .15s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .btn-primary{ background:var(--wouj); color:#fff; }
+  .btn-primary:hover{ background:var(--wouj-dark); transform:translateY(-1px); }
+  .btn-ghost{ border:1.5px solid var(--liy); background:transparent; color:var(--lank); }
+  .btn-ghost:hover{ border-color:var(--lank); }
+
+  /* ── HERO 404 ── */
+  .hero-404{
+    position:relative; z-index:1;
+    text-align:center; padding:56px 20px 44px;
+    max-width:520px; margin:0 auto;
+  }
+  .badge-404{
+    font-family:'Space Mono',monospace;
+    font-size:5.5rem; font-weight:700; line-height:1;
+    background:linear-gradient(135deg,var(--wouj),var(--lo));
+    -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    background-clip:text; letter-spacing:-4px;
+    margin-bottom:18px; display:block;
+  }
+  .flag{
+    display:flex; border-radius:5px; overflow:hidden;
+    width:32px; height:20px; margin:0 auto 20px;
+    box-shadow:0 2px 8px rgba(20,24,31,0.15);
+  }
+  .flag span{ flex:1; }
+  .flag .bl{ background:#002B7F; }
+  .flag .rd{ background:#CE1126; }
+  .hero-404 h1{ font-size:1.4rem; font-weight:800; margin-bottom:10px; }
+  .hero-404 p{ font-size:0.93rem; color:var(--lank-soft); line-height:1.65; margin-bottom:28px; }
+  .hero-404 p strong{ color:var(--wouj); }
+
+  .hero-actions{ display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
+
+  .btn-back{
+    display:inline-flex; align-items:center; gap:5px;
+    margin-top:16px; color:var(--lank-soft); font-size:0.84rem;
+    font-weight:600; background:none; border:none; cursor:pointer;
+    font-family:inherit; transition:color .2s;
+  }
+  .btn-back:hover{ color:var(--lank); }
+
+  /* ── SEARCH BAR ── */
+  .search-wrap{
+    position:relative; z-index:1;
+    max-width:480px; margin:0 auto 48px;
+    padding:0 20px;
+  }
+  .search-inner{
+    display:flex; align-items:center;
+    background:var(--blan); border:1.5px solid var(--liy);
+    border-radius:100px; overflow:hidden;
+    box-shadow:0 4px 16px rgba(20,24,31,0.07);
+  }
+  .search-inner:focus-within{ border-color:var(--wouj); }
+  .search-inner svg{ margin-left:16px; color:var(--lank-soft); flex-shrink:0; }
+  .search-inner input{
+    flex:1; border:none; outline:none; padding:13px 14px;
+    font-family:inherit; font-size:0.92rem; background:transparent; color:var(--lank);
+  }
+  .search-inner input::placeholder{ color:var(--lank-soft); }
+  .search-inner button{
+    background:var(--wouj); color:#fff; border:none; cursor:pointer;
+    padding:10px 18px; font-weight:700; font-size:0.84rem; font-family:inherit;
+    border-radius:0 100px 100px 0; transition:background .18s;
+    white-space:nowrap;
+  }
+  .search-inner button:hover{ background:var(--wouj-dark); }
+
+  /* ── SUGGESTIONS SECTION ── */
+  .suggestions{
+    position:relative; z-index:1;
+    max-width:1180px; margin:0 auto; padding:0 20px 60px;
+  }
+  .sec-title{
+    font-weight:800; font-size:1.05rem; margin-bottom:18px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .sec-title .pill{
+    background:var(--krem-dim); border:1px solid var(--liy);
+    border-radius:100px; padding:2px 10px;
+    font-size:0.75rem; font-weight:700; color:var(--lank-soft);
+  }
+
+  /* card grid */
+  .cards-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+    gap:16px;
+  }
+  .card{
+    background:var(--blan); border-radius:var(--radius);
+    border:1px solid var(--liy); overflow:hidden;
+    cursor:pointer; text-decoration:none; color:inherit;
+    display:block;
+    transition:transform .22s, box-shadow .22s;
+  }
+  .card:hover{ transform:translateY(-4px); box-shadow:0 16px 32px -10px rgba(20,24,31,0.14); }
+  .card-img{ height:140px; overflow:hidden; background:var(--liy); }
+  .card-img img{ width:100%; height:100%; object-fit:cover; transition:transform .4s; }
+  .card:hover .card-img img{ transform:scale(1.05); }
+  .card-body{ padding:13px; }
+  .card-price{ font-family:'Space Mono',monospace; font-weight:700; font-size:0.9rem; color:var(--wouj-dark); margin-bottom:4px; }
+  .card-title{ font-weight:700; font-size:0.86rem; line-height:1.3; margin-bottom:5px;
+               overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; }
+  .card-loc{ font-size:0.73rem; color:var(--lank-soft);
+             display:flex; align-items:center; gap:4px; }
+
+  /* categories shortcut */
+  .cats-grid{
+    display:flex; gap:8px; flex-wrap:wrap; margin-bottom:36px;
+  }
+  .cat-chip{
+    display:inline-flex; align-items:center; gap:6px;
+    padding:7px 14px; border-radius:100px;
+    background:var(--blan); border:1.5px solid var(--liy);
+    font-size:0.82rem; font-weight:700; color:var(--lank);
+    text-decoration:none; transition:border-color .15s, color .15s;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .cat-chip:hover{ border-color:var(--wouj); color:var(--wouj); }
+
+  /* skeleton */
+  .skeleton{ animation:pulse 1.4s ease-in-out infinite; }
+  .sk-card{ background:var(--liy); border-radius:var(--radius); height:220px; }
+  @keyframes pulse{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0.45; }
+  }
+
+  /* loading / empty */
+  .loading-wrap{ text-align:center; padding:40px; color:var(--lank-soft); font-size:0.9rem; }
+  .loading-wrap::before{
+    content:''; display:block; width:24px; height:24px;
+    border:2.5px solid var(--liy); border-top-color:var(--wouj);
+    border-radius:50%; margin:0 auto 12px;
+    animation:spin .7s linear infinite;
+  }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .divider{ height:1px; background:var(--liy); margin:0 20px 36px; }
+
+  @media(max-width:540px){
+    .badge-404{ font-size:4rem; }
+    .hero-404{ padding:40px 20px 32px; }
+    .cards-grid{ grid-template-columns:repeat(2,1fr); gap:10px; }
+    .card-img{ height:110px; }
+  }
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3671082075819991"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo">
+      <svg width="26" height="26" viewBox="0 0 64 64" fill="none" style="border-radius:7px;flex-shrink:0;">
+        <rect width="64" height="64" rx="14" fill="#B91C3C"/>
+        <text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="26" fill="#FBF6EC">AM</text>
+      </svg>
+      Ayiti Market
+    </a>
+    <a href="index.html" class="btn btn-ghost" style="font-size:0.82rem;">← Mache a</a>
+  </div>
+</header>
+
+<!-- ── HERO ── -->
+<div class="hero-404">
+  <span class="badge-404">404</span>
+  <div class="flag"><span class="bl"></span><span class="rd"></span></div>
+  <h1>Paj sa a pa egziste</h1>
+  <p>Lyen an ka vye, oswa anons lan deja retire.<br>
+  Men <strong>anons ki sanble</strong> ou ka renmen yo.</p>
+  <div class="hero-actions">
+    <a href="index.html" class="btn btn-primary">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 12L12 3l9 9"/><path d="M9 21V12h6v9"/></svg>
+      Retounen nan Dakèy
+    </a>
+    <button class="btn btn-ghost" onclick="history.back()">← Paj anvan</button>
+  </div>
+</div>
+
+<!-- ── SEARCH ── -->
+<div class="search-wrap">
+  <div class="search-inner">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input type="search" id="searchInput" placeholder="Chèche anons ou bezwen an..." onkeydown="handleSearch(event)">
+    <button onclick="goSearch()">Chèche</button>
+  </div>
+</div>
+
+<!-- ── SUGGESTIONS ── -->
+<div class="suggestions">
+
+  <!-- Kategori rapid -->
+  <div class="sec-title">Kategori Popilè</div>
+  <div class="cats-grid" id="catsGrid"></div>
+
+  <div class="divider"></div>
+
+  <!-- Anons yo -->
+  <div class="sec-title">
+    <span id="secLabel">Dènye Anons yo</span>
+    <span class="pill" id="countPill"></span>
+  </div>
+  <div id="listingsGrid" class="cards-grid"></div>
+  <div id="loadingState" class="loading-wrap">Ap chaje anons yo...</div>
+  <div id="emptyState" style="display:none; text-align:center; padding:40px; color:var(--lank-soft); font-size:0.9rem;">
+    Pa gen anons pou montre kounye a.
+  </div>
+</div>
+
+<script>
+const API_BASE = 'https://ayiti-market-40ce.onrender.com';
+
+const CATEGORIES = [
+  { slug:'Elektwonik',   label:'Elektwonik',   icon:'M' },
+  { slug:'Vwati',        label:'Vwati & Moto',  icon:'V' },
+  { slug:'Imobilye',     label:'Imobilye',      icon:'I' },
+  { slug:'Mòd',          label:'Mòd & Rad',     icon:'R' },
+  { slug:'Elektwomenaje',label:'Elektwomenaje', icon:'E' },
+  { slug:'Sèvis',        label:'Sèvis',         icon:'S' },
+  { slug:'Ti Biznis',    label:'Ti Biznis',     icon:'B' },
+  { slug:'Lòt',          label:'Lòt',           icon:'L' },
+];
+
+// ── Kategori chips ─────────────────────────────────────────
+const catsGrid = document.getElementById('catsGrid');
+CATEGORIES.forEach(c => {
+  const a = document.createElement('a');
+  a.href = `index.html?category=${encodeURIComponent(c.slug)}`;
+  a.className = 'cat-chip';
+  a.textContent = c.label;
+  catsGrid.appendChild(a);
+});
+
+// ── Detekte kle nan URL a pou chèche anons ki sanble ──────
+function extractKeywords() {
+  const path = window.location.pathname + window.location.search + window.location.hash;
+  // Retire tirets/andèskò, retire siffer, ekstè mo kle
+  const raw = decodeURIComponent(path)
+    .replace(/[_\-]/g, ' ')
+    .replace(/\d+/g, ' ')
+    .replace(/[^\w\s]/gi, ' ');
+  const stopwords = new Set(['html','php','asp','index','page','listing','anons','ayiti','market','www','com','net','org']);
+  const words = raw.split(/\s+/).filter(w => w.length > 3 && !stopwords.has(w.toLowerCase()));
+  return [...new Set(words)].slice(0, 3).join(' ').trim();
+}
+
+// ── Render cards ──────────────────────────────────────────
+function price(row) {
+  return row.price_label || (row.price_val ? `${Number(row.price_val).toLocaleString('fr-FR')} HTG` : 'Sou demann');
+}
+function cardHTML(row) {
+  const img = (row.images && row.images.length)
+    ? row.images[0]
+    : 'https://images.unsplash.com/photo-1556909114-44e3e70034e2?w=400&q=70';
+  return `
+    <a class="card" href="index.html#listing-${row.id}">
+      <div class="card-img"><img src="${img}" alt="${row.title}" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-price">${price(row)}</div>
+        <div class="card-title">${row.title}</div>
+        <div class="card-loc">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          ${row.location || ''}
+        </div>
+      </div>
+    </a>`;
+}
+
+// ── Load anons ─────────────────────────────────────────────
+async function loadSuggestions() {
+  const grid    = document.getElementById('listingsGrid');
+  const loading = document.getElementById('loadingState');
+  const empty   = document.getElementById('emptyState');
+  const label   = document.getElementById('secLabel');
+  const pill    = document.getElementById('countPill');
+
+  const kw = extractKeywords();
+
+  try {
+    let url = `${API_BASE}/api/listings`;
+    if (kw) url += `?search=${encodeURIComponent(kw)}&limit=12`;
+    else     url += `?limit=12`;
+
+    const res  = await fetch(url);
+    if (!res.ok) throw new Error('API erè');
+    let data = await res.json();
+
+    // Si rechèch la pa bay rezilta, pran dènye anons yo
+    if (data.length === 0 && kw) {
+      const res2 = await fetch(`${API_BASE}/api/listings?limit=12`);
+      data = await res2.json();
+      label.textContent = 'Dènye Anons yo';
+    } else if (kw && data.length > 0) {
+      label.textContent = `Anons ki sanble ak "${kw}"`;
+    }
+
+    loading.style.display = 'none';
+
+    if (data.length === 0) {
+      empty.style.display = 'block';
+      return;
+    }
+
+    pill.textContent = data.length;
+    grid.innerHTML = data.slice(0, 12).map(cardHTML).join('');
+
+  } catch (err) {
+    loading.style.display = 'none';
+    // Silans — montre kategori yo sèlman
+    empty.style.display = 'block';
+  }
+}
+
+// ── Search redirect ────────────────────────────────────────
+function goSearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  if (q) window.location.href = `index.html?search=${encodeURIComponent(q)}`;
+  else   window.location.href = 'index.html';
+}
+function handleSearch(e) {
+  if (e.key === 'Enter') goSearch();
+}
+window.goSearch     = goSearch;
+window.handleSearch = handleSearch;
+
+// ── Pre-fill search bar ak kle detekte yo ─────────────────
+const detectedKw = extractKeywords();
+if (detectedKw) {
+  document.getElementById('searchInput').value = detectedKw;
+}
+
+loadSuggestions();
+</script>
+</body>
+</html>

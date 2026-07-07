@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+  <meta name="monetag" content="20884ae79fc67fd221a19134e65a81cd" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>À Propos — Ayiti Market</title>
+<meta name="description" content="Ayiti Market se mache lib ayisyen an sou entènèt — yon platfòm fèt pou Ayisyen, pa Ayisyen, pou konekte achtè ak vandè toupatou nan peyi a.">
+<meta name="robots" content="index, follow">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23B91C3C'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='26' fill='%23FBF6EC'>AM</text></svg>">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0B0D12">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="À Propos — Ayiti Market">
+<meta property="og:description" content="Ayiti Market se mache lib ayisyen an sou entènèt — fèt pou Ayisyen, pa Ayisyen.">
+<meta property="og:image" content="https://ayiti-market.com/og-image.png">
+<meta property="og:locale" content="ht_HT">
+
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('am-theme');
+      var theme = saved || 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --krem:        #FBF6EC;
+    --krem-dim:     #F3ECDC;
+    --lank:        #14181F;
+    --lank-soft:    #4A4F5A;
+    --wouj:        #B91C3C;
+    --wouj-dark:    #8C1530;
+    --ble:         #16335E;
+    --ble-soft:     #2A4D80;
+    --lo:          #E1962F;
+    --lo-soft:      #F2C26B;
+    --liy:         #E4DCC8;
+    --blan:        #FFFFFF;
+    --lank-light:  #2A3040;
+    --lo-text:     #8A5D12;
+
+    --display: 'DM Serif Display', Georgia, serif;
+    --body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --mono: 'Space Mono', monospace;
+
+    --radius: 14px;
+    --container: 980px;
+  }
+
+  :root[data-theme="dark"]{
+    --krem:        #0B0D12;
+    --krem-dim:     #11141B;
+    --lank:        #EDE8DA;
+    --lank-soft:    #9CA3AF;
+    --wouj:        #E14D63;
+    --wouj-dark:    #F2718A;
+    --ble:         #5C8AD6;
+    --ble-soft:     #3D6BB0;
+    --lo:          #F2C26B;
+    --lo-soft:      #E1962F;
+    --liy:         #232A36;
+    --blan:        #161A22;
+    --lank-light:  #1E2430;
+    --lo-text:     #F2C26B;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:var(--body);
+    background:var(--krem); color:var(--lank);
+    -webkit-font-smoothing:antialiased;
+    transition: background .25s ease, color .25s ease;
+  }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width:var(--container); margin:0 auto; padding:0 24px; }
+
+  /* ============ HEADER ============ */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(251,246,236,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--liy);
+  }
+  :root[data-theme="dark"] header{ background:rgba(20,24,31,0.92); }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 24px; max-width:var(--container); margin:0 auto;
+  }
+  .logo{
+    font-family:var(--display); font-size:1.35rem; color:var(--lank);
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo .dot{ color:var(--wouj); }
+  .nav-actions{ display:flex; align-items:center; gap:14px; }
+  .back-link{
+    font-family:var(--body); font-weight:600; font-size:0.88rem;
+    color:var(--lank-soft); display:flex; align-items:center; gap:6px;
+  }
+  .back-link:hover{ color:var(--wouj); }
+  .theme-toggle{
+    width:38px; height:38px; border-radius:50%;
+    border:1px solid var(--liy); background:transparent;
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--lank);
+  }
+  .theme-toggle svg{ width:18px; height:18px; }
+  .theme-toggle .ic-sun{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .ic-moon{ display:none; }
+  :root[data-theme="dark"] .theme-toggle .ic-sun{ display:block; }
+
+  /* ============ HERO ============ */
+  .ap-hero{ padding:64px 0 48px; border-bottom:1px solid var(--liy); text-align:center; }
+  .ap-eyebrow{
+    font-family:var(--mono); font-size:0.72rem; letter-spacing:0.08em;
+    text-transform:uppercase; color:var(--wouj); margin-bottom:16px;
+    display:inline-block; background:rgba(185,28,60,0.08);
+    padding:5px 14px; border-radius:20px;
+  }
+  :root[data-theme="dark"] .ap-eyebrow{ background:rgba(225,77,99,0.15); }
+  .ap-hero h1{
+    font-family:var(--display); font-size:clamp(2.1rem,5vw,3.2rem);
+    line-height:1.15; margin-bottom:18px; max-width:680px; margin-left:auto; margin-right:auto;
+  }
+  .ap-hero h1 em{ font-style:italic; color:var(--wouj); }
+  .ap-hero .lead{
+    font-size:1.05rem; color:var(--lank-soft); max-width:560px;
+    margin:0 auto; line-height:1.7;
+  }
+
+  /* ============ STATS STRIP ============ */
+  .ap-stats{ padding:40px 0; border-bottom:1px solid var(--liy); }
+  .ap-stats-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:24px; text-align:center;
+  }
+  @media (max-width:600px){ .ap-stats-grid{ grid-template-columns:1fr; gap:28px; } }
+  .ap-stat b{
+    display:block; font-family:var(--display); font-size:2.4rem; color:var(--wouj);
+    line-height:1;
+  }
+  .ap-stat span{ font-family:var(--mono); font-size:0.78rem; color:var(--lank-soft); text-transform:uppercase; letter-spacing:0.04em; }
+
+  /* ============ SECTIONS ============ */
+  .ap-section{ padding:56px 0; }
+  .ap-section.alt{ background:var(--krem-dim); }
+  .ap-section-head{ max-width:620px; margin:0 auto 36px; text-align:center; }
+  .ap-label{
+    font-family:var(--mono); font-size:0.74rem; text-transform:uppercase; letter-spacing:0.06em;
+    color:var(--wouj); margin-bottom:10px; display:block;
+  }
+  .ap-section-head h2{ font-family:var(--display); font-size:1.8rem; line-height:1.2; }
+
+  .ap-story{ max-width:640px; margin:0 auto; }
+  .ap-story p{ font-size:1rem; line-height:1.85; color:var(--lank-soft); margin-bottom:18px; }
+  .ap-story strong{ color:var(--lank); }
+  .ap-signature{
+    display:flex; align-items:center; gap:14px; margin-top:28px; padding-top:24px;
+    border-top:1px solid var(--liy);
+  }
+  .ap-signature .av{
+    width:46px; height:46px; border-radius:50%; background:var(--ble);
+    color:#fff; display:flex; align-items:center; justify-content:center;
+    font-family:var(--display); font-size:1.1rem; flex-shrink:0;
+  }
+  .ap-signature .name{ font-weight:700; font-size:0.92rem; }
+  .ap-signature .role{ font-size:0.8rem; color:var(--lank-soft); }
+
+  /* ---- VALUES GRID ---- */
+  .ap-values{ display:grid; grid-template-columns:repeat(2,1fr); gap:20px; max-width:760px; margin:0 auto; }
+  @media (max-width:640px){ .ap-values{ grid-template-columns:1fr; } }
+  .ap-value{
+    background:var(--blan); border:1px solid var(--liy); border-radius:var(--radius);
+    padding:24px;
+  }
+  :root[data-theme="dark"] .ap-value{ background:var(--krem-dim); }
+  .ap-value .ic{
+    width:40px; height:40px; border-radius:10px; background:rgba(185,28,60,0.08);
+    color:var(--wouj); display:flex; align-items:center; justify-content:center;
+    margin-bottom:14px;
+  }
+  :root[data-theme="dark"] .ap-value .ic{ background:rgba(225,77,99,0.15); }
+  .ap-value .ic svg{ width:20px; height:20px; }
+  .ap-value h3{ font-size:1rem; margin-bottom:8px; font-weight:700; }
+  .ap-value p{ font-size:0.9rem; color:var(--lank-soft); line-height:1.65; }
+
+  /* ---- TIMELINE ---- */
+  .ap-timeline{ max-width:640px; margin:0 auto; display:flex; flex-direction:column; gap:0; }
+  .ap-tl-item{ display:flex; gap:20px; padding-bottom:32px; position:relative; }
+  .ap-tl-item:last-child{ padding-bottom:0; }
+  .ap-tl-item::before{
+    content:''; position:absolute; left:5px; top:24px; bottom:0; width:1px; background:var(--liy);
+  }
+  .ap-tl-item:last-child::before{ display:none; }
+  .ap-tl-dot{
+    width:11px; height:11px; border-radius:50%; background:var(--wouj); flex-shrink:0; margin-top:4px;
+  }
+  .ap-tl-content h4{ font-size:0.95rem; margin-bottom:4px; }
+  .ap-tl-content p{ font-size:0.88rem; color:var(--lank-soft); line-height:1.6; }
+  .ap-tl-content .ap-tl-tag{
+    font-family:var(--mono); font-size:0.7rem; color:var(--lo-text); text-transform:uppercase;
+    letter-spacing:0.04em; display:block; margin-bottom:4px;
+  }
+
+  /* ---- CTA ---- */
+  .ap-cta{ text-align:center; padding:64px 0; }
+  .ap-cta h2{ font-family:var(--display); font-size:1.9rem; margin-bottom:14px; }
+  .ap-cta p{ color:var(--lank-soft); margin-bottom:28px; max-width:480px; margin-left:auto; margin-right:auto; }
+  .ap-cta-btns{ display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:13px 26px; border-radius:10px;
+    font-weight:700; font-size:0.92rem; border:none; cursor:pointer; transition:transform .15s, opacity .15s;
+  }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn-primary{ background:var(--wouj); color:#fff; }
+  .btn-ghost{ background:transparent; color:var(--lank); border:1px solid var(--liy); }
+
+  /* ============ FOOTER ============ */
+  footer{ background:var(--lank); color:rgba(251,246,236,0.7); padding:48px 0 24px; }
+  :root[data-theme="dark"] footer{ background:#0D1017; color:rgba(237,232,218,0.65); }
+  .foot-bottom{
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-size:0.8rem; max-width:var(--container); margin:0 auto; padding:0 24px;
+  }
+  .foot-links{ display:flex; gap:18px; margin-bottom:18px; max-width:var(--container); margin-left:auto; margin-right:auto; padding:0 24px; flex-wrap:wrap; }
+  .foot-links a{ font-size:0.84rem; color:rgba(251,246,236,0.7); }
+  :root[data-theme="dark"] .foot-links a{ color:rgba(237,232,218,0.65); }
+  .foot-links a:hover{ color:var(--lo); }
+</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3671082075819991"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="/" class="logo">Ayiti Market<span class="dot">.</span></a>
+    <div class="nav-actions">
+      <a href="/" class="back-link">← Retounen sou sit la</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Chanje tèm">
+        <svg class="ic-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        <svg class="ic-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<section class="ap-hero">
+  <div class="wrap">
+    <span class="ap-eyebrow">Istwa Nou</span>
+    <h1>Yon mache <em>fèt pou Ayisyen</em>,<br>pa Ayisyen.</h1>
+    <p class="lead">Ayiti Market se yon espas senp e gratis kote nenpòt moun ann Ayiti — oswa nan dyaspora — ka achte, vann, oswa twouve yon sèvis san konplikasyon.</p>
+  </div>
+</section>
+
+<section class="ap-stats">
+  <div class="wrap">
+    <div class="ap-stats-grid">
+      <div class="ap-stat">
+        <b id="stat-anons">—</b>
+        <span>Anons aktif</span>
+      </div>
+      <div class="ap-stat">
+        <b id="stat-vandè">—</b>
+        <span>Vandè verifye</span>
+      </div>
+      <div class="ap-stat">
+        <b>10</b>
+        <span>Depatman kouvri</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ap-section">
+  <div class="wrap">
+    <div class="ap-section-head">
+      <span class="ap-label">Poukisa nou kreye Ayiti Market</span>
+      <h2>Yon pwoblèm senp, yon solisyon lokal</h2>
+    </div>
+    <div class="ap-story">
+      <p>Ann Ayiti, anpil moun ap vann oswa ap chèche yon sèvis chak jou — men anons yo gaye nan gwoup WhatsApp, sou Facebook, oswa pase nan bouch ak zòrèy. Pa gen yon sèl kote senp pou jwenn tout sa yon sèl fwa.</p>
+      <p><strong>Ayiti Market</strong> kreye pou ranpli vid sa a: yon platfòm anons ki rapid, gratis, e ki konstwi espesyalman pou reyalite peyi a — yon koneksyon entènèt ki ka fèb, yon prefereans pou kontak dirèk (WhatsApp), e yon konfyans ki baze sou kominote.</p>
+      <p>Nou pa yon gwo konpayi entènasyonal ki ajiste yon pwodui pou mache ayisyen an. Ayiti Market fèt isit la, pou isit la, ak konprann reyèl sou kijan moun ap achte ak vann nan tout depatman peyi a — Pòtoprens, Okap, Gonayiv, Jakmèl, ak plis ankò.</p>
+      <div class="ap-signature">
+        <div class="av">D</div>
+        <div>
+          <div class="name">Doberto — Mr Lit</div>
+          <div class="role">Kreyatè & Devlopè, Ayiti Market</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ap-section alt">
+  <div class="wrap">
+    <div class="ap-section-head">
+      <span class="ap-label">Sa nou kwè</span>
+      <h2>Valè ki gide chak desizyon nou pran</h2>
+    </div>
+    <div class="ap-values">
+      <div class="ap-value">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h3>Konfyans anvan tout bagay</h3>
+        <p>Vandè verifye, rapòte anons fasil, ak règ klè kont fwod — pou chak tranzaksyon kòmanse sou yon baz solid.</p>
+      </div>
+      <div class="ap-value">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 010 20a15 15 0 010-20z"/></svg></div>
+        <h3>Aksè pou tout moun</h3>
+        <p>Gratis pou pibliye, fèt pou mache byen menm sou yon telefòn ki gen koneksyon limite, e disponib toupatou nan peyi a.</p>
+      </div>
+      <div class="ap-value">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <h3>Senplisite anvan tout bagay</h3>
+        <p>Pa gen etap initil. Pibliye yon anons, kontakte yon vandè, oswa jwenn sa w ap chèche — tout sa fèt nan kèk klik.</p>
+      </div>
+      <div class="ap-value">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 10-7.78 7.78l1.06 1.06L12 21l7.78-7.78l1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></div>
+        <h3>Fyète Ayisyen</h3>
+        <p>Yon entèfas an Kreyòl, panse pou kilti nou, e bati ak lanmou pou yon peyi ki merite zouti li merite yo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ap-section">
+  <div class="wrap">
+    <div class="ap-section-head">
+      <span class="ap-label">Pakou nou</span>
+      <h2>Kijan Ayiti Market vin sou pye</h2>
+    </div>
+    <div class="ap-timeline">
+      <div class="ap-tl-item">
+        <div class="ap-tl-dot"></div>
+        <div class="ap-tl-content">
+          <span class="ap-tl-tag">Lide a</span>
+          <h4>Yon konstat senp</h4>
+          <p>Anons gaye sou WhatsApp ak Facebook, san estrikti, san fason pou filtre oswa fè konfyans. Te gen yon vid pou ranpli.</p>
+        </div>
+      </div>
+      <div class="ap-tl-item">
+        <div class="ap-tl-dot"></div>
+        <div class="ap-tl-content">
+          <span class="ap-tl-tag">Konstriksyon</span>
+          <h4>Premye vèsyon platfòm la</h4>
+          <p>Yon platfòm SPA rapid, byen estriktire pa kategori, ak yon sistèm pou pibliye anons an mwens pase yon minit.</p>
+        </div>
+      </div>
+      <div class="ap-tl-item">
+        <div class="ap-tl-dot"></div>
+        <div class="ap-tl-content">
+          <span class="ap-tl-tag">Konfyans</span>
+          <h4>Sistèm Vandè Verifye</h4>
+          <p>Ajoute yon koukou verifikasyon idantite pou bay achtè plis konfyans nan vandè yo kontakte.</p>
+        </div>
+      </div>
+      <div class="ap-tl-item">
+        <div class="ap-tl-dot"></div>
+        <div class="ap-tl-content">
+          <span class="ap-tl-tag">Kounye a</span>
+          <h4>Toujou ap grandi</h4>
+          <p>Chat dirèk, mòd nwa, app enstalab (PWA), ak nouvo fonksyonalite ki ap ajoute chak semèn pou amelyore eksperyans ou.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ap-cta">
+  <div class="wrap">
+    <h2>Pare pou kòmanse?</h2>
+    <p>Pibliye premye anons ou gratis, oswa eksplore sa ki disponib kounye a sou mache a.</p>
+    <div class="ap-cta-btns">
+      <a href="/#anons" class="btn btn-primary">Eksplore anons yo</a>
+      <a href="/" class="btn btn-ghost">Pibliye yon anons</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="foot-links">
+    <a href="/apropos.html">À Propos</a>
+    <a href="/cgu.html">Kondisyon Itilizasyon</a>
+    <a href="/confidentialite.html">Politik Konfidansyalite</a>
+    <a href="/">Akèy</a>
+  </div>
+  <div class="foot-bottom">
+    <span>Fèt ak <svg viewBox="0 0 24 24" width="13" height="13" fill="var(--wouj)" stroke="none" style="display:inline;vertical-align:-2px;"><path d="M12 21s-7.5-4.6-10.2-9.3C0.2 8.6 1.6 5 5.1 4.1c2.1-0.5 4.1 0.4 5 2.1c0.9-1.7 2.9-2.6 5-2.1c3.5 0.9 4.9 4.5 3.3 7.6C19.5 16.4 12 21 12 21z"/></svg> pou Ayiti — pa Doberto Mr Lit</span>
+    <span>© 2026 Ayiti Market. Tout dwa rezève.</span>
+  </div>
+</footer>
+
+<script>
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    try { localStorage.setItem('am-theme', theme); } catch (e) {}
+  }
+  function toggleTheme() {
+    const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+    setTheme(current === 'dark' ? 'light' : 'dark');
+  }
+  document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+
+  // ============ STATISTIK VIVAN (Supabase) ============
+  const SUPABASE_URL = 'https://cisjnsdnxqvgqjuzwobk.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpc2puc2RueHF2Z3FqdXp3b2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0MTI2OTQsImV4cCI6MjA5Nzk4ODY5NH0.rWwbLUOs8TjZpHD19fDYX4B9mOIyn-eAFpcwGcdav_E';
+
+  async function loadAboutStats() {
+    try {
+      const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+      const { data, error } = await sb.from('listings').select('verified').eq('status', 'active');
+      if (error || !data) return;
+      document.getElementById('stat-anons').textContent = data.length;
+      document.getElementById('stat-vandè').textContent = data.filter(l => l.verified).length;
+    } catch (e) {
+      // Si rekèt la echwe, kite tirè a (—) — pa kraze paj la pou sa.
+    }
+  }
+  loadAboutStats();
+</script>
+</body>
+</html>
