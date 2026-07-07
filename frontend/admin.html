@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="monetag" content="20884ae79fc67fd221a19134e65a81cd" />
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Admin — Ayiti Market</title>
+  <meta name="robots" content="noindex,nofollow"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <style>
+    :root {
+      --krem: #0B0D12; --krem-dim: #11141B; --lank: #EDE8DA;
+      --lank-soft: #9CA3AF; --wouj: #E14D63; --wouj-dark: #F2718A;
+      --vèt: #22C55E; --jòn: #F2C26B; --ble: #5C8AD6;
+      --blan: #161A22; --bòd: #232A36; --lo: #F2C26B;
+      --bg: var(--krem); --teks: var(--lank); --kart: var(--blan);
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--teks);min-height:100vh;}
+
+    /* ── NAV ── */
+    .admin-nav{
+      background:var(--lank);color:var(--krem);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 24px;height:56px;position:sticky;top:0;z-index:100;
+    }
+    .admin-nav .brand{font-family:'DM Serif Display',serif;font-size:1.1rem;display:flex;align-items:center;gap:10px;}
+    .admin-nav .brand span{background:var(--wouj);color:#fff;padding:3px 8px;border-radius:6px;font-family:'Inter',sans-serif;font-size:0.72rem;font-weight:700;letter-spacing:.5px;}
+    .nav-user{display:flex;align-items:center;gap:12px;font-size:0.85rem;color:var(--krem-dim);}
+    .btn-logout{background:transparent;border:1px solid rgba(255,255,255,0.25);color:var(--krem);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:0.82rem;font-family:inherit;}
+    .btn-logout:hover{background:rgba(255,255,255,0.1);}
+
+    /* ── LAYOUT ── */
+    .admin-wrap{display:flex;min-height:calc(100vh - 56px);}
+    .sidebar{
+      width:220px;flex-shrink:0;background:var(--kart);
+      border-right:1px solid var(--bòd);padding:20px 0;
+      position:sticky;top:56px;height:calc(100vh - 56px);overflow-y:auto;
+    }
+    .sidebar-item{
+      display:flex;align-items:center;gap:10px;
+      padding:11px 20px;cursor:pointer;font-size:0.88rem;font-weight:500;
+      color:var(--lank-soft);border-left:3px solid transparent;
+      transition:all .15s;
+    }
+    .sidebar-item:hover{background:var(--krem);color:var(--lank);}
+    .sidebar-item.active{background:var(--krem-dim);color:var(--wouj);border-left-color:var(--wouj);font-weight:700;}
+    .sidebar-item svg{width:17px;height:17px;flex-shrink:0;}
+    .sidebar-section{padding:16px 20px 6px;font-size:0.72rem;font-weight:700;color:var(--lank-soft);letter-spacing:.8px;text-transform:uppercase;}
+
+    /* ── MAIN ── */
+    .main{flex:1;padding:28px;overflow-x:hidden;}
+    .page-title{font-family:'DM Serif Display',serif;font-size:1.6rem;margin-bottom:6px;}
+    .page-sub{color:var(--lank-soft);font-size:0.88rem;margin-bottom:24px;}
+
+    /* ── STATS CARDS ── */
+    .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:28px;}
+    .stat-card{background:var(--kart);border:1px solid var(--bòd);border-radius:14px;padding:18px 20px;}
+    .stat-label{font-size:0.78rem;font-weight:600;color:var(--lank-soft);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;}
+    .stat-val{font-size:2rem;font-weight:800;line-height:1;}
+    .stat-val.wouj{color:var(--wouj);}
+    .stat-val.vèt{color:var(--vèt);}
+    .stat-val.jòn{color:var(--jòn);}
+    .stat-val.ble{color:var(--ble);}
+    .stat-sub{font-size:0.76rem;color:var(--lank-soft);margin-top:4px;}
+
+    /* ── TABS ── */
+    .tab-panel{display:none;}
+    .tab-panel.active{display:block;}
+
+    /* ── TABLE ── */
+    .table-wrap{background:var(--kart);border:1px solid var(--bòd);border-radius:14px;overflow:hidden;}
+    .table-header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;border-bottom:1px solid var(--bòd);}
+    .table-header h3{font-size:0.95rem;font-weight:700;}
+    .table-search{padding:8px 14px;border:1.5px solid var(--bòd);border-radius:10px;font-size:0.85rem;font-family:inherit;background:var(--bg);color:var(--teks);width:220px;}
+    .table-search:focus{outline:none;border-color:var(--wouj);}
+    table{width:100%;border-collapse:collapse;}
+    th{text-align:left;padding:10px 16px;font-size:0.75rem;font-weight:700;color:var(--lank-soft);text-transform:uppercase;letter-spacing:.5px;background:var(--krem);border-bottom:1px solid var(--bòd);}
+    td{padding:12px 16px;font-size:0.85rem;border-bottom:1px solid var(--bòd);vertical-align:middle;}
+    tr:last-child td{border-bottom:none;}
+    tr:hover td{background:var(--krem);}
+    .cell-img{width:44px;height:44px;object-fit:cover;border-radius:8px;background:var(--krem-dim);}
+    .cell-img-placeholder{width:44px;height:44px;border-radius:8px;background:var(--krem-dim);display:flex;align-items:center;justify-content:center;color:var(--lank-soft);font-size:1.1rem;}
+
+    /* ── BADGES ── */
+    .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 9px;border-radius:20px;font-size:0.72rem;font-weight:700;}
+    .badge-active{background:#DCFCE7;color:#15803D;}
+    .badge-removed{background:#FEE2E2;color:#B91C1C;}
+    .badge-pending{background:#FEF9C3;color:#854D0E;}
+    .badge-verified{background:#DBEAFE;color:#1D4ED8;}
+
+    /* ── ACTIONS ── */
+    .action-btn{padding:5px 12px;border-radius:8px;font-size:0.78rem;font-weight:600;cursor:pointer;border:none;font-family:inherit;transition:opacity .15s;}
+    .action-btn:hover{opacity:.8;}
+    .btn-activate{background:#DCFCE7;color:#15803D;}
+    .btn-remove{background:#FEE2E2;color:#B91C1C;}
+    .btn-verify{background:#DBEAFE;color:#1D4ED8;}
+    .btn-unverify{background:#F3F4F6;color:#374151;}
+    .btn-feature{background:#FEF3C7;color:#92400E;}
+    .action-gap{display:flex;gap:6px;flex-wrap:wrap;}
+
+    /* ── LOADING ── */
+    .loading{text-align:center;padding:40px;color:var(--lank-soft);font-size:0.9rem;}
+    .spinner{display:inline-block;width:28px;height:28px;border:3px solid var(--bòd);border-top-color:var(--wouj);border-radius:50%;animation:spin .7s linear infinite;margin-bottom:12px;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* ── TOAST ── */
+    #adminToast{
+      position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+      background:var(--lank);color:var(--krem);padding:12px 22px;
+      border-radius:12px;font-size:0.88rem;font-weight:600;
+      opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;
+      white-space:nowrap;
+    }
+    #adminToast.show{opacity:1;}
+
+    /* ── LOGIN ── */
+    #loginScreen{
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+      background:var(--krem);
+    }
+    .login-box{background:var(--blan);border:1px solid var(--bòd);border-radius:20px;padding:40px;width:340px;text-align:center;}
+    .login-box h1{font-family:'DM Serif Display',serif;font-size:1.5rem;margin-bottom:6px;}
+    .login-box p{color:var(--lank-soft);font-size:0.85rem;margin-bottom:28px;}
+    .login-error{color:var(--wouj);font-size:0.82rem;margin-top:12px;display:none;}
+
+    /* ── MODAL ── */
+    .modal-overlay{position:fixed;inset:0;background:rgba(20,24,31,.55);display:flex;align-items:center;justify-content:center;z-index:500;display:none;}
+    .modal-overlay.open{display:flex;}
+    .modal-box{background:var(--blan);border-radius:18px;padding:28px;width:380px;max-width:95vw;max-height:90vh;overflow-y:auto;}
+    .modal-box h3{font-size:1rem;font-weight:700;margin-bottom:16px;}
+    .modal-box label{display:block;font-size:0.82rem;font-weight:600;margin-bottom:6px;color:var(--lank-soft);}
+    .modal-box select,.modal-box input{width:100%;padding:10px 14px;border:1.5px solid var(--bòd);border-radius:10px;font-size:0.88rem;font-family:inherit;margin-bottom:14px;background:var(--bg);color:var(--teks);}
+    .modal-actions{display:flex;gap:10px;margin-top:6px;}
+    .btn-primary{background:var(--wouj);color:#fff;border:none;padding:11px 20px;border-radius:10px;font-weight:700;cursor:pointer;font-family:inherit;font-size:0.9rem;flex:1;}
+    .btn-secondary{background:var(--krem-dim);color:var(--lank);border:none;padding:11px 20px;border-radius:10px;font-weight:600;cursor:pointer;font-family:inherit;font-size:0.9rem;}
+
+    /* ── RAPÒ ── */
+    .report-card{background:var(--kart);border:1px solid var(--bòd);border-radius:12px;padding:16px;margin-bottom:12px;}
+    .report-card h4{font-size:0.9rem;font-weight:700;margin-bottom:6px;}
+    .report-card p{font-size:0.82rem;color:var(--lank-soft);margin-bottom:10px;line-height:1.5;}
+    .report-meta{font-size:0.75rem;color:var(--lank-soft);}
+
+    @media(max-width:680px){
+      .sidebar{
+        display:block;position:fixed;left:0;top:56px;z-index:60;
+        transform:translateX(-100%);transition:transform .22s ease;
+        box-shadow:4px 0 18px rgba(0,0,0,0.25);
+      }
+      .sidebar.open{transform:translateX(0);}
+      .main{padding:16px;}
+      .stats-grid{grid-template-columns:repeat(2,1fr);}
+      th:nth-child(n+4),td:nth-child(n+4){display:none;}
+    }
+    .hamburger-btn{display:none;}
+    #sidebarOverlay{display:none;}
+    @media(max-width:680px){
+      .hamburger-btn{
+        display:inline-flex;align-items:center;justify-content:center;
+        width:34px;height:34px;margin-right:8px;
+        background:transparent;border:1px solid rgba(255,255,255,0.25);
+        border-radius:8px;color:var(--krem);font-size:1.1rem;cursor:pointer;
+      }
+      #sidebarOverlay.open{
+        display:block;position:fixed;inset:0;top:56px;z-index:55;
+        background:rgba(0,0,0,0.4);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen">
+  <div class="login-box">
+    <h1>Ayiti Market</h1>
+    <p>Aksè Admin sèlman</p>
+    <div id="loginMsg" style="color:var(--lank-soft);font-size:0.85rem;padding:20px 0;">
+      <div class="spinner"></div><br>Ap verifye idantite ou...
+    </div>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<!-- MAIN APP (kache jiskaske koneksyon verifye) -->
+<div id="adminApp" style="display:none;">
+  <nav class="admin-nav">
+    <div class="brand">
+      <button class="hamburger-btn" onclick="toggleSidebar()" aria-label="Meni">☰</button>
+      Ayiti Market <span>ADMIN</span>
+    </div>
+    <div class="nav-user">
+      <span id="adminEmail"></span>
+      <button class="btn-logout" onclick="logout()">Dekonekte</button>
+    </div>
+  </nav>
+
+  <div id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+  <div class="admin-wrap">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <div class="sidebar-section">Jeneral</div>
+      <div class="sidebar-item active" onclick="showTab('dashboard',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
+      </div>
+      <div class="sidebar-section">Kontni</div>
+      <div class="sidebar-item" onclick="showTab('listings',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        Anons
+      </div>
+      <div class="sidebar-item" onclick="showTab('users',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Itilizatè
+      </div>
+      <div class="sidebar-item" onclick="showTab('business',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"/><path d="M5 21V7l8-4v18"/><path d="M19 21V11l-6-4"/><path d="M9 9v.01M9 12v.01M9 15v.01M9 18v.01"/></svg>
+        Antrepriz
+      </div>
+      <div class="sidebar-item" onclick="showTab('ads',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><line x1="6" y1="9" x2="18" y2="9"/><line x1="6" y1="13" x2="14" y2="13"/></svg>
+        Piblisite
+      </div>
+      <div class="sidebar-item" onclick="showTab('boosts',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Boost / Vedèt
+      </div>
+      <div class="sidebar-section">Sekirite</div>
+      <div class="sidebar-item" onclick="showTab('reports',this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        Rapò
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+      <!-- DASHBOARD TAB -->
+      <div class="tab-panel active" id="tab-dashboard">
+        <div class="page-title">Dashboard</div>
+        <div class="page-sub">Bienveni nan panno admin Ayiti Market</div>
+        <div class="stats-grid" id="statsGrid">
+          <div class="loading"><div class="spinner"></div></div>
+        </div>
+        <div class="table-wrap" style="margin-top:8px;">
+          <div class="table-header"><h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>Dènye Anons yo</h3></div>
+          <div id="recentListings"><div class="loading">Ap chaje...</div></div>
+        </div>
+      </div>
+
+      <!-- LISTINGS TAB -->
+      <div class="tab-panel" id="tab-listings">
+        <div class="page-title">Anons yo</div>
+        <div class="page-sub">Modere ak jere tout anons sou sit la</div>
+        <div class="table-wrap">
+          <div class="table-header">
+            <h3>Tout Anons (<span id="listingsCount">...</span>)</h3>
+            <input class="table-search" placeholder="Chèche titre, lokal..." oninput="filterListings(this.value)" id="listingSearch"/>
+          </div>
+          <div id="listingsTable"><div class="loading"><div class="spinner"></div><br>Ap chaje anons yo...</div></div>
+        </div>
+      </div>
+
+      <!-- USERS TAB -->
+      <div class="tab-panel" id="tab-users">
+        <div class="page-title">Itilizatè yo</div>
+        <div class="page-sub">Jere pwofil ak badge vandè verifye</div>
+        <div class="table-wrap">
+          <div class="table-header">
+            <h3>Pwofil (<span id="usersCount">...</span>)</h3>
+            <input class="table-search" placeholder="Chèche non, imèl..." oninput="filterUsers(this.value)" id="userSearch"/>
+          </div>
+          <div id="usersTable"><div class="loading"><div class="spinner"></div><br>Ap chaje itilizatè yo...</div></div>
+        </div>
+      </div>
+
+      <!-- BUSINESS TAB -->
+      <div class="tab-panel" id="tab-business">
+        <div class="page-title">Kont Antrepriz</div>
+        <div class="page-sub">Verifye antrepriz yo pou yo jwenn badge "Antrepriz Verifye"</div>
+        <div class="table-wrap">
+          <div class="table-header">
+            <h3>Antrepriz (<span id="businessCount">...</span>)</h3>
+            <input class="table-search" placeholder="Chèche non biznis..." oninput="filterBusinesses(this.value)" id="businessSearch"/>
+          </div>
+          <div id="businessTable"><div class="loading"><div class="spinner"></div><br>Ap chaje antrepriz yo...</div></div>
+        </div>
+      </div>
+
+      <!-- ADS TAB -->
+      <div class="tab-panel" id="tab-ads">
+        <div class="page-title">Espas Piblisite</div>
+        <div class="page-sub">Ajoute oswa retire banner piblisite sou sit la (manyèl)</div>
+        <div class="table-wrap">
+          <div class="table-header">
+            <h3>Banner (<span id="adsCount">...</span>)</h3>
+            <button class="btn-primary" style="padding:8px 16px;border-radius:8px;border:none;background:#1a1a2e;color:#fff;font-weight:600;cursor:pointer;" onclick="openAdModal()">+ Nouvo Banner</button>
+          </div>
+          <div id="adsTable"><div class="loading"><div class="spinner"></div><br>Ap chaje banner yo...</div></div>
+        </div>
+      </div>
+
+      <!-- BOOSTS TAB -->
+      <div class="tab-panel" id="tab-boosts">
+        <div class="page-title">Boost & Vedèt</div>
+        <div class="page-sub">Apwouve oswa rejte demann vedèt MonCash</div>
+        <div class="table-wrap">
+          <div class="table-header"><h3>Demann Boost (<span id="boostsCount">...</span>)</h3></div>
+          <div id="boostsTable"><div class="loading"><div class="spinner"></div><br>Ap chaje...</div></div>
+        </div>
+      </div>
+
+      <!-- REPORTS TAB -->
+      <div class="tab-panel" id="tab-reports">
+        <div class="page-title">Rapò</div>
+        <div class="page-sub">Anons ak itilizatè ki rapòte pa kominote a</div>
+        <div id="reportsContainer"><div class="loading"><div class="spinner"></div><br>Ap chaje rapò yo...</div></div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<!-- MODAL BOOST -->
+<div class="modal-overlay" id="boostModal">
+  <div class="modal-box">
+    <h3><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Aktive Vedèt</h3>
+    <input type="hidden" id="boostListingId"/>
+    <label>Nivo</label>
+    <select id="boostTier">
+      <option value="1">Tier 1 — Vedèt Debaz</option>
+      <option value="2">Tier 2 — Vedèt Premium</option>
+    </select>
+    <label>Dirasyon</label>
+    <select id="boostDays">
+      <option value="7">7 jou — 500 HTG</option>
+      <option value="14">14 jou — 1,200 HTG</option>
+      <option value="30">30 jou — 2,500 HTG</option>
+    </select>
+    <label>Nòt (MonCash ref, etc.)</label>
+    <input type="text" id="boostNotes" placeholder="ex: MonCash #12345"/>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeBoostModal()">Anile</button>
+      <button class="btn-primary" onclick="submitBoost()">Aktive <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="vertical-align:-2px;margin-left:4px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></button>
+    </div>
+  </div>
+</div>
+
+<div id="adminToast"></div>
+
+<div class="modal-overlay" id="adModal">
+  <div class="modal-box">
+    <h3>📢 Banner Piblisite</h3>
+    <input type="hidden" id="adId"/>
+    <label>Tit (referans entèn)</label>
+    <input type="text" id="adTitle" placeholder="ex: Boutik XYZ - Jiyè 2026"/>
+    <label>Imaj Banner</label>
+    <div id="adImgPreview" style="width:100%;height:90px;border-radius:8px;background:#eee;background-size:cover;background-position:center;margin-bottom:8px;"></div>
+    <input type="file" id="adImageFile" accept="image/png,image/jpeg,image/webp,image/gif" onchange="handleAdImageFile(this.files[0])"/>
+    <input type="hidden" id="adImageUrl"/>
+    <p id="adImgStatus" style="font-size:0.78rem;color:#888;margin:4px 0 10px;">Chwazi yon imaj (fòma paysaj mache pi byen).</p>
+    <label>Lyen (kote klik la ap voye moun)</label>
+    <input type="text" id="adLinkUrl" placeholder="https://..."/>
+    <label>Pozisyon</label>
+    <select id="adPosition">
+      <option value="akey_anwo">Akèy — Anwo (anba hero a)</option>
+      <option value="akey_mitan">Akèy — Mitan (anvan lis anons)</option>
+      <option value="sidebar">Sidebar</option>
+      <option value="paj_anons">Paj Anons</option>
+    </select>
+    <label>Lòd afichaj (pi piti = pi wo)</label>
+    <input type="number" id="adSortOrder" value="0"/>
+    <label style="display:flex;align-items:center;gap:8px;margin-top:8px;">
+      <input type="checkbox" id="adIsActive" checked style="width:auto;"/> Aktif (afiche sou sit la)
+    </label>
+    <div class="modal-actions">
+      <button class="btn-secondary" onclick="closeAdModal()">Anile</button>
+      <button class="btn-primary" onclick="submitAd()">Sove Banner</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const SUPABASE_URL = 'https://cisjnsdnxqvgqjuzwobk.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpc2puc2RueHF2Z3FqdXp3b2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0MTI2OTQsImV4cCI6MjA5Nzk4ODY5NH0.rWwbLUOs8TjZpHD19fDYX4B9mOIyn-eAFpcwGcdav_E';
+  const API_BASE = 'https://api.ayiti-market.com';
+  const ADMIN_EMAILS = ['dobertojean35@gmail.com', 'jeandoberto55@gmail.com'];
+
+  const sc = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  let TOKEN = null;
+  let ALL_LISTINGS = [];
+  let ALL_USERS = [];
+
+  // ── AUTH ──
+  async function init() {
+    const { data: { session } } = await sc.auth.getSession();
+    if (!session) {
+      document.getElementById('loginMsg').innerHTML = '<p style="color:var(--wouj);font-weight:600;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="vertical-align:-3px;margin-right:6px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Ou pa konekte.<br><a href="index.html" style="color:var(--wouj)">Retounen sou sit la</a> epi konekte ak kont admin ou.</p>';
+      return;
+    }
+    if (!ADMIN_EMAILS.includes(session.user.email)) {
+      document.getElementById('loginMsg').innerHTML = '<p style="color:var(--wouj);font-weight:600;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="vertical-align:-3px;margin-right:6px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>Kont ou pa gen dwa admin.</p>';
+      return;
+    }
+    TOKEN = session.access_token;
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminApp').style.display = 'block';
+    document.getElementById('adminEmail').textContent = session.user.email;
+    loadDashboard();
+    loadListings();
+    loadUsers();
+    loadBoosts();
+    loadReports();
+    loadBusinesses();
+    loadAds();
+  }
+
+  async function logout() {
+    await sc.auth.signOut();
+    location.href = 'index.html';
+  }
+
+  function hdrs() {
+    return { 'Authorization': `Bearer ${TOKEN}`, 'Content-Type': 'application/json' };
+  }
+
+  // ── TABS ──
+  function showTab(name, el) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.sidebar-item').forEach(i => i.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    el.classList.add('active');
+    closeSidebar();
+  }
+
+  // ── MENI MOBIL (tiwa/drawer pou fenèt etwat < 680px) ──
+  function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('open');
+  }
+  function closeSidebar() {
+    document.querySelector('.sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+  }
+
+  // ── TOAST ──
+  function toast(msg, ok = true) {
+    const t = document.getElementById('adminToast');
+    const icon = ok
+      ? `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><polyline points="20 6 9 17 4 12"/></svg>`
+      : `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" style="vertical-align:-2px;margin-right:6px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+    t.innerHTML = icon + msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+  }
+
+  // ── DASHBOARD ──
+  async function loadDashboard() {
+    const [listRes, userRes, boostRes, reportRes] = await Promise.all([
+      fetch(`${API_BASE}/api/admin/listings`, { headers: hdrs() }).then(r => r.json()),
+      sc.from('profiles').select('id,is_verified_seller,created_at'),
+      fetch(`${API_BASE}/api/admin/boost-payments`, { headers: hdrs() }).then(r => r.json()),
+      sc.from('reports').select('id,status')
+    ]);
+
+    const listings = Array.isArray(listRes) ? listRes : [];
+    const users = userRes.data || [];
+    const boosts = Array.isArray(boostRes) ? boostRes : [];
+    const reports = reportRes.data || [];
+
+    const aktif = listings.filter(l => l.status === 'active').length;
+    const retire = listings.filter(l => l.status === 'removed').length;
+    const verified = users.filter(u => u.is_verified_seller).length;
+    const pendingBoosts = boosts.filter(b => b.status === 'pending').length;
+    const openReports = reports.filter(r => r.status !== 'resolved').length;
+
+    document.getElementById('statsGrid').innerHTML = `
+      <div class="stat-card"><div class="stat-label">Anons Aktif</div><div class="stat-val vèt">${aktif}</div><div class="stat-sub">${retire} retire</div></div>
+      <div class="stat-card"><div class="stat-label">Itilizatè</div><div class="stat-val ble">${users.length}</div><div class="stat-sub">${verified} verifye</div></div>
+      <div class="stat-card"><div class="stat-label">Total Anons</div><div class="stat-val">${listings.length}</div><div class="stat-sub">tout estati</div></div>
+      <div class="stat-card"><div class="stat-label">Boost Anntatant</div><div class="stat-val jòn">${pendingBoosts}</div><div class="stat-sub">demann MonCash</div></div>
+      <div class="stat-card"><div class="stat-label">Rapò Ouvè</div><div class="stat-val wouj">${openReports}</div><div class="stat-sub">bezwen atansyon</div></div>
+    `;
+
+    // 10 dènye anons
+    const recent = listings.slice(0, 10);
+    document.getElementById('recentListings').innerHTML = recent.length ? `
+      <table>
+        <thead><tr><th>Foto</th><th>Titre</th><th>Pri</th><th>Estati</th><th>Dat</th></tr></thead>
+        <tbody>${recent.map(l => listingRow(l)).join('')}</tbody>
+      </table>` : '<div class="loading">Pa gen anons.</div>';
+  }
+
+  // ── LISTINGS ──
+  async function loadListings() {
+    const data = await fetch(`${API_BASE}/api/admin/listings`, { headers: hdrs() }).then(r => r.json());
+    ALL_LISTINGS = Array.isArray(data) ? data : [];
+    document.getElementById('listingsCount').textContent = ALL_LISTINGS.length;
+    renderListings(ALL_LISTINGS);
+  }
+
+  function renderListings(list) {
+    document.getElementById('listingsTable').innerHTML = list.length ? `
+      <table>
+        <thead><tr><th>Foto</th><th>Titre</th><th>Lokal</th><th>Pri</th><th>Estati</th><th>Aksyon</th></tr></thead>
+        <tbody>${list.map(l => listingRow(l, true)).join('')}</tbody>
+      </table>` : '<div class="loading">Pa gen anons ki koresponn.</div>';
+  }
+
+  function listingRow(l, withActions = false) {
+    const foto = l.photos?.[0]
+      ? `<img class="cell-img" src="${l.photos[0]}" loading="lazy"/>`
+      : `<div class="cell-img-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>`;
+    const badge = l.status === 'active'
+      ? '<span class="badge badge-active">Aktif</span>'
+      : '<span class="badge badge-removed">Retire</span>';
+    const date = new Date(l.created_at).toLocaleDateString('fr-HT');
+    const pri = l.price || 'Pa di';
+
+    let actions = '';
+    if (withActions) {
+      actions = `<td><div class="action-gap">
+        ${l.status === 'active'
+          ? `<button class="action-btn btn-remove" onclick="setListingStatus('${l.id}','removed')">Retire</button>`
+          : `<button class="action-btn btn-activate" onclick="setListingStatus('${l.id}','active')">Aktive</button>`}
+        <button class="action-btn btn-feature" onclick="openBoostModal('${l.id}')"><svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="vertical-align:-1px;margin-right:4px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Boost</button>
+      </div></td>`;
+    }
+
+    return `<tr>
+      <td>${foto}</td>
+      <td style="max-width:180px;"><div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${l.title || '—'}</div><div style="font-size:0.75rem;color:var(--lank-soft);">#${String(l.id).slice(0,8)}</div></td>
+      <td style="color:var(--lank-soft);font-size:0.82rem;">${l.location || '—'}</td>
+      <td style="font-weight:600;">${pri}</td>
+      <td>${badge}</td>
+      ${actions}
+    </tr>`;
+  }
+
+  function filterListings(q) {
+    const f = q.toLowerCase();
+    renderListings(ALL_LISTINGS.filter(l =>
+      (l.title || '').toLowerCase().includes(f) ||
+      (l.location || '').toLowerCase().includes(f)
+    ));
+  }
+
+  async function setListingStatus(id, status) {
+    const r = await fetch(`${API_BASE}/api/admin/listings/${id}/status`, {
+      method: 'PUT', headers: hdrs(), body: JSON.stringify({ status })
+    }).then(r => r.json());
+    if (r.id || r.status) {
+      toast(status === 'active' ? 'Anons aktive!' : 'Anons retire!');
+      loadListings(); loadDashboard();
+    } else {
+      toast(r.error || 'Erè', false);
+    }
+  }
+
+  // ── USERS ──
+  async function loadUsers() {
+    const { data } = await sc.from('profiles').select('*').order('created_at', { ascending: false });
+    ALL_USERS = data || [];
+    document.getElementById('usersCount').textContent = ALL_USERS.length;
+    renderUsers(ALL_USERS);
+  }
+
+  function renderUsers(list) {
+    document.getElementById('usersTable').innerHTML = list.length ? `
+      <table>
+        <thead><tr><th>Avatar</th><th>Non</th><th>Anons</th><th>Estati</th><th>Aksyon</th></tr></thead>
+        <tbody>${list.map(u => userRow(u)).join('')}</tbody>
+      </table>` : '<div class="loading">Pa gen pwofil.</div>';
+  }
+
+  function userRow(u) {
+    const av = u.avatar_url
+      ? `<img class="cell-img" src="${u.avatar_url}" loading="lazy"/>`
+      : `<div class="cell-img-placeholder"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>`;
+    const badge = u.is_verified_seller
+      ? '<span class="badge badge-verified"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Verifye</span>'
+      : '<span class="badge badge-pending">Nòmal</span>';
+    return `<tr>
+      <td>${av}</td>
+      <td><div style="font-weight:600;">${u.full_name || 'San non'}</div><div style="font-size:0.75rem;color:var(--lank-soft);">${u.id.slice(0,8)}...</div></td>
+      <td style="color:var(--lank-soft);">${u.listing_count || 0}</td>
+      <td>${badge}</td>
+      <td><div class="action-gap">
+        ${u.is_verified_seller
+          ? `<button class="action-btn btn-unverify" onclick="setVerified('${u.id}',false)">Retire Badge</button>`
+          : `<button class="action-btn btn-verify" onclick="setVerified('${u.id}',true)"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg>Verifye</button>`}
+      </div></td>
+    </tr>`;
+  }
+
+  function filterUsers(q) {
+    const f = q.toLowerCase();
+    renderUsers(ALL_USERS.filter(u =>
+      (u.full_name || '').toLowerCase().includes(f)
+    ));
+  }
+
+  async function setVerified(id, val) {
+    const r = await fetch(`${API_BASE}/api/admin/profiles/${id}/verify`, {
+      method: 'PUT', headers: hdrs(), body: JSON.stringify({ is_verified_seller: val })
+    }).then(r => r.json());
+    if (r.id) {
+      toast(val ? 'Badge Verifye ajoute!' : 'Badge retire!');
+      loadUsers();
+    } else {
+      toast(r.error || 'Erè', false);
+    }
+  }
+
+  // ── ANTREPRIZ (Kont Business) ──
+  let ALL_BUSINESSES = [];
+  async function loadBusinesses() {
+    const { data } = await sc.from('profiles').select('*').eq('account_type', 'business').order('created_at', { ascending: false });
+    ALL_BUSINESSES = data || [];
+    document.getElementById('businessCount').textContent = ALL_BUSINESSES.length;
+    renderBusinesses(ALL_BUSINESSES);
+  }
+
+  function renderBusinesses(list) {
+    document.getElementById('businessTable').innerHTML = list.length ? `
+      <table>
+        <thead><tr><th>Logo</th><th>Non Biznis</th><th>Kategori</th><th>Vil</th><th>Estati</th><th>Aksyon</th></tr></thead>
+        <tbody>${list.map(b => businessRow(b)).join('')}</tbody>
+      </table>` : '<div class="loading">Poko gen kont Antrepriz.</div>';
+  }
+
+  function businessRow(b) {
+    const av = b.avatar_url
+      ? `<img class="cell-img" src="${b.avatar_url}" loading="lazy"/>`
+      : `<div class="cell-img-placeholder">🏢</div>`;
+    const badge = b.business_verified
+      ? '<span class="badge badge-verified"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Verifye</span>'
+      : '<span class="badge badge-pending">Pa verifye</span>';
+    return `<tr>
+      <td>${av}</td>
+      <td><div style="font-weight:600;">${b.business_name || b.full_name || 'San non'}</div><div style="font-size:0.75rem;color:var(--lank-soft);">${b.id.slice(0,8)}...</div></td>
+      <td style="color:var(--lank-soft);">${b.business_category || '—'}</td>
+      <td style="color:var(--lank-soft);">${b.location || '—'}</td>
+      <td>${badge}</td>
+      <td><div class="action-gap">
+        <a class="action-btn" href="seller.html?id=${b.id}" target="_blank">Wè Paj</a>
+        ${b.business_verified
+          ? `<button class="action-btn btn-unverify" onclick="setBusinessVerified('${b.id}',false)">Retire Badge</button>`
+          : `<button class="action-btn btn-verify" onclick="setBusinessVerified('${b.id}',true)">Verifye</button>`}
+      </div></td>
+    </tr>`;
+  }
+
+  function filterBusinesses(q) {
+    const f = q.toLowerCase();
+    renderBusinesses(ALL_BUSINESSES.filter(b => (b.business_name || b.full_name || '').toLowerCase().includes(f)));
+  }
+
+  async function setBusinessVerified(id, val) {
+    const r = await fetch(`${API_BASE}/api/admin/profiles/${id}/business-verify`, {
+      method: 'PUT', headers: hdrs(), body: JSON.stringify({ business_verified: val })
+    }).then(r => r.json());
+    if (r.id) {
+      toast(val ? 'Antrepriz verifye!' : 'Badge retire!');
+      loadBusinesses();
+    } else {
+      toast(r.error || 'Erè', false);
+    }
+  }
+
+  // ── ESPAS PIBLISITE (Ad Banners) ──
+  let ALL_ADS = [];
+  const AD_POSITION_LABELS = { akey_anwo: 'Akèy - Anwo', akey_mitan: 'Akèy - Mitan', sidebar: 'Sidebar', paj_anons: 'Paj Anons' };
+
+  async function loadAds() {
+    const data = await fetch(`${API_BASE}/api/admin/ads`, { headers: hdrs() }).then(r => r.json());
+    ALL_ADS = Array.isArray(data) ? data : [];
+    document.getElementById('adsCount').textContent = ALL_ADS.length;
+    renderAds(ALL_ADS);
+  }
+
+  function renderAds(list) {
+    document.getElementById('adsTable').innerHTML = list.length ? `
+      <table>
+        <thead><tr><th>Imaj</th><th>Tit</th><th>Pozisyon</th><th>Klik</th><th>Estati</th><th>Aksyon</th></tr></thead>
+        <tbody>${list.map(a => adRow(a)).join('')}</tbody>
+      </table>` : '<div class="loading">Poko gen banner. Klike "+ Nouvo Banner" pou kreye youn.</div>';
+  }
+
+  function adRow(a) {
+    const badge = a.is_active
+      ? '<span class="badge badge-verified">Aktif</span>'
+      : '<span class="badge badge-pending">Dezaktive</span>';
+    return `<tr>
+      <td><img class="cell-img" src="${a.image_url}" loading="lazy"/></td>
+      <td><div style="font-weight:600;">${a.title}</div><div style="font-size:0.75rem;color:var(--lank-soft);max-width:220px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${a.link_url}</div></td>
+      <td style="color:var(--lank-soft);">${AD_POSITION_LABELS[a.position] || a.position}</td>
+      <td style="color:var(--lank-soft);">${a.clicks || 0}</td>
+      <td>${badge}</td>
+      <td><div class="action-gap">
+        <button class="action-btn" onclick='openAdModal(${JSON.stringify(a).replace(/'/g, "&#39;")})'>Modifye</button>
+        <button class="action-btn ${a.is_active ? 'btn-unverify' : 'btn-verify'}" onclick="toggleAdActive('${a.id}',${!a.is_active})">${a.is_active ? 'Dezaktive' : 'Aktive'}</button>
+        <button class="action-btn btn-unverify" onclick="deleteAd('${a.id}')">Efase</button>
+      </div></td>
+    </tr>`;
+  }
+
+  async function toggleAdActive(id, val) {
+    const r = await fetch(`${API_BASE}/api/admin/ads/${id}`, {
+      method: 'PUT', headers: hdrs(), body: JSON.stringify({ is_active: val })
+    }).then(r => r.json());
+    if (r.id) { toast(val ? 'Banner aktive!' : 'Banner dezaktive!'); loadAds(); }
+    else toast(r.error || 'Erè', false);
+  }
+
+  async function deleteAd(id) {
+    if (!confirm('Efase banner sa a nèt?')) return;
+    const r = await fetch(`${API_BASE}/api/admin/ads/${id}`, { method: 'DELETE', headers: hdrs() }).then(r => r.json());
+    if (r.success) { toast('Banner efase.'); loadAds(); }
+    else toast(r.error || 'Erè', false);
+  }
+
+  // ── Modal Ad: kreye / modifye ──
+  function openAdModal(ad) {
+    document.getElementById('adId').value = ad?.id || '';
+    document.getElementById('adTitle').value = ad?.title || '';
+    document.getElementById('adImageUrl').value = ad?.image_url || '';
+    document.getElementById('adImgPreview').style.backgroundImage = ad?.image_url ? `url('${ad.image_url}')` : 'none';
+    document.getElementById('adLinkUrl').value = ad?.link_url || '';
+    document.getElementById('adPosition').value = ad?.position || 'akey_anwo';
+    document.getElementById('adSortOrder').value = ad?.sort_order ?? 0;
+    document.getElementById('adIsActive').checked = ad ? !!ad.is_active : true;
+    document.getElementById('adImgStatus').textContent = 'Chwazi yon imaj (fòma paysaj mache pi byen).';
+    document.getElementById('adModal').classList.add('open');
+  }
+  function closeAdModal() { document.getElementById('adModal').classList.remove('open'); }
+
+  async function handleAdImageFile(file) {
+    if (!file) return;
+    const statusEl = document.getElementById('adImgStatus');
+    if (!file.type.startsWith('image/')) { statusEl.textContent = 'Chwazi yon fichye imaj (PNG, JPG, WEBP, GIF).'; return; }
+    if (file.size > 5 * 1024 * 1024) { statusEl.textContent = 'Imaj la twò gwo (maksimòm 5MB).'; return; }
+    statusEl.textContent = 'Ap voye imaj la...';
+    try {
+      const base64 = await new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+      const res = await fetch(`${API_BASE}/api/upload-image`, {
+        method: 'POST', headers: hdrs(),
+        body: JSON.stringify({ image_base64: base64, folder: 'ads' })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Erè upload');
+      document.getElementById('adImageUrl').value = data.url;
+      document.getElementById('adImgPreview').style.backgroundImage = `url('${data.url}')`;
+      statusEl.textContent = 'Imaj voye! Klike "Sove Banner" pou konfime.';
+    } catch (err) {
+      statusEl.textContent = 'Erè: ' + err.message;
+    }
+  }
+
+  async function submitAd() {
+    const id = document.getElementById('adId').value;
+    const payload = {
+      title: document.getElementById('adTitle').value.trim(),
+      image_url: document.getElementById('adImageUrl').value.trim(),
+      link_url: document.getElementById('adLinkUrl').value.trim(),
+      position: document.getElementById('adPosition').value,
+      sort_order: Number(document.getElementById('adSortOrder').value) || 0,
+      is_active: document.getElementById('adIsActive').checked
+    };
+    if (!payload.title || !payload.image_url || !payload.link_url) {
+      toast('Tit, imaj ak lyen obligatwa', false); return;
+    }
+    const url = id ? `${API_BASE}/api/admin/ads/${id}` : `${API_BASE}/api/admin/ads`;
+    const method = id ? 'PUT' : 'POST';
+    const r = await fetch(url, { method, headers: hdrs(), body: JSON.stringify(payload) }).then(r => r.json());
+    if (r.id) {
+      toast(id ? 'Banner mete ajou!' : 'Banner kreye!');
+      closeAdModal();
+      loadAds();
+    } else {
+      toast(r.error || 'Erè', false);
+    }
+  }
+
+  // ── BOOSTS ──
+  async function loadBoosts() {
+    const data = await fetch(`${API_BASE}/api/admin/boost-payments`, { headers: hdrs() }).then(r => r.json());
+    const boosts = Array.isArray(data) ? data : [];
+    document.getElementById('boostsCount').textContent = boosts.length;
+    document.getElementById('boostsTable').innerHTML = boosts.length ? `
+      <table>
+        <thead><tr><th>Anons ID</th><th>Tier</th><th>Jou</th><th>Pri (HTG)</th><th>Estati</th><th>Aksyon</th></tr></thead>
+        <tbody>${boosts.map(b => `<tr>
+          <td style="font-size:0.8rem;">${b.listing_id?.slice(0,8)}...</td>
+          <td>Tier ${b.tier}</td>
+          <td>${b.days}j</td>
+          <td>${b.price_htg} HTG</td>
+          <td><span class="badge ${b.status==='paid'?'badge-active':b.status==='pending_review'?'badge-pending':b.status==='pending'?'badge-pending':'badge-removed'}">${b.status}</span></td>
+          <td><div class="action-gap">
+            ${b.status === 'pending_review' ? `
+              <button class="action-btn btn-activate" onclick="approveBoost('${b.id}')">Apwouve</button>
+              <button class="action-btn btn-remove" onclick="rejectBoost('${b.id}')">Rejte</button>`
+              : b.status === 'pending' ? '<span style="font-size:0.75rem;color:var(--lank-soft,#888)">Ap tann MonCash</span>'
+              : '—'}
+          </div></td>
+        </tr>`).join('')}</tbody>
+      </table>` : '<div class="loading">Pa gen demann boost pou kounye a.</div>';
+  }
+
+  async function approveBoost(id) {
+    const r = await fetch(`${API_BASE}/api/admin/boost-payments/${id}/approve`, { method: 'PUT', headers: hdrs() }).then(r => r.json());
+    toast(r.success ? 'Boost apwouve!' : (r.error || 'Erè'), r.success);
+    loadBoosts(); loadDashboard();
+  }
+
+  async function rejectBoost(id) {
+    const r = await fetch(`${API_BASE}/api/admin/boost-payments/${id}/reject`, { method: 'PUT', headers: hdrs() }).then(r => r.json());
+    toast(r.success ? 'Boost rejte.' : (r.error || 'Erè'), r.success);
+    loadBoosts();
+  }
+
+  // ── BOOST MODAL ──
+  function openBoostModal(listingId) {
+    document.getElementById('boostListingId').value = listingId;
+    document.getElementById('boostModal').classList.add('open');
+  }
+  function closeBoostModal() {
+    document.getElementById('boostModal').classList.remove('open');
+  }
+  async function submitBoost() {
+    const id = document.getElementById('boostListingId').value;
+    const tier = parseInt(document.getElementById('boostTier').value);
+    const days = parseInt(document.getElementById('boostDays').value);
+    const notes = document.getElementById('boostNotes').value;
+    const r = await fetch(`${API_BASE}/api/admin/listings/${id}/feature`, {
+      method: 'PUT', headers: hdrs(),
+      body: JSON.stringify({ tier, days, notes })
+    }).then(r => r.json());
+    toast(r.success ? `Vedèt aktive ${days} jou!` : (r.error || 'Erè'), r.success);
+    closeBoostModal();
+    loadListings();
+  }
+
+  // ── REPORTS ──
+  async function loadReports() {
+    const { data, error } = await sc.from('reports').select('*').order('created_at', { ascending: false });
+    const reports = data || [];
+    const container = document.getElementById('reportsContainer');
+    if (!reports.length) {
+      container.innerHTML = '<div class="loading"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-4px;margin-right:8px;"><polyline points="20 6 9 17 4 12"/></svg>Pa gen rapò pou kounye a.</div>';
+      return;
+    }
+    container.innerHTML = reports.map(r => `
+      <div class="report-card">
+        <h4><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--wouj)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:6px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>${r.reason || 'Rapò'} — Anons: ${(r.listing_id || '—').slice(0,8)}</h4>
+        <p>${r.details || 'San detay'}</p>
+        <div class="report-meta">
+          Voye pa: ${r.reporter_email || 'Anonim'} · ${new Date(r.created_at).toLocaleDateString('fr-HT')}
+          · <span class="badge ${r.status === 'resolved' ? 'badge-active' : 'badge-pending'}">${r.status || 'ouvè'}</span>
+        </div>
+        ${r.status !== 'resolved' ? `
+        <div style="margin-top:10px;display:flex;gap:8px;">
+          <button class="action-btn btn-remove" onclick="handleReport('${r.listing_id}','${r.id}')">Retire Anons + Rezoud</button>
+          <button class="action-btn btn-activate" onclick="resolveReport('${r.id}')">Mak kòm Rezoud</button>
+        </div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  async function resolveReport(reportId) {
+    await sc.from('reports').update({ status: 'resolved' }).eq('id', reportId);
+    toast('Rapò makè kòm rezoud!');
+    loadReports();
+  }
+
+  async function handleReport(listingId, reportId) {
+    if (!listingId) { toast('Pa gen listing ID sou rapò sa a', false); return; }
+    await fetch(`${API_BASE}/api/admin/listings/${listingId}/status`, {
+      method: 'PUT', headers: hdrs(), body: JSON.stringify({ status: 'removed' })
+    });
+    await sc.from('reports').update({ status: 'resolved' }).eq('id', reportId);
+    toast('Anons retire + rapò rezoud!');
+    loadReports(); loadListings(); loadDashboard();
+  }
+
+  // ── START ──
+  init();
+</script>
+
+<!-- Monetag - piblisite (zòn 11252204) -->
+<script>(function(s){s.dataset.zone=''11252204'',s.src=''https://nap5k.com/tag.min.js''})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement(''script'')))</script>
+
+<!-- Monetag - piblisite (zon 11252204) -->
+<script>(function(s){s.dataset.zone='11252204',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+</body>
+</html>

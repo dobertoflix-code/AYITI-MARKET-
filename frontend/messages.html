@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="ht">
+<head>
+<meta charset="UTF-8">
+  <meta name="monetag" content="20884ae79fc67fd221a19134e65a81cd" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mesaj — Ayiti Market</title>
+<meta name="robots" content="noindex">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><rect width='64' height='64' rx='14' fill='%23B91C3C'/><text x='50%25' y='54%25' dominant-baseline='middle' text-anchor='middle' font-family='Georgia,serif' font-weight='700' font-size='26' fill='%23FBF6EC'>AM</text></svg>">
+<link rel="apple-touch-icon" href="/icons/icon-180.png">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0B0D12">
+
+<script>
+  (function () {
+    try {
+      var saved = localStorage.getItem('am-theme');
+      var theme = saved || 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+    } catch (e) {}
+  })();
+</script>
+
+<!-- ============ MIY OBLIGATWA: fòk itilizatè a konekte anvan l wè paj sa a ============ -->
+<script>
+  (function () {
+    try {
+      var hash = window.location.hash || '';
+      var search = window.location.search || '';
+      var isOAuthCallback = hash.indexOf('access_token=') !== -1 || /[?&]code=/.test(search);
+      if (isOAuthCallback) return;
+
+      var tokenKey = 'sb-cisjnsdnxqvgqjuzwobk-auth-token';
+      var raw = localStorage.getItem(tokenKey);
+      var hasSession = false;
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        var token = (parsed && parsed.access_token) || (parsed && parsed.currentSession && parsed.currentSession.access_token);
+        if (token) hasSession = true;
+      }
+      if (!hasSession) {
+        window.location.replace('enskripsyon.html');
+      }
+    } catch (e) {}
+  })();
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --krem:        #FBF6EC;
+    --krem-dim:     #F3ECDC;
+    --lank:        #14181F;
+    --lank-soft:    #4A4F5A;
+    --wouj:        #B91C3C;
+    --wouj-dark:    #8C1530;
+    --ble:         #16335E;
+    --ble-soft:     #2A4D80;
+    --lo:          #E1962F;
+    --lo-soft:      #F2C26B;
+    --liy:         #E4DCC8;
+    --blan:        #FFFFFF;
+    --lank-light:  #2A3040;
+    --lo-text:     #8A5D12;
+    --display: 'Manrope', sans-serif;
+    --body: 'Manrope', sans-serif;
+    --mono: 'Space Mono', monospace;
+    --radius: 14px;
+    --container: 1180px;
+  }
+  :root[data-theme="dark"]{
+    --krem:        #0B0D12;
+    --krem-dim:     #11141B;
+    --lank:        #EDE8DA;
+    --lank-soft:    #9CA3AF;
+    --wouj:        #E14D63;
+    --wouj-dark:    #F2718A;
+    --ble:         #5C8AD6;
+    --ble-soft:     #3D6BB0;
+    --lo:          #F2C26B;
+    --lo-soft:      #E1962F;
+    --liy:         #232A36;
+    --blan:        #161A22;
+    --lank-light:  #1E2430;
+    --lo-text:     #F2C26B;
+  }
+  :root[data-theme="dark"] body{ background: var(--krem); color: var(--lank); }
+  :root[data-theme="dark"] header{ background: rgba(20,24,31,0.92); }
+  :root[data-theme="dark"] .conv-list, :root[data-theme="dark"] .chat-area{ background: var(--blan); border-color: var(--liy); }
+  :root[data-theme="dark"] .bubble-them{ background: var(--krem-dim); }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family: var(--body); background: var(--krem); color: var(--lank); line-height:1.5;
+    -webkit-font-smoothing:antialiased; height:100vh; height:100dvh; overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  a{ color:inherit; text-decoration:none; }
+  .wrap{ max-width: var(--container); margin:0 auto; padding: 0 24px; }
+
+  header{
+    background: rgba(251,246,236,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--liy);
+    flex-shrink:0;
+  }
+  .nav{ display:flex; align-items:center; justify-content:space-between; padding: 16px 24px; max-width: var(--container); margin: 0 auto; gap: 24px; }
+  .logo{ display:flex; align-items:center; gap:10px; font-family: var(--display); font-weight:700; font-size: 1.3rem; letter-spacing: -0.01em; color: var(--lank); }
+  .logo .dot{ width:10px; height:10px; border-radius:50%; background: linear-gradient(135deg, var(--wouj), var(--lo)); }
+  .btn{ display:inline-flex; align-items:center; justify-content:center; gap:8px; padding: 10px 18px; border-radius: 100px; font-weight:700; font-size:0.85rem; border:none; cursor:pointer; font-family:var(--body); white-space:nowrap; }
+  .btn-primary{ background: var(--wouj); color: #fff; }
+  .btn-ghost{ color: var(--lank); border: 1.5px solid var(--liy); background: transparent; }
+
+  main{ flex:1; min-height:0; display:flex; flex-direction:column; }
+  .chat-layout{ display:grid; grid-template-columns: 320px 1fr; flex:1; min-height:0; max-width: var(--container); margin:0 auto; width:100%; }
+
+  .conv-list{ border-right:1px solid var(--liy); overflow-y:auto; background:var(--blan); }
+  .conv-item{
+    display:flex; gap:12px; padding:14px 18px; cursor:pointer; border-bottom:1px solid var(--liy);
+    align-items:center; position:relative; transition:background .15s;
+  }
+  .conv-item:hover{ background: var(--krem-dim); }
+  .conv-item.active{ background: var(--krem-dim); }
+  .conv-avatar{
+    width:46px; height:46px; border-radius:50%; background: var(--ble-soft); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:1rem; flex-shrink:0;
+  }
+  .conv-info{ flex:1; min-width:0; }
+  .conv-name{ font-weight:700; font-size:0.9rem; display:flex; align-items:center; gap:6px; }
+  .conv-listing-tag{ font-size:0.72rem; color:var(--lank-soft); font-weight:600; margin-top:2px; }
+  .conv-preview{ font-size:0.8rem; color:var(--lank-soft); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:2px; }
+  .conv-unread-dot{ width:9px; height:9px; border-radius:50%; background:var(--wouj); flex-shrink:0; }
+
+  .chat-area{ display:flex; flex-direction:column; background:var(--blan); height:100%; }
+  .chat-header{ display:flex; align-items:center; gap:12px; padding:16px 22px; border-bottom:1px solid var(--liy); }
+  .chat-header .conv-avatar{ width:38px; height:38px; font-size:0.85rem; }
+  .chat-header-name{ font-weight:700; font-size:0.95rem; }
+  .chat-header-listing{ font-size:0.78rem; color:var(--lank-soft); }
+
+  .chat-msgs{ flex:1; overflow-y:auto; padding:20px 22px; display:flex; flex-direction:column; gap:10px; }
+  .bubble{ max-width:70%; padding:10px 14px; border-radius:16px; font-size:0.88rem; line-height:1.4; }
+  .bubble-me{ align-self:flex-end; background:var(--wouj); color:#fff; border-bottom-right-radius:4px; }
+  .bubble-them{ align-self:flex-start; background:var(--krem-dim); color:var(--lank); border-bottom-left-radius:4px; }
+  .bubble-time{ font-size:0.65rem; opacity:0.65; margin-top:3px; display:block; }
+
+  .chat-input-row{ display:flex; gap:10px; padding:16px 22px; border-top:1px solid var(--liy); }
+  .chat-input-row input{
+    flex:1; padding:12px 16px; border:1.5px solid var(--liy); border-radius:100px; font-family:var(--body);
+    font-size:0.9rem; background:var(--krem); color:var(--lank);
+  }
+  .chat-input-row input:focus{ outline:none; border-color:var(--wouj); }
+  .chat-send-btn{
+    width:44px; height:44px; border-radius:50%; background:var(--wouj); color:#fff; border:none;
+    display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0;
+  }
+  .chat-send-btn:disabled{ opacity:0.5; cursor:not-allowed; }
+
+  .empty-box{ text-align:center; padding:60px 20px; color:var(--lank-soft); flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .empty-box svg{ margin-bottom:14px; opacity:0.4; }
+  .empty-box p{ margin-bottom:18px; }
+  .loading-spin{ text-align:center; padding:40px; color:var(--lank-soft); }
+
+  @media (max-width:760px){
+    body.show-chat .chat-area{ height: 100dvh; }
+    .chat-msgs{ padding-bottom: 8px; }
+    .chat-input-row{ position: sticky; bottom: 0; background: var(--blan); z-index: 10; padding: 10px 14px; padding-bottom: max(10px, env(safe-area-inset-bottom)); }
+
+    .chat-layout{ grid-template-columns: 1fr; }
+    .conv-list{ display:flex; }
+    .chat-area{ display:none; }
+    body.show-chat .conv-list{ display:none; }
+    body.show-chat .chat-area{ display:flex; }
+    .chat-back-mobile{ display:inline-flex !important; }
+  }
+  .chat-back-mobile{ display:none; }
+
+  /* ============ BOTTOM NAV (mobil) ============ */
+  .bottom-nav{
+    display: none; flex-shrink: 0;
+    background: var(--blan); border-top: 1px solid var(--liy);
+    padding: 6px 4px calc(6px + env(safe-area-inset-bottom));
+  }
+  .bn-item{
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    gap: 3px; background: none; border: none; cursor: pointer;
+    color: var(--lank-soft); font-family: var(--body); font-size: 0.66rem;
+    font-weight: 600; text-decoration: none; padding: 4px 0;
+  }
+  .bn-item svg{ width: 22px; height: 22px; stroke: currentColor; }
+  .bn-item.active{ color: var(--wouj); }
+  @media (max-width:760px){
+    .bottom-nav{ display:flex; }
+    body.show-chat .bottom-nav{ display:none; }
+  }
+
+  /* ── Fichye / Imaj ── */
+  .chat-attach-btn{
+    width:44px; height:44px; border-radius:50%; background:var(--krem-dim);
+    border:1.5px solid var(--liy); color:var(--lank-soft);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer; flex-shrink:0; transition:background .15s;
+  }
+  .chat-attach-btn:hover{ background:var(--liy); }
+  .bubble-file{
+    display:flex; align-items:center; gap:8px; padding:8px 12px;
+    background:rgba(255,255,255,0.15); border-radius:8px; margin-top:6px;
+    font-size:0.8rem; text-decoration:none; color:inherit;
+  }
+  .bubble-file:hover{ opacity:0.85; }
+  .bubble-img{ max-width:220px; max-height:200px; border-radius:8px; display:block; margin-top:6px; cursor:pointer; object-fit:cover; }
+  .upload-preview{
+    display:none; align-items:center; gap:10px; padding:8px 22px;
+    background:var(--krem-dim); border-top:1px solid var(--liy);
+    font-size:0.82rem; color:var(--lank-soft);
+  }
+  .upload-preview.show{ display:flex; }
+  .upload-preview-name{ flex:1; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .upload-cancel{ cursor:pointer; color:var(--wouj); font-size:1rem; font-weight:800; }
+  .conv-unread-badge{
+    min-width:18px; height:18px; border-radius:100px; background:var(--wouj); color:#fff;
+    font-size:0.65rem; font-weight:800; display:flex; align-items:center; justify-content:center;
+    padding:0 5px; flex-shrink:0;
+  }</style>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3671082075819991"
+     crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <a href="index.html" class="logo"><span class="dot"></span>Ayiti Market</a>
+    <a href="index.html" class="btn btn-ghost">← Tounen nan Mache a</a>
+  </div>
+</header>
+
+<main>
+  <div id="guardedOut" style="display:none" class="empty-box">
+    <p>Ou dwe konekte pou wè mesaj ou yo.</p>
+    <a href="enskripsyon.html" class="btn btn-primary">Konekte →</a>
+  </div>
+
+  <div id="chatLayout" class="chat-layout" style="display:none">
+    <div class="conv-list" id="convList">
+      <div class="loading-spin" id="convLoading">Ap chaje konvèsasyon yo...</div>
+    </div>
+    <div class="chat-area" id="chatArea">
+      <div class="empty-box" id="noConvSelected">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        <p>Chwazi yon konvèsasyon pou kòmanse.</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<nav class="bottom-nav" id="bottomNav" aria-label="Navigasyon mobil">
+  <a href="index.html" class="bn-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Akey
+  </a>
+  <a href="index.html#search" class="bn-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    Chèche
+  </a>
+  <a href="index.html#publish" class="bn-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+    Pibliye
+  </a>
+  <a href="messages.html" class="bn-item active">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    Mesaj
+  </a>
+  <a href="account.html" class="bn-item">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+    Pwofil
+  </a>
+</nav>
+
+<input type="file" id="fileInput" accept="image/*,application/pdf" style="display:none">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script>
+  const SUPABASE_URL     = 'https://cisjnsdnxqvgqjuzwobk.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNpc2puc2RueHF2Z3FqdXp3b2JrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI0MTI2OTQsImV4cCI6MjA5Nzk4ODY5NH0.rWwbLUOs8TjZpHD19fDYX4B9mOIyn-eAFpcwGcdav_E';
+  const supabaseClient  = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const API_BASE        = 'https://api.ayiti-market.com';
+
+  let currentUser   = null;
+  let conversations = [];
+  let activeConvId  = null;
+  let msgChannel    = null;
+  let pendingFile   = null; // { file, url, name, type }
+
+  // ══════════════════════════════════════════════
+  // ITIL
+  // ══════════════════════════════════════════════
+  function initials(name) {
+    return (name || '??').split(' ').map(p => p[0]).join('').slice(0, 2).toUpperCase();
+  }
+  function escapeHtml(str) {
+    if (!str) return '';
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+  function timeStr(iso) {
+    return new Date(iso).toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+  }
+  async function authHeaders() {
+    const { data } = await supabaseClient.auth.getSession();
+    return { 'Authorization': `Bearer ${data.session?.access_token}`, 'Content-Type': 'application/json' };
+  }
+
+  // ══════════════════════════════════════════════
+  // AUTH GUARD
+  // ══════════════════════════════════════════════
+  async function init() {
+    const { data } = await supabaseClient.auth.getSession();
+    if (!data.session?.user) {
+      window.location.replace('enskripsyon.html');
+      return;
+    }
+    currentUser = data.session.user;
+    document.getElementById('chatLayout').style.display = 'grid';
+
+    await loadConversations();
+    subscribeRealtime();
+    setupPushNotifications(); // 🔔 Mande pèmisyon push
+
+    // Ouvri dirèk si ?conv=ID nan URL
+    const params  = new URLSearchParams(window.location.search);
+    const convId  = params.get('conv');
+    if (convId) openConversation(convId);
+  }
+  init();
+
+  // ══════════════════════════════════════════════
+  // LIS KONVÈSASYON
+  // ══════════════════════════════════════════════
+  async function loadConversations() {
+    const hdrs = await authHeaders();
+    const listEl  = document.getElementById('convList');
+    const loadEl  = document.getElementById('convLoading');
+
+    try {
+      const res  = await fetch(`${API_BASE}/api/conversations`, { headers: hdrs });
+      if (!res.ok) throw new Error('Erè sèvè');
+      conversations = await res.json();
+      if (loadEl) loadEl.remove();
+
+      if (conversations.length === 0) {
+        listEl.innerHTML = `<div class="empty-box"><p>Ou poko gen okenn konvèsasyon.<br>Voye yon mesaj bay yon vandè pou kòmanse.</p></div>`;
+        return;
+      }
+
+      listEl.innerHTML = conversations.map(c => convItemHTML(c)).join('');
+
+      // Re-aktive item ki te seleksyone a
+      if (activeConvId) {
+        document.querySelector(`.conv-item[data-id="${activeConvId}"]`)?.classList.add('active');
+      }
+
+      // Mete ajou badge total nan navbar
+      const totalUnread = conversations.reduce((s, c) => s + (c.unread || 0), 0);
+      updateNavBadge(totalUnread);
+
+    } catch (err) {
+      listEl.innerHTML = `<div class="empty-box"><p>Pa kapab chaje konvèsasyon yo.</p></div>`;
+    }
+  }
+  window.loadConversations = loadConversations;
+
+  function convItemHTML(c) {
+    const av      = initials(c.other_name);
+    const title   = c.listings?.title || '';
+    const preview = escapeHtml(c.last_body || 'Pa gen mesaj ankò');
+    const unread  = c.unread > 0
+      ? `<div class="conv-unread-badge">${c.unread}</div>` : '';
+    return `
+      <div class="conv-item" data-id="${c.id}" onclick="openConversation('${c.id}')">
+        <div class="conv-avatar">${av}</div>
+        <div class="conv-info">
+          <div class="conv-name">${escapeHtml(c.other_name)}</div>
+          ${title ? `<div class="conv-listing-tag">📦 ${escapeHtml(title)}</div>` : ''}
+          <div class="conv-preview">${preview}</div>
+        </div>
+        ${unread}
+      </div>`;
+  }
+
+  // ══════════════════════════════════════════════
+  // OUVRI KONVÈSASYON
+  // ══════════════════════════════════════════════
+  async function openConversation(convId) {
+    activeConvId = String(convId);
+    document.body.classList.add('show-chat');
+    document.querySelectorAll('.conv-item').forEach(el =>
+      el.classList.toggle('active', el.dataset.id === convId));
+
+    const conv = conversations.find(c => c.id === convId);
+    const otherName    = conv?.other_name || 'Itilizatè';
+    const listingTitle = conv?.listings?.title || '';
+    const listingId    = conv?.listing_id || '';
+
+    const chatArea = document.getElementById('chatArea');
+    chatArea.innerHTML = `
+      <div class="chat-header">
+        <button class="btn btn-ghost chat-back-mobile" onclick="closeChatMobile()" style="padding:6px 12px;">←</button>
+        <div class="conv-avatar">${initials(otherName)}</div>
+        <div>
+          <div class="chat-header-name">${escapeHtml(otherName)}</div>
+          ${listingTitle ? `<div class="chat-header-listing">📦 ${escapeHtml(listingTitle)} · <a href="index.html#listing-${listingId}" style="color:var(--wouj);font-weight:700">Wè anons</a></div>` : ''}
+        </div>
+      </div>
+      <div class="chat-msgs" id="chatMsgs"><div class="loading-spin">Ap chaje mesaj yo...</div></div>
+      <div class="upload-preview" id="uploadPreview">
+        <span class="upload-preview-name" id="uploadPreviewName"></span>
+        <span class="upload-cancel" onclick="cancelFile()">✕</span>
+      </div>
+      <div class="chat-input-row">
+        <label class="chat-attach-btn" for="fileInput" title="Ajoute foto / fichye">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg>
+        </label>
+        <input type="text" id="msgInput" placeholder="Ekri mesaj ou..." onkeydown="if(event.key==='Enter')sendMessage()">
+        <button class="chat-send-btn" id="sendBtn" onclick="sendMessage()">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+        </button>
+      </div>`;
+
+    await loadMessages(convId);
+    // Mak kòm li via API
+    const hdrs = await authHeaders();
+    fetch(`${API_BASE}/api/conversations/${convId}/read`, { method:'PUT', headers: hdrs });
+    // Mete ajou badge lokal
+    const idx = conversations.findIndex(c => c.id === convId);
+    if (idx >= 0) conversations[idx].unread = 0;
+    document.querySelector(`.conv-item[data-id="${convId}"] .conv-unread-badge`)?.remove();
+    updateNavBadge(conversations.reduce((s,c) => s + (c.unread||0), 0));
+  }
+  window.openConversation = openConversation;
+
+  function closeChatMobile() { document.body.classList.remove('show-chat'); }
+  window.closeChatMobile = closeChatMobile;
+
+  // ══════════════════════════════════════════════
+  // CHAJE MESAJ
+  // ══════════════════════════════════════════════
+  function bubbleHTML(msg) {
+    const isMe = msg.sender_id === currentUser.id;
+    const cls  = isMe ? 'bubble-me' : 'bubble-them';
+    const time = timeStr(msg.created_at);
+
+    let content = '';
+    if (msg.body) content += `<div>${escapeHtml(msg.body)}</div>`;
+
+    if (msg.file_url) {
+      if (msg.file_type === 'image') {
+        content += `<img class="bubble-img" src="${msg.file_url}" alt="${escapeHtml(msg.file_name||'foto')}"
+          onclick="window.open('${msg.file_url}','_blank')">`;
+      } else {
+        content += `<a class="bubble-file" href="${msg.file_url}" target="_blank" rel="noopener">
+          📎 ${escapeHtml(msg.file_name || 'Fichye')}
+        </a>`;
+      }
+    }
+
+    return `<div class="bubble ${cls}">${content}<span class="bubble-time">${time}</span></div>`;
+  }
+
+  async function loadMessages(convId) {
+    const hdrs  = await authHeaders();
+    const msgsEl = document.getElementById('chatMsgs');
+    if (!msgsEl) return;
+
+    try {
+      const res  = await fetch(`${API_BASE}/api/conversations/${convId}/messages`, { headers: hdrs });
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => ({}));
+        throw new Error(errBody.error || `Erè ${res.status}`);
+      }
+      const msgs = await res.json();
+      msgsEl.innerHTML = msgs.length
+        ? msgs.map(bubbleHTML).join('')
+        : '<div class="empty-box"><p>Voye premye mesaj la!</p></div>';
+      msgsEl.scrollTop = msgsEl.scrollHeight;
+    } catch (err) {
+      console.error('Erè chaje mesaj:', err);
+      msgsEl.innerHTML = `<div class="empty-box">
+        <p>Erè pandan chaje mesaj.${err.message ? ` (${err.message})` : ''}</p>
+        <button class="btn btn-ghost" style="margin-top:10px;" onclick="loadMessages('${convId}')">Eseye ankò</button>
+      </div>`;
+    }
+  }
+
+  // ══════════════════════════════════════════════
+  // VOYE MESAJ
+  // ══════════════════════════════════════════════
+  async function sendMessage() {
+    const input   = document.getElementById('msgInput');
+    const body    = input.value.trim();
+    if (!body && !pendingFile) return;
+    if (!activeConvId) return;
+
+    const btn = document.getElementById('sendBtn');
+    btn.disabled = true;
+
+    let file_url = null, file_name = null, file_type = null;
+
+    // 1. Upload fichye si gen youn
+    if (pendingFile) {
+      try {
+        const ext  = pendingFile.file.name.split('.').pop();
+        const path = `${currentUser.id}/${Date.now()}.${ext}`;
+        const { data: upData, error: upErr } = await supabaseClient.storage
+          .from('chat-files')
+          .upload(path, pendingFile.file, { upsert: false });
+        if (upErr) throw upErr;
+
+        const { data: urlData } = supabaseClient.storage.from('chat-files').getPublicUrl(upData.path);
+        file_url  = urlData.publicUrl;
+        file_name = pendingFile.file.name;
+        file_type = pendingFile.type;
+      } catch (err) {
+        showToast('Pa kapab voye fichye a. Eseye ankò.');
+        btn.disabled = false;
+        return;
+      }
+    }
+
+    // 2. Voye mesaj via API
+    try {
+      const hdrs = await authHeaders();
+      const res  = await fetch(`${API_BASE}/api/messages`, {
+        method: 'POST', headers: hdrs,
+        body: JSON.stringify({ conversation_id: Number(activeConvId), body: body || null, file_url, file_name, file_type })
+      });
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => ({}));
+        throw new Error(errBody.error || `Erè ${res.status}`);
+      }
+      input.value = '';
+      cancelFile();
+      // Realtime pral ajoute mesaj la — pa bezwen rechaje manyèlman
+    } catch (err) {
+      console.error('Erè voye mesaj:', err);
+      showToast(`Pa kapab voye mesaj la.${err.message ? ` (${err.message})` : ''}`);
+    }
+    btn.disabled = false;
+  }
+  window.sendMessage = sendMessage;
+
+  // ══════════════════════════════════════════════
+  // UPLOAD FICHYE
+  // ══════════════════════════════════════════════
+  document.getElementById('fileInput').addEventListener('change', e => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const MAX = 5 * 1024 * 1024;
+    if (file.size > MAX) { showToast('Fichye a twò gwo. Maksimòm: 5 MB.'); return; }
+
+    const isImg = file.type.startsWith('image/');
+    const isPdf = file.type === 'application/pdf';
+    if (!isImg && !isPdf) { showToast('Sèlman imaj (JPG, PNG, WebP) ak PDF aksepte.'); return; }
+
+    pendingFile = { file, type: isImg ? 'image' : 'pdf' };
+
+    // Afiche preview
+    document.getElementById('uploadPreviewName').textContent = file.name;
+    document.getElementById('uploadPreview').classList.add('show');
+    // Reset input pou ka chwazi menm fichye ankò
+    e.target.value = '';
+  });
+
+  function cancelFile() {
+    pendingFile = null;
+    document.getElementById('uploadPreview')?.classList.remove('show');
+  }
+  window.cancelFile = cancelFile;
+
+  // ══════════════════════════════════════════════
+  // REALTIME — mesaj rive enstantane
+  // ══════════════════════════════════════════════
+  function subscribeRealtime() {
+    msgChannel = supabaseClient
+      .channel('chat-realtime')
+      .on('postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'messages' },
+        async payload => {
+          const msg   = payload.new;
+          const myConv = conversations.find(c => c.id === msg.conversation_id);
+          if (!myConv) return;
+
+          if (String(msg.conversation_id) === String(activeConvId)) {
+            // Ajoute mesaj la dirèk san rechaje tout
+            const msgsEl = document.getElementById('chatMsgs');
+            if (msgsEl) {
+              const emptyEl = msgsEl.querySelector('.empty-box');
+              if (emptyEl) emptyEl.remove();
+              msgsEl.insertAdjacentHTML('beforeend', bubbleHTML(msg));
+              msgsEl.scrollTop = msgsEl.scrollHeight;
+            }
+            // Mak kòm li si lòt moun voye l
+            if (msg.sender_id !== currentUser.id) {
+              const hdrs = await authHeaders();
+              fetch(`${API_BASE}/api/conversations/${activeConvId}/read`, { method:'PUT', headers: hdrs });
+            }
+          } else if (msg.sender_id !== currentUser.id) {
+            // Mesaj nan yon lòt konvèsasyon — mete ajou badge
+            const idx = conversations.findIndex(c => String(c.id) === String(msg.conversation_id));
+            if (idx >= 0) {
+              conversations[idx].unread = (conversations[idx].unread || 0) + 1;
+              conversations[idx].last_body = msg.body || (msg.file_type === 'image' ? '📷 Foto' : '📎 Fichye');
+            }
+            loadConversations(); // re-render lis la
+          }
+        })
+      .subscribe();
+  }
+
+  // ══════════════════════════════════════════════
+  // BADGE NAVBAR (unread total)
+  // ══════════════════════════════════════════════
+  function updateNavBadge(count) {
+    // index.html badge — sèlman si frames oswa shared storage
+    // Ici nou mete ajou yon badge nan header messages.html menm
+    let badge = document.getElementById('navUnreadBadge');
+    if (!badge) {
+      badge = document.createElement('span');
+      badge.id = 'navUnreadBadge';
+      badge.style.cssText = 'background:var(--wouj);color:#fff;border-radius:100px;font-size:0.65rem;font-weight:800;padding:2px 6px;margin-left:6px;';
+      document.querySelector('.nav a.btn-ghost')?.appendChild(badge);
+    }
+    badge.textContent = count > 0 ? count : '';
+    badge.style.display = count > 0 ? '' : 'none';
+  }
+
+  // ══════════════════════════════════════════════
+  // TOAST
+  // ══════════════════════════════════════════════
+  function showToast(msg) {
+    const t = document.createElement('div');
+    t.textContent = msg;
+    t.style.cssText = `position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+      background:#14181F;color:#FBF6EC;padding:14px 22px;border-radius:100px;
+      font-weight:700;font-size:0.88rem;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.25);
+      white-space:nowrap;transition:opacity .4s;`;
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity='0'; setTimeout(()=>t.remove(),400); }, 3000);
+  }
+
+  // ══════════════════════════════════════════════
+  // PUSH NOTIFICATIONS — mande pèmisyon & abonnen
+  // ══════════════════════════════════════════════
+  async function setupPushNotifications() {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+
+    try {
+      const hdrs = await authHeaders();
+      const res  = await fetch(`${API_BASE}/api/vapid-public-key`, { headers: hdrs });
+      if (!res.ok) return;
+      const { key: vapidKey } = await res.json();
+
+      const reg = await navigator.serviceWorker.ready;
+      let sub = await reg.pushManager.getSubscription();
+
+      if (!sub) {
+        const permission = await Notification.requestPermission();
+        if (permission !== 'granted') return;
+        sub = await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(vapidKey),
+        });
+      }
+
+      await fetch(`${API_BASE}/api/push-subscribe`, {
+        method: 'POST',
+        headers: { ...hdrs, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ subscription: sub.toJSON() }),
+      });
+
+    } catch (err) {
+      console.warn('Push setup echwe:', err);
+    }
+  }
+
+  function urlBase64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64  = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const raw     = atob(base64);
+    return Uint8Array.from([...raw].map(c => c.charCodeAt(0)));
+  }
+</script>
+
+<!-- Monetag - piblisite (zòn 11252204) -->
+<script>(function(s){s.dataset.zone=''11252204'',s.src=''https://nap5k.com/tag.min.js''})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement(''script'')))</script>
+
+<!-- Monetag - piblisite (zon 11252204) -->
+<script>(function(s){s.dataset.zone='11252204',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+</body>
+</html>

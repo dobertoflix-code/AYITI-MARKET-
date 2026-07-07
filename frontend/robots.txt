@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ayiti-market-509.onrender.com/sitemap.xml
