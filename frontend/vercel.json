@@ -1,0 +1,16 @@
+{
+  "redirects": [
+    {
+      "source": "/sitemap.xml",
+      "destination": "https://api.ayiti-market.com/sitemap.xml",
+      "permanent": true
+    }
+  ],
+  "rewrites": [
+    { "source": "/anons/:path*", "destination": "https://api.ayiti-market.com/anons/:path*" },
+    { "source": "/kategori/:path*", "destination": "https://api.ayiti-market.com/kategori/:path*" },
+    { "source": "/boutik/:path*", "destination": "https://api.ayiti-market.com/boutik/:path*" },
+    { "source": "/biznis/:path*", "destination": "https://api.ayiti-market.com/biznis/:path*" },
+    { "source": "/((?!.*\\..*).*)", "destination": "/index.html" }
+  ]
+}
